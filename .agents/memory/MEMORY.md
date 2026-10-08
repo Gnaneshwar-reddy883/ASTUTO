@@ -1,0 +1,1 @@
+- [ASTUTO naming](astuto-naming.md) — Always call the product ASTUTO, never Roadie; legacy export names are not customer-facing branding.

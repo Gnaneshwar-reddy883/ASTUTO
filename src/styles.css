@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --color-bg: #f7f6f2;
+  --color-surface: #ffffff;
+  --color-border: #e7e5e0;
+  --color-text: #111111;
+  --color-muted: #6b6b6b;
+  --color-primary: #111111;
+  --color-primary-foreground: #ffffff;
+  --color-lavender: #f1edff;
+  --color-mint: #e8f5ed;
+  --color-peach: #fff1e7;
+  --color-progress: #e1f2e8;
+  --color-progress-strong: #4d9a73;
+  --color-streak: #f97316;
+  --color-overlay: rgb(17 17 17 / 24%);
+  --radius-card: 16px;
+  --radius-pill: 9999px;
+
+  font-family: "Inter", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--color-bg);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-progress-strong);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--color-mint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
