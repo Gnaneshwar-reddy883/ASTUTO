@@ -1,0 +1,52 @@
+Build a UI-ONLY skeleton called ASTUTO (never "Roadie"). Mock data only. No auth, database, real API calls, secrets or .env.
+
+STEP 0 (do first, nothing else in this step)
+Replace the content of /designs/README.txt with exactly:
+"Layout and content come from the screens in desktop/ and mobile/. Colors, fonts and radii come from the design tokens in the build prompt, NOT from the dark-theme screenshots or the DESIGN.md files, which describe the old dark theme."
+Ignore any folders outside /designs/desktop and /designs/mobile (old Roadie exports). Do not read or use them.
+
+READ
+/designs/desktop/today/screen.png and /designs/mobile/today/screen.png. Use them for LAYOUT AND CONTENT ONLY. Ignore their colors, fonts and radii.
+
+STACK
+React + Vite + TypeScript + Tailwind, one responsive codebase, react-router with real routes only.
+
+DESIGN TOKENS (light theme)
+Define as CSS variables, mapped in the Tailwind theme, so a dark theme can be added later with a toggle. Never hardcode colors in components.
+- bg #F7F6F2, surface #FFFFFF, border #E7E5E0, text #111111, muted #6B6B6B
+- primary button: black rounded pill, white text. Secondary: white pill, 1px border
+- cards: white, 1px border, 16px radius, no heavy shadows, generous whitespace
+- pastel accents (lavender, mint, peach) used sparingly
+- soft green for progress/completed. #F97316 ONLY for the streak flame
+- Inter only. Thin line icons (lucide-react). Section labels: small muted uppercase, minimum 12px
+- No other fonts or heavy colors. Keep screens airy, especially on mobile.
+
+STRUCTURE
+/src/pages (one file per route), /src/components (TaskCard, PhaseNode, StreakBadge, ProgressRing, etc.), /src/data/mock.ts, /src/types (User, Plan, Phase, Week, Day, Task, Streak, Stats), /src/services/api.ts, /docs/UI_SPEC.md, README.md, .gitignore
+
+ROUTES
+/ landing, /onboarding, /roadmap-preview, /today, /roadmap, /progress, /settings
+In THIS step build only /today fully. Every other route is a placeholder page with its purpose comment and a title. The app opens directly on /today. Landing and onboarding are in no menu.
+
+SHARED LAYOUT
+- Mobile 390px: top bar + bottom nav (Today, Roadmap, Progress, Settings)
+- Desktop 1440px: left sidebar (logo, nav, streak flame) + top bar
+- Top bar: ASTUTO logo, skill name + day indicator (e.g. "Python · Day 12"), streak flame, notification bell, a ROUND AI button (~40px) on the right, profile avatar
+- Clicking the ASTUTO logo opens a dropdown to switch skill / edit timetable (mock, local state)
+- NO "Landing Page"/"Onboarding" toggles, NO "Pitstop Mode", NO demo screen-switchers anywhere
+- AI button opens a right drawer (desktop) / bottom sheet (mobile). Title "ASTUTO AI", message input with mic icon, chips "Reschedule my day", "Pause my plan", "Swap this resource". Replies come from sendAiMessage (mock).
+
+TODAY SCREEN
+Greeting, streak, tasks grouped by time slot (Morning / College / Evening / Night). Each task: title, source, estimated minutes, Open button, checkbox. Motivational line card. Milestone progress card. On desktop add a "Resources for today" panel beside the tasks (GitHub repo, YouTube, article). Checking a task updates local state only.
+
+DATA RULE
+ALL data goes through /src/services/api.ts: getPlan(), getTodayTasks(), completeTask(id), getStats(), sendAiMessage(text). Each returns mock data from /src/data/mock.ts with this comment above it:
+// TODO(backend): replace with real API call
+
+DOCS
+- Top of every page file, a comment: purpose, components used, api functions called, real data needed.
+- /docs/UI_SPEC.md: product in 5 lines, routes, components, data types, user flows (onboarding > roadmap preview > today), "Backend TODO" list of endpoints/tables the UI expects.
+- README with run instructions, .gitignore.
+
+RULES
+Build only what is listed. Add no extra features, no extra top-bar items, no new colors. Do not change the folder structure. When done, list files created and anything you were unsure about.
