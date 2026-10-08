@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-tertiary-fixed-variant":"#862200","error":"#ffb4ab","surface-container-lowest":"#0a0e14","on-secondary-fixed":"#002113","on-error":"#690005","outline-variant":"#3b4a41","surface-container":"#1c2026","inverse-on-surface":"#2d3137","on-secondary":"#003824","surface-dim":"#10141a","on-secondary-container":"#00311f","on-secondary-fixed-variant":"#005236","surface-bright":"#353940","tertiary-container":"#ffb8a4","background":"#10141a","tertiary-fixed-dim":"#ffb5a0","secondary-container":"#00a572","on-tertiary":"#5f1500","on-primary-container":"#00613e","secondary-fixed-dim":"#4edea3","surface-container-high":"#262a31","surface":"#10141a","outline":"#849589","surface-variant":"#31353c","primary-container":"#00e599","on-error-container":"#ffdad6","on-tertiary-fixed":"#3b0900","surface-container-highest":"#31353c","on-surface":"#dfe2eb","primary-fixed-dim":"#00e297","surface-container-low":"#181c22","on-primary-fixed":"#002112","tertiary":"#ffded5","on-background":"#dfe2eb","error-container":"#93000a","secondary-fixed":"#6ffbbe","secondary":"#4edea3","on-primary-fixed-variant":"#005234","primary":"#6dffba","inverse-primary":"#006c46","on-surface-variant":"#bacbbe","surface-tint":"#00e297","inverse-surface":"#dfe2eb","on-primary":"#003822","primary-fixed":"#4dffb2","tertiary-fixed":"#ffdbd1","on-tertiary-container":"#9e2900"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","margin":"2rem","gutter":"1.5rem","space-xl":"2.5rem","space-xs":"0.25rem","space-lg":"1.5rem","gutter-mobile":"1rem","margin-mobile":"1.25rem","space-md":"1rem"},"fontFamily":{"headline-md":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"display-hero-mobile":["Plus Jakarta Sans"],"display-hero":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"label-pill":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"label-code":["JetBrains Mono"]},"fontSize":{"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-md":["15px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"400"}],"headline-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"display-hero-mobile":["38px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"800"}],"display-hero":["64px",{"lineHeight":"72px","letterSpacing":"-0.03em","fontWeight":"800"}],"body-lg":["18px",{"lineHeight":"28px","letterSpacing":"-0.005em","fontWeight":"400"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["13px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"label-pill":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"headline-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-code":["12px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"500"}]}}}};</script></head><body class="bg-background font-body-md text-on-background selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,229,153,0.06)]"><div class="max-w-7xl mx-auto px-margin"><div class="h-20 flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-md"><img alt="Roadie Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0l9yr1aAHUSNCiIHhpumH8bIZQdH7IwCt-NcXSVN-DFnzAMatHz0vNZi_2u18QMtjp2n7mHccG4ZhECvd1vKSkK-VYdsxd0RSCGuH5uJHRHr-5Z0yhExCGgGPq33plWH77BhoYCCwaMURYdReDcsKl0tt1ObRCZuzEkHz8hxydvHpGud1Sqk5eK2Q4IVOy_hs_NGUTdROZQAOGruhmrErsfN-ah6PLhsUaMRvFA4"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight uppercase">Roadie</span><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-0.5 rounded-full bg-surface-container-high/60"><span class="inline-block w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span><span class="font-label-code text-label-code text-primary uppercase">v2.4 Live</span></div></div><nav class="hidden lg:flex items-center gap-space-lg" data-active-classes="text-primary font-headline-sm font-semibold"><a aria-current="page" class="transition-colors text-primary font-headline-sm font-semibold" data-path="how-it-works" href="#">How it Works</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="curriculum-engine" href="#">Curriculum Engine</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="today-view" href="#">Today View</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="features" href="#">Features</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="community" href="#">Community</a></nav><div class="flex items-center gap-space-md"><a class="hidden sm:inline-flex items-center justify-center font-label-pill text-label-pill px-space-md py-space-sm rounded-xl text-on-surface-variant hover:text-on-surface bg-surface-container-high/40 hover:bg-surface-container-high transition-all" data-path="join-waitlist" href="#">Join Waitlist</a><a class="inline-flex items-center justify-center font-label-pill text-label-pill px-space-lg py-space-sm rounded-full bg-primary hover:bg-secondary-fixed text-on-primary font-bold shadow-[0_0_24px_rgba(0,229,153,0.35)] hover:shadow-[0_0_28px_rgba(0,229,153,0.55)] transition-all" data-path="start-free" href="#">Start Free</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-20 bg-background relative min-h-screen"><div class="flex flex-col w-full text-on-surface">
+<!-- HERO SECTION -->
+<section class="relative w-full pt-12 pb-24 px-margin overflow-hidden bg-background">
+<!-- Ambient electric lime glow node -->
+<div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[680px] h-[360px] bg-primary/10 rounded-full blur-[140px] pointer-events-none"></div>
+<div class="absolute -top-12 right-12 w-80 h-80 bg-secondary/5 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="max-w-6xl mx-auto flex flex-col items-center text-center relative z-10">
+<!-- Top Eyebrow Badge -->
+<div class="inline-flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container-high/70 backdrop-blur-md mb-space-lg shadow-sm">
+<span class="flex h-2 w-2 relative">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+<span class="font-label-code text-label-code text-primary uppercase tracking-wider">Engine v2.4 Live</span>
+<span class="text-outline-variant font-label-code text-label-code">•</span>
+<span class="font-label-pill text-label-pill text-on-surface-variant">Zero Tutorial Hell</span>
+</div>
+<!-- Main Headline -->
+<h1 class="font-display-hero text-display-hero max-w-4xl tracking-tight text-on-surface mb-space-md">
+        Type a skill. <br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-container to-secondary">
+          Get your daily plan.
+        </span>
+</h1>
+<!-- Subheadline -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-space-xl">
+        Tell Roadie what you want to learn, your deadline, and your daily routine. We cross-reference top syllabi, find vetted 100% free resources, and schedule bitesize daily to-dos that fit your actual life.
+      </p>
+<!-- Input Bar Capsule -->
+<div class="w-full max-w-3xl bg-surface-container-low p-2 rounded-2xl shadow-[0_12px_48px_rgba(0,0,0,0.6)] backdrop-blur-xl mb-space-md">
+<form class="flex flex-col sm:flex-row items-center gap-2" onsubmit="event.preventDefault();">
+<div class="flex items-center gap-space-sm w-full px-space-md py-space-sm bg-surface-container rounded-xl">
+<span class="material-symbols-outlined text-primary text-xl">auto_fix_high</span>
+<input class="w-full bg-transparent font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none" id="skill-input" placeholder="e.g. Master Machine Learning or Learn French in 90 days..." type="text"/>
+</div>
+<button class="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-space-xs font-label-pill text-label-pill px-space-xl py-4 rounded-xl bg-primary text-on-primary font-bold shadow-[0_0_24px_rgba(0,229,153,0.35)] hover:shadow-[0_0_32px_rgba(0,229,153,0.55)] transition-all cursor-pointer" type="submit">
+<span>Build my roadmap</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</form>
+</div>
+<!-- Skill Suggestion Chips -->
+<div class="flex flex-wrap items-center justify-center gap-2 mb-space-xl max-w-2xl">
+<span class="font-label-code text-label-code text-on-surface-variant mr-1">Try quick:</span>
+<button class="font-label-code text-label-code px-3 py-1 rounded-full bg-surface-container-high/60 text-on-surface hover:text-primary hover:bg-surface-container-high transition-colors" onclick="document.getElementById('skill-input').value='Python for Data Science'">Python for Data Science</button>
+<button class="font-label-code text-label-code px-3 py-1 rounded-full bg-surface-container-high/60 text-on-surface hover:text-primary hover:bg-surface-container-high transition-colors" onclick="document.getElementById('skill-input').value='DSA in 60 Days'">DSA in 60 Days</button>
+<button class="font-label-code text-label-code px-3 py-1 rounded-full bg-surface-container-high/60 text-on-surface hover:text-primary hover:bg-surface-container-high transition-colors" onclick="document.getElementById('skill-input').value='System Design'">System Design</button>
+<button class="font-label-code text-label-code px-3 py-1 rounded-full bg-surface-container-high/60 text-on-surface hover:text-primary hover:bg-surface-container-high transition-colors" onclick="document.getElementById('skill-input').value='UI/UX in Figma'">UI/UX Figma</button>
+<button class="font-label-code text-label-code px-3 py-1 rounded-full bg-surface-container-high/60 text-on-surface hover:text-primary hover:bg-surface-container-high transition-colors" onclick="document.getElementById('skill-input').value='Rust Systems'">Rust</button>
+</div>
+<!-- Trust Badges Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-space-lg w-full max-w-4xl">
+<div class="flex items-center justify-center gap-space-sm px-space-md py-space-sm bg-surface-container-lowest/50 rounded-xl">
+<span class="material-symbols-outlined text-primary text-xl">verified</span>
+<span class="font-label-code text-label-code text-on-surface-variant">Over 4,200 vetted free curriculums</span>
+</div>
+<div class="flex items-center justify-center gap-space-sm px-space-md py-space-sm bg-surface-container-lowest/50 rounded-xl">
+<span class="material-symbols-outlined text-secondary-fixed text-xl">hub</span>
+<span class="font-label-code text-label-code text-on-surface-variant">Consensus across roadmap.sh, MIT &amp; CS50</span>
+</div>
+<div class="flex items-center justify-center gap-space-sm px-space-md py-space-sm bg-surface-container-lowest/50 rounded-xl">
+<span class="material-symbols-outlined text-primary-fixed text-xl" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-code text-label-code text-on-surface-variant"><strong class="text-on-surface">4.9 / 5</strong> average learner rating</span>
+</div>
+</div>
+</div>
+</section>
+<!-- THE PROBLEM SECTION -->
+<section class="w-full py-24 px-margin bg-surface-container-lowest relative">
+<div class="max-w-6xl mx-auto flex flex-col gap-space-xl">
+<div class="flex flex-col items-center text-center max-w-2xl mx-auto">
+<span class="font-label-code text-label-code text-primary uppercase tracking-widest mb-space-xs">The Reality of Self-Study</span>
+<h2 class="font-headline-lg text-headline-lg tracking-tight text-on-surface">
+          Why self-learning breaks down before week two
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-sm">
+          Willpower isn't your issue. Decision fatigue, unstructured curricula, and open-ended calendars sabotage even the most determined learners.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Problem Card 1 -->
+<div class="flex flex-col bg-surface-container-low p-space-xl rounded-2xl relative overflow-hidden group hover:bg-surface-container transition-all">
+<div class="w-12 h-12 rounded-xl bg-error/10 flex items-center justify-center mb-space-lg">
+<span class="material-symbols-outlined text-error text-2xl">sync_problem</span>
+</div>
+<span class="font-label-code text-label-code text-error uppercase mb-1">Obstacle 01</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-space-sm">Random Order &amp; Tutorial Hell</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Learners jump erratically between disconnected tutorials, missing core foundations. When advanced concepts hit, frustration triggers abandonment.
+          </p>
+<div class="mt-space-lg pt-space-md flex items-center gap-2 font-label-code text-label-code text-outline">
+<span class="material-symbols-outlined text-[16px] text-error">close</span>
+<span>Zero prerequisite mapping</span>
+</div>
+</div>
+<!-- Problem Card 2 -->
+<div class="flex flex-col bg-surface-container-low p-space-xl rounded-2xl relative overflow-hidden group hover:bg-surface-container transition-all">
+<div class="w-12 h-12 rounded-xl bg-tertiary-container/20 flex items-center justify-center mb-space-lg">
+<span class="material-symbols-outlined text-tertiary text-2xl">alt_route</span>
+</div>
+<span class="font-label-code text-label-code text-tertiary uppercase mb-1">Obstacle 02</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-space-sm">Conflicting YouTube Roadmaps</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Five different influencers advocate five opposing tech stacks and proprietary bootcamps. You spend 3 weeks comparing syllabi instead of coding.
+          </p>
+<div class="mt-space-lg pt-space-md flex items-center gap-2 font-label-code text-label-code text-outline">
+<span class="material-symbols-outlined text-[16px] text-tertiary">close</span>
+<span>Overwhelming bias &amp; sponsored fluff</span>
+</div>
+</div>
+<!-- Problem Card 3 -->
+<div class="flex flex-col bg-surface-container-low p-space-xl rounded-2xl relative overflow-hidden group hover:bg-surface-container transition-all">
+<div class="w-12 h-12 rounded-xl bg-outline-variant/30 flex items-center justify-center mb-space-lg">
+<span class="material-symbols-outlined text-outline text-2xl">event_busy</span>
+</div>
+<span class="font-label-code text-label-code text-on-surface-variant uppercase mb-1">Obstacle 03</span>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-space-sm">No Realistic Schedule</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Great intent, but life happens. Without tasks anchored to actual calendar slots (morning commute or post-dinner), friction always wins.
+          </p>
+<div class="mt-space-lg pt-space-md flex items-center gap-2 font-label-code text-label-code text-outline">
+<span class="material-symbols-outlined text-[16px] text-outline">close</span>
+<span>Unanchored 60-hour wishful thinking</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- HOW ROADIE WORKS (3-STEP CONSENSUS ARCHITECTURE) -->
+<section class="w-full py-24 px-margin bg-background relative">
+<div class="max-w-6xl mx-auto flex flex-col gap-space-xl">
+<div class="flex flex-col items-center text-center max-w-2xl mx-auto">
+<span class="font-label-code text-label-code text-primary uppercase tracking-widest mb-space-xs">The Engine</span>
+<h2 class="font-headline-lg text-headline-lg tracking-tight text-on-surface">
+          From vague ambition to your daily morning checklist
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-sm">
+          Roadie acts as your automated curriculum architect, sequencing high-reputation open courseware into micro-routines.
+        </p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Step 1 -->
+<div class="flex flex-col bg-surface-container p-space-xl rounded-2xl relative">
+<div class="flex items-center justify-between mb-space-lg">
+<span class="font-label-code text-label-code text-primary px-3 py-1 rounded-full bg-primary/10 font-bold">STEP 01</span>
+<span class="material-symbols-outlined text-on-surface-variant">tune</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-space-sm">Tell Us the Skill &amp; Routine</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-lg">
+            Specify your target horizon (e.g. 90 days) and explicit working windows: 40 minutes in the morning, 25 minutes before bed.
+          </p>
+<div class="mt-auto bg-surface-container-lowest p-space-md rounded-xl space-y-2">
+<div class="flex items-center justify-between font-label-code text-label-code text-on-surface-variant">
+<span>Horizon:</span>
+<span class="text-primary font-semibold">90 Days Target</span>
+</div>
+<div class="flex items-center justify-between font-label-code text-label-code text-on-surface-variant">
+<span>Morning Window:</span>
+<span class="text-on-surface">07:45 - 08:30 (45m)</span>
+</div>
+<div class="flex items-center justify-between font-label-code text-label-code text-on-surface-variant">
+<span>Evening Review:</span>
+<span class="text-on-surface">21:15 - 21:45 (30m)</span>
+</div>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col bg-surface-container p-space-xl rounded-2xl relative">
+<div class="flex items-center justify-between mb-space-lg">
+<span class="font-label-code text-label-code text-primary px-3 py-1 rounded-full bg-primary/10 font-bold">STEP 02</span>
+<span class="material-symbols-outlined text-secondary">balance</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-space-sm">Consensus Engine Finds Free Resources</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-lg">
+            Roadie crawls 4-6 authoritative roadmaps, synthesizes prerequisite dependencies, and tags vetted, ad-free video lessons and documentation.
+          </p>
+<div class="mt-auto bg-surface-container-lowest p-space-md rounded-xl space-y-2">
+<div class="flex items-center justify-between font-label-code text-label-code">
+<span class="text-on-surface-variant">MIT OpenCourseWare:</span>
+<span class="text-secondary flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Verified</span>
+</div>
+<div class="flex items-center justify-between font-label-code text-label-code">
+<span class="text-on-surface-variant">Harvard CS50 / EdX:</span>
+<span class="text-secondary flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Synced</span>
+</div>
+<div class="flex items-center justify-between font-label-code text-label-code">
+<span class="text-on-surface-variant">roadmap.sh Canonical:</span>
+<span class="text-secondary flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Sequenced</span>
+</div>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col bg-surface-container p-space-xl rounded-2xl relative">
+<div class="flex items-center justify-between mb-space-lg">
+<span class="font-label-code text-label-code text-primary px-3 py-1 rounded-full bg-primary/10 font-bold">STEP 03</span>
+<span class="material-symbols-outlined text-primary-container">checklist</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-space-sm">Get a Simple Daily To-Do</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-lg">
+            Wake up to 1-3 concrete tasks slotted straight into your morning. Check them off, keep your flame burning, and move on.
+          </p>
+<div class="mt-auto bg-surface-container-lowest p-space-md rounded-xl space-y-2">
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded bg-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary text-[12px] font-bold">check</span>
+</div>
+<span class="font-label-code text-label-code text-on-surface line-through opacity-70">Watch Python Scope (18m)</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded bg-surface-container-high shrink-0"></div>
+<span class="font-label-code text-label-code text-on-surface">Build simple decorator (20m)</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded bg-surface-container-high shrink-0"></div>
+<span class="font-label-code text-label-code text-on-surface-variant">Log daily note in Roadie</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- TODAY VIEW APP PREVIEW MOCKUP (INTERACTIVE PRODUCT DISPLAY) -->
+<section class="w-full py-24 px-margin bg-surface-container-lowest relative overflow-hidden">
+<!-- Subtle glow ring behind mockup -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-primary/5 rounded-full blur-[160px] pointer-events-none"></div>
+<div class="max-w-5xl mx-auto flex flex-col items-center">
+<div class="text-center mb-space-xl max-w-xl">
+<span class="font-label-code text-label-code text-primary uppercase tracking-widest mb-space-xs">Inside The Product</span>
+<h2 class="font-headline-lg text-headline-lg tracking-tight text-on-surface">
+          Meet the "Today" View
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-sm">
+          No endless dashboard labyrinths. Just what you need to do right now, paired with smart, funny accountability.
+        </p>
+</div>
+<!-- Mockup Frame -->
+<div class="w-full bg-surface-container-low rounded-3xl p-6 sm:p-10 shadow-[0_24px_64px_rgba(0,0,0,0.8)] relative z-10">
+<!-- Mockup Window Bar -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-space-lg mb-space-lg bg-surface-container-lowest/40 p-space-md rounded-2xl">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-error/80 inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-tertiary-container/80 inline-block"></span>
+<span class="w-3 h-3 rounded-full bg-primary/80 inline-block"></span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface">Today</span>
+<span class="font-label-code text-label-code text-on-surface-variant ml-2">• Day 14 of 90</span>
+</div>
+</div>
+<!-- Streak Flame Badge -->
+<div class="flex items-center gap-2 px-space-md py-1.5 rounded-full bg-on-tertiary-container/30 shadow-[0_0_16px_rgba(255,87,34,0.15)]">
+<span class="text-lg">🔥</span>
+<span class="font-label-code text-label-code font-bold text-tertiary-fixed">14 Days Strong</span>
+<span class="font-label-code text-label-code text-on-surface-variant/80">(2 Freezes Left)</span>
+</div>
+</div>
+<!-- Comedic Nudge Banner with Tone Selector -->
+<div class="bg-surface-container p-space-md rounded-2xl mb-space-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-xl">smart_toy</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold" id="nudge-text">
+                "Python won't learn itself. Neither will your brain. 25 mins fixes it."
+              </p>
+<span class="font-label-code text-label-code text-outline">Coach Roadie • Daily Kick</span>
+</div>
+</div>
+<!-- Tone Switcher -->
+<div class="flex items-center gap-1 bg-surface-container-lowest p-1 rounded-xl self-stretch md:self-auto justify-end">
+<button class="px-3 py-1 rounded-lg font-label-code text-label-code bg-surface-container-high text-primary font-semibold transition-all" id="tone-funny" onclick="updateTone('funny', 'Python won\'t learn itself. Neither will your brain. 25 mins fixes it.')">
+              Funny
+            </button>
+<button class="px-3 py-1 rounded-lg font-label-code text-label-code text-on-surface-variant hover:text-on-surface transition-all" id="tone-savage" onclick="updateTone('savage', 'Your LinkedIn headline still says Aspiring. Let\'s make it real today.')">
+              Savage
+            </button>
+<button class="px-3 py-1 rounded-lg font-label-code text-label-code text-on-surface-variant hover:text-on-surface transition-all" id="tone-gentle" onclick="updateTone('gentle', 'Small consistent steps lead to mastery. You\'ve got this today.')">
+              Gentle
+            </button>
+</div>
+</div>
+<!-- Time Slot Task Cards -->
+<div class="flex flex-col gap-space-md mb-space-lg">
+<!-- Slot 1: Morning -->
+<div class="bg-surface-container p-space-lg rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group hover:bg-surface-container-high/80 transition-all">
+<div class="flex items-start sm:items-center gap-space-md">
+<button class="w-7 h-7 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 cursor-pointer transition-all mt-0.5 sm:mt-0" onclick="this.classList.toggle('bg-primary'); this.querySelector('span').classList.toggle('opacity-0');">
+<span class="material-symbols-outlined text-on-primary text-[18px] font-bold opacity-0 transition-opacity">check</span>
+</button>
+<div class="flex flex-col">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-label-code text-label-code text-primary uppercase font-bold">Morning • 08:00 AM</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest font-label-code text-label-code text-outline">35 mins</span>
+<span class="px-2 py-0.5 rounded-full bg-error/10 font-label-code text-label-code text-error inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">play_circle</span> YouTube Free
+                  </span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mt-1">Decorators &amp; Closures in Python</h4>
+<a class="font-body-sm text-body-sm text-secondary hover:underline inline-flex items-center gap-1 mt-0.5" href="#">
+<span>freeCodeCamp deep-dive tutorial (28 mins)</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end sm:self-center">
+<span class="px-3 py-1 rounded-xl bg-surface-container-lowest font-label-code text-label-code text-on-surface-variant">Prerequisite: Functions</span>
+</div>
+</div>
+<!-- Slot 2: Evening -->
+<div class="bg-surface-container p-space-lg rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group hover:bg-surface-container-high/80 transition-all">
+<div class="flex items-start sm:items-center gap-space-md">
+<button class="w-7 h-7 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 cursor-pointer transition-all mt-0.5 sm:mt-0" onclick="this.classList.toggle('bg-primary'); this.querySelector('span').classList.toggle('opacity-0');">
+<span class="material-symbols-outlined text-on-primary text-[18px] font-bold opacity-0 transition-opacity">check</span>
+</button>
+<div class="flex flex-col">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-label-code text-label-code text-secondary uppercase font-bold">Evening • 09:15 PM</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest font-label-code text-label-code text-outline">20 mins</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 font-label-code text-label-code text-secondary inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">code</span> Hands-On Practice
+                  </span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mt-1">3 Practice Exercises: Custom Timers &amp; Wrappers</h4>
+<a class="font-body-sm text-body-sm text-secondary hover:underline inline-flex items-center gap-1 mt-0.5" href="#">
+<span>HackerRank / GitHub code playground</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end sm:self-center">
+<span class="px-3 py-1 rounded-xl bg-surface-container-lowest font-label-code text-label-code text-on-surface-variant">Estimated: 18 mins</span>
+</div>
+</div>
+</div>
+<!-- Zero-Guilt Reschedule Bar -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-md pt-space-md bg-surface-container-lowest/60 p-space-md rounded-2xl">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">update</span>
+<div>
+<p class="font-body-sm text-body-sm text-on-surface font-semibold">Missed a few days? Don't panic.</p>
+<p class="font-label-code text-label-code text-on-surface-variant">Zero shame. Hit shift and keep learning cleanly.</p>
+</div>
+</div>
+<button class="w-full sm:w-auto px-4 py-2 rounded-xl bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-pill text-label-pill transition-all flex items-center justify-center gap-1 cursor-pointer" id="shift-btn" onclick="triggerShift()">
+<span class="material-symbols-outlined text-[16px]">fast_forward</span>
+<span id="shift-label">Shift Schedule 2 Days Forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- FEATURES GRID SECTION -->
+<section class="w-full py-24 px-margin bg-background relative">
+<div class="max-w-6xl mx-auto flex flex-col gap-space-xl">
+<div class="flex flex-col items-center text-center max-w-2xl mx-auto">
+<span class="font-label-code text-label-code text-primary uppercase tracking-widest mb-space-xs">Engine Specs</span>
+<h2 class="font-headline-lg text-headline-lg tracking-tight text-on-surface">
+          Engineered for continuous momentum
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-sm">
+          Everything designed around human psychology, friction elimination, and guaranteed progress.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<!-- Feature 1 -->
+<div class="bg-surface-container-low p-space-xl rounded-2xl flex flex-col justify-between hover:bg-surface-container transition-all">
+<div>
+<div class="w-12 h-12 rounded-2xl bg-tertiary-container/10 flex items-center justify-center text-tertiary-fixed mb-space-lg">
+<span class="text-2xl">🔥</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-space-sm">Streak &amp; Habit Flame</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+              Instrument-grade habit indicators. Earn streak freeze tokens automatically to protect your record during exam crunches or weekend trips.
+            </p>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl flex items-center justify-between font-label-code text-label-code">
+<span class="text-on-surface-variant">Active Streak: <strong class="text-primary">14 Days</strong></span>
+<span class="text-on-surface-variant">Freezes: <strong class="text-tertiary">2 Available</strong></span>
+</div>
+</div>
+<!-- Feature 2 -->
+<div class="bg-surface-container-low p-space-xl rounded-2xl flex flex-col justify-between hover:bg-surface-container transition-all">
+<div>
+<div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-space-lg">
+<span class="material-symbols-outlined text-2xl">forum</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-space-sm">Comedic &amp; Savage Reminders</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+              No generic guilt-tripping. Choose between Funny, Savage, or Gentle tones dispatched straight via WhatsApp or Push right when your slot begins.
+            </p>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl flex items-center gap-2 font-label-code text-label-code text-primary">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span>WhatsApp &amp; Telegram sync supported</span>
+</div>
+</div>
+<!-- Feature 3 -->
+<div class="bg-surface-container-low p-space-xl rounded-2xl flex flex-col justify-between hover:bg-surface-container transition-all">
+<div>
+<div class="w-12 h-12 rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary mb-space-lg">
+<span class="material-symbols-outlined text-2xl">menu_book</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-space-sm">100% Free &amp; Verified Resources</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+              Every video, GitHub repo, interactive browser sandbox, and lecture note is verified free of charge and checked daily for link rot.
+            </p>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl flex items-center justify-between font-label-code text-label-code">
+<span class="text-secondary font-semibold">Zero paywalls required</span>
+<span class="text-on-surface-variant">4,200+ Syllabus nodes</span>
+</div>
+</div>
+<!-- Feature 4 -->
+<div class="bg-surface-container-low p-space-xl rounded-2xl flex flex-col justify-between hover:bg-surface-container transition-all">
+<div>
+<div class="w-12 h-12 rounded-2xl bg-primary-container/10 flex items-center justify-center text-primary-container mb-space-lg">
+<span class="material-symbols-outlined text-2xl">published_with_changes</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-space-sm">Zero-Guilt Rescheduling</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+              Fell sick or swamped with work? Single-click schedule reconfiguration preserves all finished progress and recalculates target dates smoothly.
+            </p>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl flex items-center gap-2 font-label-code text-label-code text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+<span>Zero shame algorithms</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- TESTIMONIALS SECTION -->
+<section class="w-full py-24 px-margin bg-surface-container-lowest relative">
+<div class="max-w-6xl mx-auto flex flex-col gap-space-xl">
+<div class="flex flex-col items-center text-center max-w-2xl mx-auto">
+<span class="font-label-code text-label-code text-primary uppercase tracking-widest mb-space-xs">Social Proof</span>
+<h2 class="font-headline-lg text-headline-lg tracking-tight text-on-surface">
+          Real builders. Real daily momentum.
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-sm">
+          Over 8,000 ambitious learners across Bangalore, San Francisco, Delhi, and London.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Testimonial 1 -->
+<div class="bg-surface-container-low p-space-lg rounded-2xl flex flex-col justify-between">
+<div class="flex flex-col gap-space-sm mb-space-lg">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface italic">
+              "Landed my junior backend role after following the 90-day DSA plan. Having tasks slotted directly into 7:30 AM made it impossible to skip."
+            </p>
+</div>
+<div class="flex items-center gap-space-sm pt-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center font-label-code text-label-code text-primary font-bold">
+              AR
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface text-[15px]">Aarav Rao</span>
+<span class="font-label-code text-label-code text-on-surface-variant">Software Dev • Bangalore</span>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="bg-surface-container-low p-space-lg rounded-2xl flex flex-col justify-between">
+<div class="flex flex-col gap-space-sm mb-space-lg">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface italic">
+              "Finally finished SQL and PostgreSQL without getting lost in 40-hour lectures. The comedic reminder feature actually made me crack up and start."
+            </p>
+</div>
+<div class="flex items-center gap-space-sm pt-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center font-label-code text-label-code text-secondary font-bold">
+              SC
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface text-[15px]">Sarah Chen</span>
+<span class="font-label-code text-label-code text-on-surface-variant">Product Analyst • San Francisco</span>
+</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="bg-surface-container-low p-space-lg rounded-2xl flex flex-col justify-between">
+<div class="flex flex-col gap-space-sm mb-space-lg">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface italic">
+              "The consensus engine saved me 100+ hours of syllabus vetting. Finished CS50 fundamentals on schedule while working full-time in finance."
+            </p>
+</div>
+<div class="flex items-center gap-space-sm pt-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center font-label-code text-label-code text-tertiary font-bold">
+              MK
+            </div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface text-[15px]">Marcus Klein</span>
+<span class="font-label-code text-label-code text-on-surface-variant">Self-Taught • London</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FINAL CALL TO ACTION / WAITLIST SECTION -->
+<section class="w-full py-24 px-margin bg-background relative overflow-hidden">
+<!-- Glow Orb -->
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-primary/10 rounded-full blur-[140px] pointer-events-none"></div>
+<div class="max-w-4xl mx-auto bg-surface-container-low rounded-3xl p-8 sm:p-14 relative z-10 shadow-[0_20px_50px_rgba(0,0,0,0.7)] text-center flex flex-col items-center">
+<div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-space-md shadow-[0_0_24px_rgba(0,229,153,0.2)]">
+<span class="material-symbols-outlined text-3xl">rocket_launch</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-space-sm">
+        Stop researching what to learn.<br/>
+<span class="text-primary">Start learning today.</span>
+</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mb-space-xl">
+        Join 8,000+ ambitious learners building lifelong skills in 45 minutes a day.
+      </p>
+<!-- Email Capture Form -->
+<form class="w-full max-w-md flex flex-col sm:flex-row gap-2 mb-space-md" onsubmit="handleWaitlist(event)">
+<input class="w-full px-space-md py-3.5 rounded-xl bg-surface-container text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none" id="waitlist-email" placeholder="Enter your work or personal email..." required="" type="email"/>
+<button class="shrink-0 px-space-lg py-3.5 rounded-xl bg-primary hover:bg-secondary-fixed text-on-primary font-label-pill text-label-pill font-bold shadow-[0_0_24px_rgba(0,229,153,0.35)] transition-all cursor-pointer" id="waitlist-submit" type="submit">
+          Claim Early Access
+        </button>
+</form>
+<p class="hidden font-label-code text-label-code text-primary mb-space-sm font-semibold" id="waitlist-status">
+        ✨ You are on the beta priority list. Welcome aboard!
+      </p>
+<p class="font-label-code text-label-code text-on-surface-variant">
+        Free access during beta • No credit card required • Cancel anytime
+      </p>
+</div>
+</section>
+<!-- Interactive Logic -->
+<script>
+    function updateTone(tone, text) {
+      document.getElementById('nudge-text').innerText = '"' + text + '"';
+      ['funny', 'savage', 'gentle'].forEach(t => {
+        const btn = document.getElementById('tone-' + t);
+        if (t === tone) {
+          btn.className = 'px-3 py-1 rounded-lg font-label-code text-label-code bg-surface-container-high text-primary font-semibold transition-all';
+        } else {
+          btn.className = 'px-3 py-1 rounded-lg font-label-code text-label-code text-on-surface-variant hover:text-on-surface transition-all';
+        }
+      });
+    }
+
+    function triggerShift() {
+      const label = document.getElementById('shift-label');
+      label.innerText = 'Schedule Adjusted (Day 16 Target)';
+      setTimeout(() => {
+        label.innerText = 'Shift Schedule 2 Days Forward';
+      }, 3000);
+    }
+
+    function handleWaitlist(e) {
+      e.preventDefault();
+      const email = document.getElementById('waitlist-email').value;
+      if (email) {
+        document.getElementById('waitlist-email').value = '';
+        document.getElementById('waitlist-status').classList.remove('hidden');
+      }
+    }
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest relative"><div class="max-w-7xl mx-auto px-margin py-space-xl"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-space-xl mb-space-xl"><div class="lg:col-span-2 flex flex-col gap-space-md"><div class="flex items-center gap-space-sm"><img alt="Roadie Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0l9yr1aAHUSNCiIHhpumH8bIZQdH7IwCt-NcXSVN-DFnzAMatHz0vNZi_2u18QMtjp2n7mHccG4ZhECvd1vKSkK-VYdsxd0RSCGuH5uJHRHr-5Z0yhExCGgGPq33plWH77BhoYCCwaMURYdReDcsKl0tt1ObRCZuzEkHz8hxydvHpGud1Sqk5eK2Q4IVOy_hs_NGUTdROZQAOGruhmrErsfN-ah6PLhsUaMRvFA4"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight uppercase">Roadie</span></div><p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm">High-velocity execution and automated curriculum architecture for builders, self-directed learners, and focused technicians.</p><div class="flex items-center gap-space-md mt-space-sm"><a class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors" href="#"><span class="material-symbols-outlined text-[18px]">terminal</span></a><a class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors" href="#"><span class="material-symbols-outlined text-[18px]">forum</span></a><a class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors" href="#"><span class="material-symbols-outlined text-[18px]">code</span></a><a class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors" href="#"><span class="material-symbols-outlined text-[18px]">alternate_email</span></a></div></div><div class="flex flex-col gap-space-sm"><span class="font-label-code text-label-code text-primary uppercase tracking-wider">Architecture</span><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="curriculum-engine" href="#">Curriculum Engine</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="today-view" href="#">Today View</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="features" href="#">Skill Graphs</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="how-it-works" href="#">Streak Momentum</a></div><div class="flex flex-col gap-space-sm"><span class="font-label-code text-label-code text-primary uppercase tracking-wider">Ecosystem</span><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="community" href="#">Builder Guilds</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="manifesto" href="#">The Manifesto</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="how-it-works" href="#">Release Notes</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="community" href="#">Open Guilds</a></div><div class="flex flex-col gap-space-sm"><span class="font-label-code text-label-code text-primary uppercase tracking-wider">Protocol</span><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" href="#">Documentation</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" href="#">Privacy Policy</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" href="#">Terms of Service</a><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" href="#">System Status</a></div></div><div class="pt-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md bg-surface-container-lowest"><p class="font-label-code text-label-code text-on-surface-variant">© 2025 Roadie Systems Inc. Engineered for continuous momentum.</p><div class="flex items-center gap-space-lg font-label-code text-label-code text-on-surface-variant"><span class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-primary"></span> All nodes operational</span></div></div></div></footer></body></html>

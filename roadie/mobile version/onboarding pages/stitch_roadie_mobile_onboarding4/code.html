@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-container-highest": "#31353c", "surface-container-low": "#181c22", "primary": "#6dffba", "error-container": "#93000a", "on-primary-fixed": "#002112", "surface-container-lowest": "#0a0e14", "on-surface-variant": "#bacbbe", "on-secondary": "#003824", "secondary-fixed": "#6ffbbe", "outline-variant": "#3b4a41", "primary-container": "#00e599", "on-primary": "#003822", "on-error": "#690005", "error": "#ffb4ab", "on-secondary-fixed": "#002113", "on-error-container": "#ffdad6", "inverse-primary": "#006c46", "tertiary-fixed": "#ffdbd1", "tertiary-fixed-dim": "#ffb5a0", "outline": "#849589", "secondary-fixed-dim": "#4edea3", "tertiary-container": "#ffb8a4", "surface-tint": "#00e297", "primary-fixed": "#4dffb2", "surface-dim": "#10141a", "on-tertiary-fixed-variant": "#862200", "surface": "#10141a", "on-secondary-container": "#00311f", "surface-variant": "#31353c", "surface-container-high": "#262a31", "on-tertiary-fixed": "#3b0900", "on-tertiary-container": "#9e2900", "on-primary-container": "#00613e", "background": "#10141a", "primary-fixed-dim": "#00e297", "secondary-container": "#00a572", "on-background": "#dfe2eb", "on-secondary-fixed-variant": "#005236", "surface-bright": "#353940", "on-tertiary": "#5f1500", "surface-container": "#1c2026", "tertiary": "#ffded5", "on-primary-fixed-variant": "#005234", "inverse-surface": "#dfe2eb", "secondary": "#4edea3", "on-surface": "#dfe2eb", "inverse-on-surface": "#2d3137" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-sm": "0.5rem", "space-lg": "1.5rem", "space-xs": "0.25rem", "gutter-mobile": "1rem", "space-md": "1rem", "gutter": "1.5rem", "margin": "2rem", "space-xl": "2.5rem", "margin-mobile": "1.25rem" }, fontFamily: { "headline-md": ["Plus Jakarta Sans"], "display-hero": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "display-hero-mobile": ["Plus Jakarta Sans"], "label-pill": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "label-code": ["JetBrains Mono"], "body-sm": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"] }, fontSize: { "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "display-hero": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "display-hero-mobile": ["38px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "800" }], "label-pill": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-code": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }], "body-sm": ["13px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "body-md": ["15px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }] } } } };</script><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#10141a;color:#dfe2eb;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter-mobile flex items-center justify-between"><div class="flex items-center gap-space-sm"><button aria-label="Go back" class="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl text-on-surface hover:text-primary transition-colors" onclick="window.history.back()" type="button"><span class="material-symbols-outlined text-[22px]">arrow_back</span></button><div class="flex items-center gap-space-xs"><span class="font-label-pill text-label-pill tracking-wider uppercase text-primary font-bold">Roadie</span><span class="text-on-surface-variant/40">•</span><span class="font-label-code text-label-code text-on-surface-variant font-medium">Profile Setup</span></div></div><div class="min-w-[44px] min-h-[44px] flex items-center justify-end"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full bg-surface pt-16 pb-24"><div class="flex flex-col w-full px-gutter-mobile gap-space-lg pb-10">
+<!-- Onboarding Progress Tracker Header -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-code text-label-code text-primary uppercase font-bold tracking-wider">Step 4 of 4</span>
+<span class="text-on-surface-variant/40">•</span>
+<span class="font-label-pill text-label-pill text-on-surface-variant uppercase">Final Calibration</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-high px-2 py-0.5 rounded-full">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span class="font-label-code text-label-code text-primary font-bold">100%</span>
+</div>
+</div>
+<!-- 100% completed Progress Bar -->
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden flex">
+<div class="h-full bg-primary-container rounded-full w-full shadow-[0_0_12px_rgba(0,229,153,0.8)]"></div>
+</div>
+</div>
+<!-- Headline & Core Promise Narrative -->
+<div class="flex flex-col gap-space-xs">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight font-extrabold">
+      When can you study?
+    </h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+      Anchor learning to your actual daily routine. Roadie splits tasks into your preferred windows.
+    </p>
+</div>
+<!-- Time Slots List -->
+<div class="flex flex-col gap-space-md" id="slots-container">
+<!-- 1. Morning Slot (Active) -->
+<div class="slot-card bg-surface-container rounded-2xl p-space-md flex flex-col gap-space-md shadow-md transition-all duration-300" data-slot="morning">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px] text-primary" style="font-variation-settings: 'FILL' 1;">wb_twilight</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-body-md font-bold text-on-surface">Morning slot</span>
+<span class="font-label-code text-label-code text-on-surface-variant">07:30 – 08:15</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Sunrise &amp; Commute sync</p>
+</div>
+</div>
+<!-- Native-styled Toggle switch -->
+<button aria-checked="true" class="toggle-btn w-12 h-6 rounded-full bg-primary-container p-0.5 flex items-center transition-colors cursor-pointer shrink-0" data-target="morning" role="switch" type="button">
+<span class="toggle-thumb w-5 h-5 rounded-full bg-on-primary-fixed shadow-sm transform translate-x-6 transition-transform"></span>
+</button>
+</div>
+<!-- Tag -->
+<div class="flex flex-wrap gap-space-xs">
+<span class="inline-flex items-center gap-1 font-label-code text-label-code px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-medium">
+<span class="material-symbols-outlined text-[14px]">psychology</span>
+          Best for new theory &amp; concepts
+        </span>
+</div>
+<!-- Slider Control -->
+<div class="slider-wrapper flex flex-col gap-space-xs pt-space-xs">
+<div class="flex justify-between items-center">
+<span class="font-label-code text-label-code text-on-surface-variant">Daily duration</span>
+<span class="font-label-code text-label-code text-primary font-bold duration-label" id="morning-val">30 mins / day</span>
+</div>
+<div class="relative flex items-center py-1">
+<input class="slot-slider w-full h-2 rounded-full appearance-none bg-surface-container-highest cursor-pointer accent-primary" data-for="morning" max="60" min="0" step="5" type="range" value="30"/>
+</div>
+</div>
+</div>
+<!-- 2. Afternoon Slot (Optional / Inactive) -->
+<div class="slot-card bg-surface-container/60 rounded-2xl p-space-md flex flex-col gap-space-md opacity-80 transition-all duration-300" data-slot="afternoon">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">light_mode</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-body-md font-bold text-on-surface">Afternoon slot</span>
+<span class="font-label-code text-label-code text-on-surface-variant">13:00 – 13:30</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Lunch &amp; Midday breather</p>
+</div>
+</div>
+<button aria-checked="false" class="toggle-btn w-12 h-6 rounded-full bg-surface-container-highest p-0.5 flex items-center transition-colors cursor-pointer shrink-0" data-target="afternoon" role="switch" type="button">
+<span class="toggle-thumb w-5 h-5 rounded-full bg-outline shadow-sm transform translate-x-0 transition-transform"></span>
+</button>
+</div>
+<div class="slider-wrapper flex flex-col gap-space-xs opacity-40 pointer-events-none transition-opacity">
+<div class="flex justify-between items-center">
+<span class="font-label-code text-label-code text-on-surface-variant">Daily duration</span>
+<span class="font-label-code text-label-code text-on-surface-variant font-bold duration-label" id="afternoon-val">0 mins</span>
+</div>
+<div class="relative flex items-center py-1">
+<input class="slot-slider w-full h-2 rounded-full appearance-none bg-surface-container-highest cursor-pointer accent-primary" data-for="afternoon" disabled="" max="60" min="0" step="5" type="range" value="0"/>
+</div>
+</div>
+</div>
+<!-- 3. Evening Slot (Active) -->
+<div class="slot-card bg-surface-container rounded-2xl p-space-md flex flex-col gap-space-md shadow-md transition-all duration-300" data-slot="evening">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px] text-primary" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-body-md font-bold text-on-surface">Evening slot</span>
+<span class="font-label-code text-label-code text-on-surface-variant">19:30 – 20:00</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Post-work focused lab</p>
+</div>
+</div>
+<button aria-checked="true" class="toggle-btn w-12 h-6 rounded-full bg-primary-container p-0.5 flex items-center transition-colors cursor-pointer shrink-0" data-target="evening" role="switch" type="button">
+<span class="toggle-thumb w-5 h-5 rounded-full bg-on-primary-fixed shadow-sm transform translate-x-6 transition-transform"></span>
+</button>
+</div>
+<!-- Tag -->
+<div class="flex flex-wrap gap-space-xs">
+<span class="inline-flex items-center gap-1 font-label-code text-label-code px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-medium">
+<span class="material-symbols-outlined text-[14px]">code</span>
+          Best for hands-on practice &amp; exercises
+        </span>
+</div>
+<!-- Slider Control -->
+<div class="slider-wrapper flex flex-col gap-space-xs pt-space-xs">
+<div class="flex justify-between items-center">
+<span class="font-label-code text-label-code text-on-surface-variant">Daily duration</span>
+<span class="font-label-code text-label-code text-primary font-bold duration-label" id="evening-val">20 mins / day</span>
+</div>
+<div class="relative flex items-center py-1">
+<input class="slot-slider w-full h-2 rounded-full appearance-none bg-surface-container-highest cursor-pointer accent-primary" data-for="evening" max="60" min="0" step="5" type="range" value="20"/>
+</div>
+</div>
+</div>
+<!-- 4. Night Slot (Active) -->
+<div class="slot-card bg-surface-container rounded-2xl p-space-md flex flex-col gap-space-md shadow-md transition-all duration-300" data-slot="night">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px] text-primary" style="font-variation-settings: 'FILL' 1;">bedtime</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-body-md font-bold text-on-surface">Night slot</span>
+<span class="font-label-code text-label-code text-on-surface-variant">22:00 – 22:15</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Wind-down recall</p>
+</div>
+</div>
+<button aria-checked="true" class="toggle-btn w-12 h-6 rounded-full bg-primary-container p-0.5 flex items-center transition-colors cursor-pointer shrink-0" data-target="night" role="switch" type="button">
+<span class="toggle-thumb w-5 h-5 rounded-full bg-on-primary-fixed shadow-sm transform translate-x-6 transition-transform"></span>
+</button>
+</div>
+<!-- Tag -->
+<div class="flex flex-wrap gap-space-xs">
+<span class="inline-flex items-center gap-1 font-label-code text-label-code px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-medium">
+<span class="material-symbols-outlined text-[14px]">style</span>
+          Flashcards &amp; quick recap
+        </span>
+</div>
+<!-- Slider Control -->
+<div class="slider-wrapper flex flex-col gap-space-xs pt-space-xs">
+<div class="flex justify-between items-center">
+<span class="font-label-code text-label-code text-on-surface-variant">Daily duration</span>
+<span class="font-label-code text-label-code text-primary font-bold duration-label" id="night-val">10 mins / day</span>
+</div>
+<div class="relative flex items-center py-1">
+<input class="slot-slider w-full h-2 rounded-full appearance-none bg-surface-container-highest cursor-pointer accent-primary" data-for="night" max="60" min="0" step="5" type="range" value="10"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Total Daily Commitment Summary Card -->
+<div class="relative overflow-hidden bg-surface-container-high rounded-3xl p-space-lg flex flex-col gap-space-md shadow-xl">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase font-medium">Cadence Target</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-extrabold text-primary" id="total-min-display">60</span>
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">mins / day</span>
+</div>
+</div>
+<!-- Mini Dial Graphic -->
+<div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center p-1 relative">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-primary transition-all duration-500 ease-out" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" id="progress-dial-svg" stroke="currentColor" stroke-dasharray="75, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute material-symbols-outlined text-primary text-[18px]">bolt</span>
+</div>
+</div>
+<!-- Momentum & Streak badge -->
+<div class="flex items-center gap-space-sm bg-surface-container-low px-space-md py-space-sm rounded-xl">
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px] text-tertiary-container" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-pill text-label-pill text-on-surface font-bold">Streak Projection</span>
+<span class="font-label-code text-label-code text-primary font-bold">94%</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">High completion chance with distributed windows</p>
+</div>
+</div>
+</div>
+<!-- Onboarding Micro-Action Deck & Trigger -->
+<div class="flex flex-col items-center gap-space-sm pt-space-xs">
+<button class="w-full min-h-[56px] px-space-lg rounded-2xl bg-primary-container text-on-primary font-headline-sm text-body-lg font-bold flex items-center justify-center gap-space-sm shadow-[0_4px_24px_rgba(0,229,153,0.35)] hover:bg-primary transition-all active:scale-[0.98]" id="build-roadmap-btn" type="button">
+<span>Build My Roadmap</span>
+<span class="text-xl">🚀</span>
+</button>
+<div class="flex items-center gap-space-xs flex-wrap justify-center font-label-code text-label-code text-on-surface-variant">
+<span>Zero fluff</span>
+<span>•</span>
+<span>Free curated resources</span>
+<span>•</span>
+<span>Consensual sequencing</span>
+</div>
+</div>
+</div>
+<script>
+  (function initStudySchedule() {
+    const defaultVals = {
+      morning: 30,
+      afternoon: 0,
+      evening: 20,
+      night: 10
+    };
+
+    const toggles = document.querySelectorAll('.toggle-btn');
+    const sliders = document.querySelectorAll('.slot-slider');
+    const totalDisplay = document.getElementById('total-min-display');
+    const dialSvg = document.getElementById('progress-dial-svg');
+
+    function updateTotal() {
+      let sum = 0;
+      sliders.forEach(s => {
+        const slotKey = s.dataset.for;
+        const card = document.querySelector(`[data-slot="${slotKey}"]`);
+        const isActive = card && !card.classList.contains('opacity-80');
+        if (isActive) {
+          sum += parseInt(s.value, 10);
+        }
+      });
+
+      if (totalDisplay) {
+        totalDisplay.textContent = sum;
+      }
+
+      if (dialSvg) {
+        // Map 0 - 90 mins to 0 - 100 ring
+        const percent = Math.min(100, Math.round((sum / 80) * 100));
+        dialSvg.setAttribute('stroke-dasharray', `${percent}, 100`);
+      }
+    }
+
+    toggles.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const slot = btn.dataset.target;
+        const card = document.querySelector(`[data-slot="${slot}"]`);
+        const sliderWrapper = card.querySelector('.slider-wrapper');
+        const sliderInput = card.querySelector('.slot-slider');
+        const label = card.querySelector('.duration-label');
+        const thumb = btn.querySelector('.toggle-thumb');
+        const isChecked = btn.getAttribute('aria-checked') === 'true';
+
+        if (isChecked) {
+          // Turn OFF
+          btn.setAttribute('aria-checked', 'false');
+          btn.classList.remove('bg-primary-container');
+          btn.classList.add('bg-surface-container-highest');
+          thumb.classList.remove('translate-x-6', 'bg-on-primary-fixed');
+          thumb.classList.add('translate-x-0', 'bg-outline');
+          card.classList.add('opacity-80', 'bg-surface-container/60');
+          card.classList.remove('bg-surface-container');
+          sliderWrapper.classList.add('opacity-40', 'pointer-events-none');
+          sliderInput.disabled = true;
+          sliderInput.value = 0;
+          label.textContent = '0 mins';
+          label.classList.remove('text-primary');
+          label.classList.add('text-on-surface-variant');
+        } else {
+          // Turn ON
+          btn.setAttribute('aria-checked', 'true');
+          btn.classList.add('bg-primary-container');
+          btn.classList.remove('bg-surface-container-highest');
+          thumb.classList.add('translate-x-6', 'bg-on-primary-fixed');
+          thumb.classList.remove('translate-x-0', 'bg-outline');
+          card.classList.remove('opacity-80', 'bg-surface-container/60');
+          card.classList.add('bg-surface-container');
+          sliderWrapper.classList.remove('opacity-40', 'pointer-events-none');
+          sliderInput.disabled = false;
+          const restored = defaultVals[slot] || 20;
+          sliderInput.value = restored;
+          label.textContent = `${restored} mins / day`;
+          label.classList.add('text-primary');
+          label.classList.remove('text-on-surface-variant');
+        }
+
+        updateTotal();
+      });
+    });
+
+    sliders.forEach(slider => {
+      slider.addEventListener('input', (e) => {
+        const slot = e.target.dataset.for;
+        const val = e.target.value;
+        const label = document.getElementById(`${slot}-val`);
+        if (label) {
+          label.textContent = val > 0 ? `${val} mins / day` : '0 mins';
+        }
+        updateTotal();
+      });
+    });
+
+    const buildBtn = document.getElementById('build-roadmap-btn');
+    if (buildBtn) {
+      buildBtn.addEventListener('click', () => {
+        buildBtn.classList.add('scale-95');
+        setTimeout(() => buildBtn.classList.remove('scale-95'), 150);
+      });
+    }
+
+    updateTotal();
+  })();
+</script></main><aside class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-4px_20px_rgba(0,0,0,0.35)]"><div class="h-20 px-gutter-mobile flex items-center justify-between gap-space-md" id="onboarding-action-dock"><div class="flex flex-col"><span class="font-label-code text-label-code text-on-surface-variant">STEP PROGRESS</span><span class="font-headline-sm text-headline-sm text-primary">Ready</span></div><div class="flex items-center gap-space-sm"><button class="min-h-[44px] px-space-lg rounded-xl bg-primary text-on-primary font-headline-sm text-body-md font-bold flex items-center justify-center gap-space-xs shadow-[0_4px_20px_rgba(0,229,153,0.35)] hover:bg-primary-container transition-all active:scale-95" type="button"><span>Continue</span><span class="material-symbols-outlined text-[18px]">arrow_forward</span></button></div></div></aside></body></html>

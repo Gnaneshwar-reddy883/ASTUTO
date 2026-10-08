@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary": "#003822", "on-tertiary": "#5f1500", "secondary-fixed-dim": "#4edea3", "secondary": "#4edea3", "tertiary-fixed": "#ffdbd1", "inverse-primary": "#006c46", "surface-container-lowest": "#0a0e14", "on-error-container": "#ffdad6", "outline": "#849589", "surface": "#10141a", "surface-bright": "#353940", "inverse-on-surface": "#2d3137", "error-container": "#93000a", "tertiary-fixed-dim": "#ffb5a0", "on-primary-fixed-variant": "#005234", "outline-variant": "#3b4a41", "error": "#ffb4ab", "on-secondary-fixed": "#002113", "background": "#10141a", "surface-container-high": "#262a31", "on-secondary-fixed-variant": "#005236", "on-surface": "#dfe2eb", "surface-container-highest": "#31353c", "on-tertiary-fixed-variant": "#862200", "on-background": "#dfe2eb", "tertiary-container": "#ffb8a4", "inverse-surface": "#dfe2eb", "secondary-fixed": "#6ffbbe", "primary-container": "#00e599", "surface-container": "#1c2026", "on-error": "#690005", "surface-dim": "#10141a", "on-surface-variant": "#bacbbe", "secondary-container": "#00a572", "surface-container-low": "#181c22", "on-secondary": "#003824", "surface-variant": "#31353c", "on-tertiary-container": "#9e2900", "tertiary": "#ffded5", "on-primary-container": "#00613e", "primary-fixed-dim": "#00e297", "on-tertiary-fixed": "#3b0900", "on-secondary-container": "#00311f", "primary-fixed": "#4dffb2", "surface-tint": "#00e297", "primary": "#6dffba", "on-primary-fixed": "#002112" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "gutter-mobile": "1rem", "space-lg": "1.5rem", "margin": "2rem", "margin-mobile": "1.25rem", "space-sm": "0.5rem", "gutter": "1.5rem", "space-md": "1rem", "space-xl": "2.5rem" }, "fontFamily": { "headline-lg-mobile": [ "Plus Jakarta Sans" ], "display-hero": [ "Plus Jakarta Sans" ], "body-sm": [ "Plus Jakarta Sans" ], "body-md": [ "Plus Jakarta Sans" ], "headline-sm": [ "Plus Jakarta Sans" ], "headline-lg": [ "Plus Jakarta Sans" ], "label-code": [ "JetBrains Mono" ], "display-hero-mobile": [ "Plus Jakarta Sans" ], "headline-md": [ "Plus Jakarta Sans" ], "label-pill": [ "Plus Jakarta Sans" ], "body-lg": [ "Plus Jakarta Sans" ] }, "fontSize": { "headline-lg-mobile": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "display-hero": [ "64px", { "lineHeight": "72px", "letterSpacing": "-0.03em", "fontWeight": "800" } ], "body-sm": [ "13px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" } ], "body-md": [ "15px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" } ], "headline-sm": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "headline-lg": [ "40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "label-code": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" } ], "display-hero-mobile": [ "38px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "800" } ], "headline-md": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" } ], "label-pill": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" } ], "body-lg": [ "18px", { "lineHeight": "28px", "letterSpacing": "-0.005em", "fontWeight": "400" } ] } } } };</script></head><body class="bg-background font-body-md text-on-surface min-h-screen selection:bg-primary selection:text-on-primary"><aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-lowest z-50 flex flex-col justify-between py-space-lg px-space-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col gap-space-lg"><div class="flex items-center justify-between px-space-sm"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-[0_0_20px_rgba(0,229,153,0.35)]"><span class="material-symbols-outlined text-on-primary text-[20px]">hub</span></div><span class="font-headline-md text-headline-md font-bold tracking-tight text-on-surface">Roadie</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-surface-container shadow-[0_0_20px_-2px_rgba(255,87,34,0.25)]"><span class="material-symbols-outlined text-tertiary text-[16px]">local_fire_department</span><span class="font-label-code text-label-code font-bold text-tertiary">14d</span></div></div><nav class="flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-xl"><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="today" href="#"><span class="material-symbols-outlined text-[20px]">schedule</span><span>Today</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="roadmap" href="#"><span class="material-symbols-outlined text-[20px]">timeline</span><span>Roadmap</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="progress" href="#"><span class="material-symbols-outlined text-[20px]">insights</span><span>Progress</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-xl text-on-surface-variant font-body-md text-body-md hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span>Settings</span></a></nav></div><div class="p-space-sm rounded-xl bg-surface-container-low flex items-center justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-space-sm min-w-0"><div class="w-8 h-8 rounded-full bg-primary flex-shrink-0 flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col min-w-0"><span class="font-body-sm text-body-sm font-semibold text-on-surface truncate">Alex Kumar</span><span class="font-label-code text-label-code text-on-surface-variant truncate">Python for Data Science</span></div></div><a class="p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[18px]">settings</span></a></div></aside><div class="pl-72 min-h-screen flex flex-col"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/80 backdrop-blur-xl z-40 px-space-xl flex items-center justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm px-space-md py-space-xs rounded-full bg-surface-container-low text-on-surface-variant font-label-code text-label-code"><span class="w-2 h-2 rounded-full bg-primary-container"></span><span>Sprint Active: Day 14 of 45</span></div></div><div class="flex items-center gap-space-md"><button class="flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high font-body-sm text-body-sm font-semibold transition-all"><span class="material-symbols-outlined text-[18px] text-primary">bolt</span><span>AI Quick Plan</span></button><button class="relative p-space-xs rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-primary"></span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="w-full pt-16 bg-surface flex-1 px-space-xl py-space-lg"><div class="flex flex-col w-full gap-space-xl">
+<!-- Interactive Style State Script & Toast Trigger (Non-blocking) -->
+<script>
+    function copyShareLink(btn) {
+      const originalText = btn.innerHTML;
+      btn.innerHTML = `<span class="material-symbols-outlined text-[16px] text-primary">done</span><span>Copied!</span>`;
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+      }, 2000);
+    }
+    function switchHeatmapTab(tabBtn, period) {
+      document.querySelectorAll('.heatmap-tab').forEach(b => {
+        b.className = 'heatmap-tab px-space-md py-space-xs rounded-lg text-on-surface-variant font-label-code text-label-code transition-all hover:text-on-surface hover:bg-surface-container-high';
+      });
+      tabBtn.className = 'heatmap-tab px-space-md py-space-xs rounded-lg bg-surface-container-high text-primary font-label-code text-label-code shadow-sm';
+    }
+  </script>
+<!-- Section 1: Page Header & Global Cadence Meta -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container-high text-primary font-label-code text-label-code tracking-wider uppercase">Velocity Module</span>
+<span class="text-outline text-label-code font-label-code">/</span>
+<span class="text-on-surface-variant font-label-code text-label-code">Sprint Phase 01</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Progress &amp; Momentum</h1>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-space-xs">
+<span class="text-on-surface font-semibold">Python for Data Science</span>
+<span>•</span>
+<span>Day 14 of 90</span>
+<span>•</span>
+<span class="text-primary font-semibold">Consistency Score 96%</span>
+</p>
+</div>
+<!-- Quick Actions -->
+<div class="flex items-center gap-space-sm self-start md:self-auto">
+<button class="flex items-center gap-space-xs px-space-md py-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container-high text-on-surface font-body-sm text-body-sm font-semibold transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">download</span>
+<span>Export CSV</span>
+</button>
+<button class="group flex items-center gap-space-xs px-space-lg py-space-sm rounded-xl bg-primary-container text-on-primary font-body-sm text-body-sm font-bold shadow-[0_0_24px_rgba(0,229,153,0.35)] hover:shadow-[0_0_32px_rgba(0,229,153,0.5)] transition-all" onclick="copyShareLink(this)">
+<span class="material-symbols-outlined text-[18px] group-hover:rotate-12 transition-transform">rocket_launch</span>
+<span>Share Progress Card</span>
+</button>
+</div>
+</div>
+<!-- Section 2: Top Row / Split Hero Section (Streak Flame Engine + Social Artifact Preview) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-stretch">
+<!-- Left: Streak Engine Core (7 Cols) -->
+<div class="lg:col-span-7 rounded-2xl bg-surface-container-low p-space-xl flex flex-col justify-between relative overflow-hidden shadow-xl">
+<!-- Cybernetic ambient flame background aura -->
+<div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-tertiary-container/10 blur-3xl pointer-events-none"></div>
+<div class="absolute left-1/3 -bottom-24 w-72 h-72 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
+<!-- Card Top: Status & Percentile -->
+<div class="flex items-start justify-between relative z-10">
+<div class="flex flex-col gap-1">
+<span class="font-label-code text-label-code uppercase tracking-wider text-on-surface-variant">Active Cadence</span>
+<div class="inline-flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-tertiary-container/20 text-tertiary font-label-code text-label-code font-bold shadow-[0_0_16px_rgba(255,87,34,0.2)]">
+<span class="material-symbols-outlined text-[16px] text-tertiary" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span>UNBROKEN PROTOCOL</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-full bg-surface-container-highest text-primary font-label-pill text-label-pill shadow-sm">
+<span class="material-symbols-outlined text-[16px]">bolt</span>
+<span>Top 4% of Active Cohort</span>
+</div>
+</div>
+<!-- Center: Massive Streak Flame Hero Graphic -->
+<div class="my-space-lg flex flex-col sm:flex-row items-center gap-space-xl relative z-10">
+<!-- SVG Custom Radiant Streak Icon with Ambient Glow -->
+<div class="relative flex-shrink-0 w-36 h-36 flex items-center justify-center">
+<div class="absolute inset-0 rounded-full bg-tertiary-container/20 blur-xl animate-pulse"></div>
+<svg class="w-32 h-32 relative drop-shadow-[0_0_24px_rgba(255,122,0,0.45)]" fill="none" viewbox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+<path d="M60 6C60 6 36 34 36 62C36 78 48 94 62 98C56 86 58 72 64 64C68 76 78 82 78 94C94 88 102 70 98 52C94 36 76 22 60 6Z" fill="url(#fireGradientPrimary)"></path>
+<path d="M60 42C60 42 48 58 48 74C48 84 54 94 62 98C58 90 60 82 64 76C68 82 72 88 72 96C82 92 86 82 84 72C82 60 70 52 60 42Z" fill="url(#fireGradientInner)"></path>
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="fireGradientPrimary" x1="60" x2="60" y1="6" y2="98">
+<stop stop-color="#FF9E44"></stop>
+<stop offset="0.55" stop-color="#FF5722"></stop>
+<stop offset="1" stop-color="#D81B60"></stop>
+</lineargradient>
+<lineargradient gradientunits="userSpaceOnUse" id="fireGradientInner" x1="60" x2="60" y1="42" y2="98">
+<stop stop-color="#FFF3E0"></stop>
+<stop offset="0.4" stop-color="#FFB74D"></stop>
+<stop offset="1" stop-color="#FF7A00"></stop>
+</lineargradient>
+</defs>
+</svg>
+<div class="absolute bottom-1 px-space-sm py-0.5 rounded-md bg-surface-container-lowest/90 font-label-code text-label-code font-bold text-tertiary">
+            x14
+          </div>
+</div>
+<div class="flex flex-col text-center sm:text-left">
+<div class="flex items-baseline justify-center sm:justify-start gap-space-sm">
+<span class="font-display-hero text-display-hero font-extrabold text-on-surface leading-none tracking-tight">14</span>
+<span class="font-headline-md text-headline-md font-bold text-on-surface-variant uppercase tracking-wider">Days Streak</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mt-space-xs font-medium">
+            Personal Best Achieved! <span class="text-tertiary font-bold">100% on-schedule</span> across Weeks 1 &amp; 2.
+          </p>
+<div class="flex items-center justify-center sm:justify-start gap-space-md mt-space-sm text-on-surface-variant font-label-code text-label-code">
+<span>Longest Streak: <strong class="text-on-surface">14d</strong></span>
+<span>•</span>
+<span>Next Target: <strong class="text-primary">21d Fortnight Plus</strong></span>
+</div>
+</div>
+</div>
+<!-- Card Bottom: Freeze Reserve Shield Status -->
+<div class="pt-space-md rounded-xl bg-surface-container p-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md relative z-10">
+<div class="flex items-center gap-space-md">
+<div class="flex -space-x-1">
+<div class="w-9 h-9 rounded-xl bg-surface-container-high flex items-center justify-center text-primary shadow-[0_0_12px_rgba(78,222,163,0.3)]">
+<span class="material-symbols-outlined text-[20px]">ac_unit</span>
+</div>
+<div class="w-9 h-9 rounded-xl bg-surface-container-high flex items-center justify-center text-primary shadow-[0_0_12px_rgba(78,222,163,0.3)]">
+<span class="material-symbols-outlined text-[20px]">ac_unit</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-bold text-on-surface flex items-center gap-space-xs">
+              2 / 2 Streak Freezes Equipped
+              <span class="px-space-xs py-0.2 rounded bg-primary/20 text-primary font-label-code text-[10px]">ACTIVE</span>
+</span>
+<span class="font-label-code text-label-code text-on-surface-variant">Auto-recharge on June 1. Safe emergency pitstops enabled.</span>
+</div>
+</div>
+<button class="flex items-center gap-1 text-on-surface-variant hover:text-primary font-label-code text-label-code transition-colors">
+<span class="material-symbols-outlined text-[16px]">help_outline</span>
+<span>How Freezes Work</span>
+</button>
+</div>
+</div>
+<!-- Right: Social Share Proof Card Widget (5 Cols) -->
+<div class="lg:col-span-5 rounded-2xl bg-surface-container-low p-space-xl flex flex-col justify-between shadow-xl relative overflow-hidden">
+<!-- Glow ambient overlay -->
+<div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-primary/10 blur-2xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-primary">share</span>
+<span class="font-label-pill text-label-pill text-on-surface uppercase tracking-wider font-bold">Proof of Work Artifact</span>
+</div>
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-code text-label-code">Auto-rendered</span>
+</div>
+<!-- The Exportable Micro-Card Display -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg flex flex-col gap-space-md relative overflow-hidden shadow-2xl" id="exportableCard">
+<!-- Card Brand Bar -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<div class="w-6 h-6 rounded-lg bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[14px]">hub</span>
+</div>
+<span class="font-headline-sm text-body-sm font-bold tracking-tight text-on-surface">Roadie</span>
+</div>
+<span class="font-label-code text-label-code text-on-surface-variant">@alexkumar_dev</span>
+</div>
+<!-- Punchy Content Block -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[20px]" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-extrabold tracking-tight">14-Day Streak Unbroken</span>
+</div>
+<p class="font-label-code text-label-code text-primary">Python for Data Science • Daily Grind</p>
+</div>
+<!-- Metric Triple-Pill inside Share Card -->
+<div class="grid grid-cols-3 gap-space-xs text-center py-space-xs">
+<div class="rounded-lg bg-surface-container-low p-space-xs flex flex-col">
+<span class="font-label-code text-label-code font-bold text-on-surface">420m</span>
+<span class="font-label-code text-[10px] text-on-surface-variant uppercase">Time Logged</span>
+</div>
+<div class="rounded-lg bg-surface-container-low p-space-xs flex flex-col">
+<span class="font-label-code text-label-code font-bold text-primary">68%</span>
+<span class="font-label-code text-[10px] text-on-surface-variant uppercase">Phase 1 Done</span>
+</div>
+<div class="rounded-lg bg-surface-container-low p-space-xs flex flex-col">
+<span class="font-label-code text-label-code font-bold text-tertiary">Top 4%</span>
+<span class="font-label-code text-[10px] text-on-surface-variant uppercase">Pace Index</span>
+</div>
+</div>
+<!-- Savvy Quote Pill -->
+<div class="rounded-lg bg-surface-container px-space-md py-space-sm flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px] flex-shrink-0">format_quote</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant italic">"Python won't build the models itself. 14 days down, 76 to go."</span>
+</div>
+<div class="flex items-center justify-between pt-space-xs text-[11px] font-label-code text-outline">
+<span>roadmap.roadie.dev/alex-kumar</span>
+<span>Verified • 2025</span>
+</div>
+</div>
+<!-- Action Footer for Card Sharing -->
+<div class="grid grid-cols-3 gap-space-xs mt-space-md">
+<button class="flex items-center justify-center gap-space-xs px-space-sm py-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm text-body-sm font-semibold transition-all" onclick="copyShareLink(this)">
+<span class="material-symbols-outlined text-[16px]">link</span>
+<span>Copy Link</span>
+</button>
+<button class="flex items-center justify-center gap-space-xs px-space-sm py-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm text-body-sm font-semibold transition-all">
+<span class="material-symbols-outlined text-[16px]">image</span>
+<span>Save PNG</span>
+</button>
+<button class="flex items-center justify-center gap-space-xs px-space-sm py-space-sm rounded-xl bg-surface-container-high hover:bg-surface-bright text-primary font-body-sm text-body-sm font-bold transition-all">
+<span class="material-symbols-outlined text-[16px]">send</span>
+<span>Post to X</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Section 3: Key Performance Metrics Row (4 Metrics) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Stat 1: Tasks Completed -->
+<div class="rounded-2xl bg-surface-container-low p-space-lg flex flex-col justify-between shadow-md hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code uppercase tracking-wider text-on-surface-variant">Tasks Completed</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+</div>
+</div>
+<div class="my-space-md">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg font-extrabold text-on-surface">28</span>
+<span class="font-body-md text-body-md text-on-surface-variant">/ 180 tasks</span>
+</div>
+<!-- Progress Bar Line -->
+<div class="w-full h-1.5 rounded-full bg-surface-container-highest mt-space-sm overflow-hidden">
+<div class="h-full rounded-full bg-primary" style="width: 15.5%;"></div>
+</div>
+</div>
+<div class="flex items-center justify-between font-label-code text-label-code">
+<span class="text-primary flex items-center gap-0.5 font-semibold">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span> +4 completed today
+        </span>
+<span class="text-on-surface-variant">On Track</span>
+</div>
+</div>
+<!-- Stat 2: Total Time Learned -->
+<div class="rounded-2xl bg-surface-container-low p-space-lg flex flex-col justify-between shadow-md hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code uppercase tracking-wider text-on-surface-variant">Total Deep Time</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">timelapse</span>
+</div>
+</div>
+<div class="my-space-md">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg font-extrabold text-on-surface">18.5</span>
+<span class="font-body-md text-body-md text-on-surface-variant">hrs</span>
+</div>
+<!-- Weekly Sparkline representation inline SVG -->
+<div class="h-6 w-full mt-space-xs flex items-end">
+<svg class="w-full h-6 overflow-visible text-primary" fill="none" viewbox="0 0 100 24">
+<path d="M0 20 L15 18 L30 14 L45 16 L60 8 L75 10 L90 3 L100 2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+<path d="M0 20 L15 18 L30 14 L45 16 L60 8 L75 10 L90 3 L100 2 L100 24 L0 24 Z" fill="url(#sparklineGrad)" opacity="0.15"></path>
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="sparklineGrad" x1="0" x2="0" y1="0" y2="24">
+<stop stop-color="#6dffba"></stop>
+<stop offset="1" stop-color="#10141a" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+</div>
+<div class="flex items-center justify-between font-label-code text-label-code">
+<span class="text-primary font-semibold">+25% vs last week</span>
+<span class="text-on-surface-variant">420m this week</span>
+</div>
+</div>
+<!-- Stat 3: Roadmap Completion -->
+<div class="rounded-2xl bg-surface-container-low p-space-lg flex flex-col justify-between shadow-md hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code uppercase tracking-wider text-on-surface-variant">Roadmap Velocity</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">alt_route</span>
+</div>
+</div>
+<div class="my-space-md flex items-center justify-between">
+<div>
+<div class="font-headline-lg text-headline-lg font-extrabold text-on-surface">15.5%</div>
+<span class="font-label-code text-label-code text-on-surface-variant">14 / 90 Days Logged</span>
+</div>
+<!-- Mini Radial Gauge SVG -->
+<div class="w-12 h-12 relative flex items-center justify-center flex-shrink-0">
+<svg class="w-12 h-12 -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="15.5, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-label-code text-[9px] font-bold text-primary">15%</span>
+</div>
+</div>
+<div class="flex items-center justify-between font-label-code text-label-code">
+<span class="text-on-surface-variant">Target finish: <strong class="text-on-surface">July 28</strong></span>
+<span class="text-primary font-bold">Ahead 2d</span>
+</div>
+</div>
+<!-- Stat 4: Consistency Rate -->
+<div class="rounded-2xl bg-surface-container-low p-space-lg flex flex-col justify-between shadow-md hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code uppercase tracking-wider text-on-surface-variant">Habit Adherence</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+</div>
+</div>
+<div class="my-space-md">
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg font-extrabold text-on-surface">96%</span>
+<span class="font-label-code text-label-code text-primary font-bold">Reliability</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-xs">
+          Zero missed slots. 1 strategic freeze deployed.
+        </p>
+</div>
+<div class="flex items-center justify-between font-label-code text-label-code">
+<span class="text-on-surface-variant">Strict Schedule Mode</span>
+<span class="text-primary flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span> Live
+        </span>
+</div>
+</div>
+</div>
+<!-- Section 4: Full-Width Monthly Activity Calendar Heatmap -->
+<div class="rounded-2xl bg-surface-container-low p-space-xl flex flex-col gap-space-lg shadow-xl relative overflow-hidden">
+<!-- Header with Filter Tabs -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Activity &amp; Cadence Heatmap</h2>
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-code text-label-code">May 2025</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Every completed micro-session across your personalized curriculum.</p>
+</div>
+<!-- Heatmap Range Controls -->
+<div class="flex items-center gap-space-xs bg-surface-container p-1 rounded-xl self-start sm:self-auto">
+<button class="heatmap-tab px-space-md py-space-xs rounded-lg bg-surface-container-high text-primary font-label-code text-label-code shadow-sm" onclick="switchHeatmapTab(this, 'may')">
+          May 2025 (Current)
+        </button>
+<button class="heatmap-tab px-space-md py-space-xs rounded-lg text-on-surface-variant font-label-code text-label-code transition-all hover:text-on-surface hover:bg-surface-container-high" onclick="switchHeatmapTab(this, 'apr')">
+          April 2025
+        </button>
+<button class="heatmap-tab px-space-md py-space-xs rounded-lg text-on-surface-variant font-label-code text-label-code transition-all hover:text-on-surface hover:bg-surface-container-high" onclick="switchHeatmapTab(this, 'all')">
+          Full Year
+        </button>
+</div>
+</div>
+<!-- Monthly Calendar Layout (Grid 7 columns for Mon-Sun) -->
+<div class="flex flex-col gap-space-sm">
+<!-- Weekday Labels -->
+<div class="grid grid-cols-7 gap-space-sm text-center font-label-code text-label-code text-on-surface-variant font-semibold">
+<span>MON</span>
+<span>TUE</span>
+<span>WED</span>
+<span>THU</span>
+<span>FRI</span>
+<span>SAT</span>
+<span>SUN</span>
+</div>
+<!-- Calendar Days Grid (May 2025: May 1 is Thursday -> 3 empty padding slots) -->
+<div class="grid grid-cols-7 gap-space-sm">
+<!-- April overflow days (Dim/Inactive) -->
+<div class="rounded-xl bg-surface-container-lowest/40 h-24 p-space-sm flex flex-col justify-between opacity-30">
+<span class="font-label-code text-label-code">28</span>
+</div>
+<div class="rounded-xl bg-surface-container-lowest/40 h-24 p-space-sm flex flex-col justify-between opacity-30">
+<span class="font-label-code text-label-code">29</span>
+</div>
+<div class="rounded-xl bg-surface-container-lowest/40 h-24 p-space-sm flex flex-col justify-between opacity-30">
+<span class="font-label-code text-label-code">30</span>
+</div>
+<!-- Day 1: May 1 (Thu) - Completed 45m -->
+<div class="group relative rounded-xl bg-surface-container p-space-sm h-24 flex flex-col justify-between hover:bg-surface-container-high transition-all">
+<div class="flex justify-between items-start">
+<span class="font-label-code text-label-code font-bold text-on-surface">01</span>
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#00e599]"></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-[11px] text-primary font-bold">45m</span>
+<span class="font-label-code text-[10px] text-on-surface-variant truncate">Python Syntax</span>
+</div>
+</div>
+<!-- Day 2: May 2 (Fri) - Completed 60m -->
+<div class="group relative rounded-xl bg-surface-container p-space-sm h-24 flex flex-col justify-between hover:bg-surface-container-high transition-all">
+<div class="flex justify-between items-start">
+<span class="font-label-code text-label-code font-bold text-on-surface">02</span>
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#00e599]"></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-[11px] text-primary font-bold">60m</span>
+<span class="font-label-code text-[10px] text-on-surface-variant truncate">Variables &amp; Types</span>
+</div>
+</div>
+<!-- Day 3: May 3 (Sat) - Completed 90m (Intense) -->
+<div class="group relative rounded-xl bg-surface-container-high p-space-sm h-24 flex flex-col justify-between shadow-[0_0_12px_rgba(0,229,153,0.1)] transition-all">
+<div class="flex justify-between items-start">
+<span class="font-label-code text-label-code font-bold text-on-surface">03</span>
+<div class="flex gap-0.5">
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#00e599]"></span>
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#00e599]"></span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-[11px] text-primary font-bold">90m</span>
+<span class="font-label-code text-[10px] text-on-surface-variant truncate">Data Structs Deep</span>
+</div>
+</div>
+<!-- Day 4: May 4 (Sun) - Completed 30m -->
+<div class="group relative rounded-xl bg-surface-container p-space-sm h-24 flex flex-col justify-between hover:bg-surface-container-high transition-all">
+<div class="flex justify-between items-start">
+<span class="font-label-code text-label-code font-bold text-on-surface">04</span>
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-[11px] text-secondary font-bold">30m</span>
+<span class="font-label-code text-[10px] text-on-surface-variant truncate">Lists &amp; Tuples</span>
+</div>
+</div>
+<!-- Day 5: May 5 (Mon) -->
+<div class="group relative rounded-xl bg-surface-container p-space-sm h-24 flex flex-col justify-between hover:bg-surface-container-high transition-all">
+<div class="flex justify-between items-start">
+<span class="font-label-code text-label-code font-bold text-on-surface">05</span>
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#00e599]"></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-[11px] text-primary font-bold">50m</span>
+<span class="font-label-code text-[10px] text-on-surface-variant truncate">Dictionaries</span>
+</div>
+</div>
+<!-- Day 6: May 6 (Tue) -->
+<div class="group relative rounded-xl bg-surface-container p-space-sm h-24 flex flex-col justify-between hover:bg-surface-container-high transition-all">
+<div class="flex justify-between items-start">
+<span class="font-label-code text-label-code font-bold text-on-surface">06</span>
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#00e599]"></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-[11px] text-primary font-bold">60m</span>
+<span class="font-label-code text-[10px] text-on-surface-variant truncate">Control Flow</span>
+</div>
+</div>
+<!-- Day 7: May 7 (Wed) -->
+<div class="group relative rounded-xl bg-surface-container p-space-sm h-24 flex flex-col justify-between hover:bg-surface-container-high transition-all">
+<div class="flex justify-between items-start">
+<span class="font-label-code text-label-code font-bold text-on-surface">07</span>
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#00e599]"></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-[11px] text-primary font-bold">45m</span>
+<span class="font-label-code text-[10px] text-on-surface-variant truncate">Loops &amp; Compreh.</span>
+</div>
+</div>
+<!-- Day 8: May 8 (Thu) -->
+<div class="group relative rounded-xl bg-surface-container p-space-sm h-24 flex flex-col justify-between hover:bg-surface-container-high transition-all">
+<div class="flex justify-between items-start">
+<span class="font-label-code text-label-code font-bold text-on-surface">08</span>
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#00e599]"></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-[11px] text-primary font-bold">75m</span>
+<span class="font-label-code text-[10px] text-on-surface-variant truncate">Function Scopes</span>
+</div>
+</div>
+<!-- Day 9: May 9 (Fri) -->
+<div class="group relative rounded-xl bg-surface-container p-space-sm h-24 flex flex-col justify-between hover:bg-surface-container-high transition-all">
+<div class="flex justify-between items-start">
+<span class="font-label-code text-label-code font-bold text-on-surface">09</span>
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#00e599]"></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-[11px] text-primary font-bold">45m</span>
+<span class="font-label-code text-[10px] text-on-surface-variant truncate">Lambda &amp; Maps</span>
+</div>
+</div>
+<!-- Day 10: May 10 (Sat) -->
+<div class="group relative rounded-xl bg-surface-container p-space-sm h-24 flex flex-col justify-between hover:bg-surface-container-high transition-all">
+<div class="flex justify-between items-start">
+<span class="font-label-code text-label-code font-bold text-on-surface">10</span>
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#00e599]"></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-[11px] text-primary font-bold">90m</span>
+<span class="font-label-code text-[10px] text-on-surface-variant truncate">Mini-Project #1</span>
+</div>
+</div>
+<!-- Day 11: May 11 (Sun) -->
+<div class="group relative rounded-xl bg-surface-container p-space-sm h-24 flex flex-col justify-between hover:bg-surface-container-high transition-all">
+<div class="flex justify-between items-start">
+<span class="font-label-code text-label-code font-bold text-on-surface">11</span>
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-[11px] text-secondary font-bold">35m</span>
+<span class="font-label-code text-[10px] text-on-surface-variant truncate">Module Imports</span>
+</div>
+</div>
+<!-- Day 12: May 12 (Mon) -->
+<div class="group relative rounded-xl bg-surface-container p-space-sm h-24 flex flex-col justify-between hover:bg-surface-container-high transition-all">
+<div class="flex justify-between items-start">
+<span class="font-label-code text-label-code font-bold text-on-surface">12</span>
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#00e599]"></span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-[11px] text-primary font-bold">60m</span>
+<span class="font-label-code text-[10px] text-on-surface-variant truncate">Error Handling</span>
+</div>
+</div>
+<!-- Day 13: May 13 (Tue) - FREEZE USED PITSTOP! Distinct Cyan Frosting Style -->
+<div class="group relative rounded-xl bg-surface-container-highest p-space-sm h-24 flex flex-col justify-between shadow-[0_0_16px_rgba(78,222,163,0.25)] transition-all">
+<div class="flex justify-between items-start">
+<span class="font-label-code text-label-code font-bold text-secondary">13</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">ac_unit</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-[11px] text-secondary font-bold">Freeze Pitstop</span>
+<span class="font-label-code text-[10px] text-on-surface-variant truncate">Streak Preserved</span>
+</div>
+</div>
+<!-- Day 14: May 14 (Wed) - TODAY! Pulsating neon border and active progress ring -->
+<div class="group relative rounded-xl bg-surface-container-high p-space-sm h-24 flex flex-col justify-between shadow-[0_0_24px_rgba(0,229,153,0.25)] transition-all">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-1">
+<span class="font-label-code text-label-code font-bold text-primary">14</span>
+<span class="px-space-xs py-0.2 rounded bg-primary text-on-primary font-label-code text-[9px] font-extrabold uppercase">TODAY</span>
+</div>
+<div class="w-2.5 h-2.5 rounded-full bg-primary animate-ping"></div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-[11px] text-primary font-bold">20m / 60m</span>
+<span class="font-label-code text-[10px] text-on-surface font-semibold truncate">OOP: Classes &amp; Self</span>
+</div>
+</div>
+<!-- Day 15: May 15 (Thu) - Scheduled/Upcoming -->
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-70">
+<div class="flex justify-between items-start">
+<span class="font-label-code text-label-code text-on-surface-variant">15</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">lock_clock</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-code text-[11px] text-on-surface-variant">Scheduled</span>
+<span class="font-label-code text-[10px] text-on-surface-variant/70 truncate">Dunder Methods</span>
+</div>
+</div>
+<!-- Day 16: May 16 (Fri) - Upcoming -->
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-50">
+<span class="font-label-code text-label-code text-on-surface-variant">16</span>
+<span class="font-label-code text-[10px] text-on-surface-variant/70 truncate">Inheritance</span>
+</div>
+<!-- Day 17: May 17 (Sat) - Upcoming -->
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-50">
+<span class="font-label-code text-label-code text-on-surface-variant">17</span>
+<span class="font-label-code text-[10px] text-on-surface-variant/70 truncate">Phase 1 Capstone</span>
+</div>
+<!-- Day 18: May 18 (Sun) - Upcoming -->
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-40">
+<span class="font-label-code text-label-code text-on-surface-variant">18</span>
+<span class="font-label-code text-[10px] text-on-surface-variant/60 truncate">Weekly Review</span>
+</div>
+<!-- Day 19-31: Further days in May (compact dimmed preview) -->
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-30">
+<span class="font-label-code text-label-code text-on-surface-variant">19</span>
+</div>
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-30">
+<span class="font-label-code text-label-code text-on-surface-variant">20</span>
+</div>
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-30">
+<span class="font-label-code text-label-code text-on-surface-variant">21</span>
+</div>
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-30">
+<span class="font-label-code text-label-code text-on-surface-variant">22</span>
+</div>
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-30">
+<span class="font-label-code text-label-code text-on-surface-variant">23</span>
+</div>
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-30">
+<span class="font-label-code text-label-code text-on-surface-variant">24</span>
+</div>
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-30">
+<span class="font-label-code text-label-code text-on-surface-variant">25</span>
+</div>
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-20">
+<span class="font-label-code text-label-code text-on-surface-variant">26</span>
+</div>
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-20">
+<span class="font-label-code text-label-code text-on-surface-variant">27</span>
+</div>
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-20">
+<span class="font-label-code text-label-code text-on-surface-variant">28</span>
+</div>
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-20">
+<span class="font-label-code text-label-code text-on-surface-variant">29</span>
+</div>
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-20">
+<span class="font-label-code text-label-code text-on-surface-variant">30</span>
+</div>
+<div class="rounded-xl bg-surface-container-lowest p-space-sm h-24 flex flex-col justify-between opacity-20">
+<span class="font-label-code text-label-code text-on-surface-variant">31</span>
+</div>
+<div class="rounded-xl bg-surface-container-lowest/20 h-24 p-space-sm flex flex-col justify-between opacity-10">
+<span class="font-label-code text-label-code">Jun 01</span>
+</div>
+</div>
+</div>
+<!-- Calendar Legend & Summary Stats -->
+<div class="pt-space-md flex flex-col md:flex-row items-center justify-between gap-space-md text-on-surface-variant font-label-code text-label-code">
+<div class="flex items-center gap-space-lg flex-wrap">
+<div class="flex items-center gap-space-xs">
+<span class="text-on-surface-variant">Intensity:</span>
+<span class="w-3.5 h-3.5 rounded bg-surface-container-highest"></span>
+<span class="w-3.5 h-3.5 rounded bg-secondary-container"></span>
+<span class="w-3.5 h-3.5 rounded bg-primary-container shadow-[0_0_8px_#00e599]"></span>
+<span class="text-on-surface font-semibold">90m+</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-secondary">ac_unit</span>
+<span>Freeze Pitstop (No streak penalty)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-primary animate-ping"></span>
+<span class="text-primary font-semibold">In Progress (Today)</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<span>Current Velocity: <strong class="text-on-surface">30.0 hrs/mo</strong></span>
+<span>•</span>
+<span>Completion Projection: <strong class="text-primary">100% on July 28</strong></span>
+</div>
+</div>
+</div>
+<!-- Section 5: Milestone Badges & Trophy Hall (Gamification) -->
+<div class="rounded-2xl bg-surface-container-low p-space-xl flex flex-col gap-space-lg shadow-xl">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">military_tech</span>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Earned &amp; Upcoming Milestones</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Precision achievements unlocked through authentic habit proof.</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="px-space-md py-space-xs rounded-full bg-surface-container text-primary font-label-code text-label-code font-bold">
+          3 Unlocked • 4 Locked
+        </span>
+</div>
+</div>
+<!-- 7 Collectible Badges Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Badge 1: First Spark (Unlocked) -->
+<div class="rounded-xl bg-surface-container p-space-lg flex flex-col justify-between relative group hover:bg-surface-container-high transition-all shadow-md">
+<div class="flex items-start justify-between">
+<div class="w-12 h-12 rounded-2xl bg-primary-container text-on-primary-container flex items-center justify-center shadow-[0_0_20px_rgba(0,229,153,0.4)]">
+<span class="material-symbols-outlined text-[24px]">electric_bolt</span>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-primary/20 text-primary font-label-code text-[10px] font-bold">UNLOCKED</span>
+</div>
+<div class="my-space-md flex flex-col gap-space-xs">
+<h3 class="font-headline-sm text-body-lg font-bold text-on-surface">First Spark</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Completed Day 1 kick-off and initial Python setup.</p>
+</div>
+<span class="font-label-code text-label-code text-on-surface-variant">Unlocked May 1, 2025</span>
+</div>
+<!-- Badge 2: Fortnight Warrior (Unlocked - Fresh Today!) -->
+<div class="rounded-xl bg-surface-container-high p-space-lg flex flex-col justify-between relative group shadow-[0_0_20px_rgba(255,122,0,0.2)] transition-all">
+<div class="flex items-start justify-between">
+<div class="w-12 h-12 rounded-2xl bg-tertiary-container/30 text-tertiary flex items-center justify-center shadow-[0_0_20px_rgba(255,87,34,0.35)]">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-tertiary-container/30 text-tertiary font-label-code text-[10px] font-bold">NEW TODAY</span>
+</div>
+<div class="my-space-md flex flex-col gap-space-xs">
+<h3 class="font-headline-sm text-body-lg font-bold text-on-surface">Fortnight Warrior</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Held unbroken momentum for 14 continuous days.</p>
+</div>
+<span class="font-label-code text-label-code text-tertiary font-semibold">Unlocked Today!</span>
+</div>
+<!-- Badge 3: Syntax Sorcerer (Unlocked) -->
+<div class="rounded-xl bg-surface-container p-space-lg flex flex-col justify-between relative group hover:bg-surface-container-high transition-all shadow-md">
+<div class="flex items-start justify-between">
+<div class="w-12 h-12 rounded-2xl bg-secondary-container/30 text-secondary flex items-center justify-center shadow-[0_0_20px_rgba(78,222,163,0.3)]">
+<span class="material-symbols-outlined text-[24px]">terminal</span>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-secondary/20 text-secondary font-label-code text-[10px] font-bold">UNLOCKED</span>
+</div>
+<div class="my-space-md flex flex-col gap-space-xs">
+<h3 class="font-headline-sm text-body-lg font-bold text-on-surface">Syntax Sorcerer</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Zero compile errors across Week 1 exercises.</p>
+</div>
+<span class="font-label-code text-label-code text-on-surface-variant">Unlocked May 7, 2025</span>
+</div>
+<!-- Badge 4: CLI Master (In Progress • 65%) -->
+<div class="rounded-xl bg-surface-container p-space-lg flex flex-col justify-between relative group hover:bg-surface-container-high transition-all shadow-md">
+<div class="flex items-start justify-between">
+<div class="w-12 h-12 rounded-2xl bg-surface-container-highest text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">code_blocks</span>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-highest text-primary font-label-code text-[10px] font-bold">65% DONE</span>
+</div>
+<div class="my-space-md flex flex-col gap-space-xs">
+<h3 class="font-headline-sm text-body-lg font-bold text-on-surface">CLI Master</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Build 5 terminal command scripts. (3/5 done).</p>
+<div class="w-full h-1.5 rounded-full bg-surface-container-highest mt-space-xs overflow-hidden">
+<div class="h-full rounded-full bg-primary" style="width: 65%;"></div>
+</div>
+</div>
+<span class="font-label-code text-label-code text-on-surface-variant">Target: Day 21 (May 21)</span>
+</div>
+<!-- Badge 5: 30-Day Relentless (Locked • 14/30) -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg flex flex-col justify-between relative opacity-60 hover:opacity-80 transition-all">
+<div class="flex items-start justify-between">
+<div class="w-12 h-12 rounded-2xl bg-surface-container-high text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">lock</span>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-on-surface-variant font-label-code text-[10px]">14 / 30 DAYS</span>
+</div>
+<div class="my-space-md flex flex-col gap-space-xs">
+<h3 class="font-headline-sm text-body-lg font-bold text-on-surface">30-Day Relentless</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Maintain your study rhythm without a break through Phase 1.</p>
+</div>
+<span class="font-label-code text-label-code text-on-surface-variant">16 days remaining</span>
+</div>
+<!-- Badge 6: Half Marathon (Locked • Day 45) -->
+<div class="rounded-xl bg-surface-container-lowest p-space-lg flex flex-col justify-between relative opacity-60 hover:opacity-80 transition-all">
+<div class="flex items-start justify-between">
+<div class="w-12 h-12 rounded-2xl bg-surface-container-high text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">military_tech</span>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-on-surface-variant font-label-code text-[10px]">DAY 45 MILESTONE</span>
+</div>
+<div class="my-space-md flex flex-col gap-space-xs">
+<h3 class="font-headline-sm text-body-lg font-bold text-on-surface">Half Marathon</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Complete 50% of the entire 90-day master curriculum.</p>
+</div>
+<span class="font-label-code text-label-code text-on-surface-variant">Locked • Midpoint</span>
+</div>
+<!-- Badge 7: Consensus Finisher (Locked • 90 Days) -->
+<div class="col-span-1 sm:col-span-2 lg:col-span-2 rounded-xl bg-surface-container-lowest p-space-lg flex flex-col justify-between relative opacity-50 hover:opacity-80 transition-all">
+<div class="flex items-start justify-between">
+<div class="w-12 h-12 rounded-2xl bg-surface-container-high text-tertiary-fixed-dim flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">trophy</span>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-tertiary font-label-code text-[10px] font-bold">THE PINNACLE</span>
+</div>
+<div class="my-space-md flex flex-col gap-space-xs">
+<h3 class="font-headline-sm text-body-lg font-bold text-on-surface">Consensus Finisher (90 Days)</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Master all 3 phases of Python for Data Science, complete 180 practical tasks, and graduate with production portfolio proof.</p>
+</div>
+<div class="flex items-center justify-between font-label-code text-label-code">
+<span class="text-on-surface-variant">Status: In Transit (14 / 90 Days)</span>
+<span class="text-primary font-bold">Graduation Reward: Gold Certificate NFT</span>
+</div>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

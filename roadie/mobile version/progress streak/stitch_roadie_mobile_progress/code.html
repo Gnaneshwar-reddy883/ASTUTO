@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#10141a;color:#dfe2eb;}body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface": "#10141a", "surface-dim": "#10141a", "on-error": "#690005", "outline": "#849589", "surface-container": "#1c2026", "on-secondary": "#003824", "on-secondary-fixed-variant": "#005236", "surface-variant": "#31353c", "primary-fixed-dim": "#00e297", "on-tertiary-fixed-variant": "#862200", "on-error-container": "#ffdad6", "tertiary": "#ffded5", "on-tertiary-container": "#9e2900", "secondary-container": "#00a572", "on-tertiary": "#5f1500", "on-background": "#dfe2eb", "tertiary-container": "#ffb8a4", "on-secondary-fixed": "#002113", "on-surface-variant": "#bacbbe", "on-surface": "#dfe2eb", "surface-container-lowest": "#0a0e14", "surface-bright": "#353940", "secondary-fixed": "#6ffbbe", "surface-container-highest": "#31353c", "inverse-surface": "#dfe2eb", "surface-container-low": "#181c22", "inverse-primary": "#006c46", "on-secondary-container": "#00311f", "on-primary-container": "#00613e", "on-tertiary-fixed": "#3b0900", "inverse-on-surface": "#2d3137", "on-primary-fixed": "#002112", "primary-fixed": "#4dffb2", "error": "#ffb4ab", "secondary-fixed-dim": "#4edea3", "on-primary-fixed-variant": "#005234", "primary": "#6dffba", "secondary": "#4edea3", "primary-container": "#00e599", "tertiary-fixed": "#ffdbd1", "background": "#10141a", "outline-variant": "#3b4a41", "on-primary": "#003822", "surface-container-high": "#262a31", "tertiary-fixed-dim": "#ffb5a0", "surface-tint": "#00e297", "error-container": "#93000a" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xs": "0.25rem", "margin-mobile": "1.25rem", "gutter": "1.5rem", "space-sm": "0.5rem", "space-lg": "1.5rem", "gutter-mobile": "1rem", "margin": "2rem", "space-xl": "2.5rem", "space-md": "1rem" }, fontFamily: { "body-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "display-hero-mobile": ["Plus Jakarta Sans"], "label-code": ["JetBrains Mono"], "headline-lg": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "label-pill": ["Plus Jakarta Sans"], "display-hero": ["Plus Jakarta Sans"] }, fontSize: { "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "body-sm": ["13px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "body-md": ["15px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "display-hero-mobile": ["38px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "800" }], "label-code": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }], "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "label-pill": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "display-hero": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.03em", "fontWeight": "800" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface font-body-md text-on-surface antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_12px_rgba(0,0,0,0.35)]"><div class="h-16 px-margin-mobile flex items-center justify-between"><div class="flex items-center gap-2.5"><div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center shadow-[0_0_12px_rgba(109,255,186,0.15)]"><span class="material-symbols-outlined text-primary text-[20px]">explore</span></div><div class="flex flex-col"><span class="font-headline-sm text-[17px] leading-tight font-bold tracking-tight text-on-surface">Roadie</span><span class="font-label-code text-[10px] tracking-wider uppercase text-on-surface-variant leading-none">Roadie   Roadmap</span></div></div><div class="flex items-center gap-space-sm"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high/90 border border-outline-variant/30 shadow-[0_0_16px_rgba(255,107,0,0.15)]"><span class="material-symbols-outlined text-[#ff7a00] text-[16px] leading-none">local_fire_department</span><span class="font-label-code text-[12px] font-semibold text-[#ffb5a0] leading-none">14</span></div><div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant/40 flex items-center justify-center overflow-hidden hover:border-primary/50 transition-colors"><span class="material-symbols-outlined text-primary text-[20px]">account_circle</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-20 bg-surface"><div class="flex flex-col w-full px-margin-mobile pb-8 space-y-5">
+<!-- Skill Track Breadcrumb -->
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center space-x-2">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-label-code text-label-code">
+<span class="w-1.5 h-1.5 rounded-full bg-primary mr-1.5 animate-pulse"></span>
+        PYTHON FOR DATA SCIENCE
+      </span>
+<span class="text-on-surface-variant font-label-code text-label-code">DAY 14/90</span>
+</div>
+<div class="flex items-center space-x-1 text-on-surface-variant font-label-code text-label-code bg-surface-container-low px-2 py-1 rounded-lg">
+<span class="material-symbols-outlined text-[14px] text-primary">speed</span>
+<span>VELOCITY 1.05x</span>
+</div>
+</div>
+<!-- Hero Streak Section -->
+<div class="relative overflow-hidden rounded-2xl bg-surface-container-low p-5 shadow-xl">
+<!-- Radial cyber-lime ambient glow -->
+<div class="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-16 -left-16 w-44 h-44 rounded-full bg-[#ff7a00]/15 blur-3xl pointer-events-none"></div>
+<div class="flex flex-col items-center text-center relative z-10 py-1">
+<!-- Fiery animated badge container -->
+<div class="relative w-28 h-28 flex items-center justify-center mb-3">
+<!-- Backlit flame rings -->
+<div class="absolute inset-0 rounded-full bg-gradient-to-tr from-[#ff7a00]/30 to-primary/20 blur-md animate-pulse"></div>
+<div class="w-24 h-24 rounded-full bg-surface-container-high flex flex-col items-center justify-center shadow-lg relative">
+<!-- Animated dual glow fire icon -->
+<div class="relative flex items-center justify-center">
+<span class="material-symbols-outlined text-[#ff7a00] text-[44px]" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="material-symbols-outlined text-primary text-[18px] absolute -top-1 -right-1 animate-bounce" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface tracking-tight leading-none mt-0.5">14</span>
+<span class="font-label-code text-[9px] uppercase tracking-wider text-on-surface-variant">DAYS</span>
+</div>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high/70 text-on-surface font-label-pill text-label-pill mb-1">
+<span>Current Streak</span>
+<span class="text-[#ff7a00]">🔥</span>
+<span class="text-on-surface-variant">•</span>
+<span class="text-primary font-semibold">Personal Best!</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-[280px]">
+        You are in the top <span class="text-primary font-semibold">4% of learners</span> this week. Complete today's module to preserve flame velocity.
+      </p>
+<!-- Streak Freeze Inventory -->
+<div class="w-full mt-4 pt-3.5 border-t border-surface-container-highest/60 flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<div class="flex space-x-1">
+<span class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">ac_unit</span>
+</span>
+<span class="w-7 h-7 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">ac_unit</span>
+</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="font-label-pill text-label-pill text-on-surface font-semibold">2 / 2 Freezes Ready</span>
+<span class="font-label-code text-[11px] text-on-surface-variant">Auto-shields 1 missed session</span>
+</div>
+</div>
+<button class="px-2.5 py-1 rounded-lg bg-surface-container-high text-on-surface-variant font-label-code text-label-code hover:text-on-surface active:scale-95 transition-all" id="freezeInfoBtn">
+          EQUIPPED
+        </button>
+</div>
+</div>
+</div>
+<!-- Key Stats 2x2 Grid -->
+<div class="grid grid-cols-2 gap-3">
+<!-- Stat 1: Tasks -->
+<div class="rounded-2xl bg-surface-container-low p-3.5 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase">Tasks Done</span>
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">task_alt</span>
+</div>
+</div>
+<div class="mt-2.5">
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">28 <span class="font-body-sm text-body-sm font-normal text-on-surface-variant">/ 180</span></div>
+<div class="flex items-center text-primary font-label-code text-[11px] mt-0.5">
+<span class="material-symbols-outlined text-[13px] mr-0.5">check_circle</span>
+<span>100% on-time pace</span>
+</div>
+</div>
+</div>
+<!-- Stat 2: Time Logged -->
+<div class="rounded-2xl bg-surface-container-low p-3.5 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase">Focus Time</span>
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">hourglass_top</span>
+</div>
+</div>
+<div class="mt-2.5">
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">820 <span class="font-body-sm text-body-sm font-normal text-on-surface-variant">mins</span></div>
+<div class="text-on-surface-variant font-label-code text-[11px] mt-0.5">
+<span>~13.6 hrs hands-on</span>
+</div>
+</div>
+</div>
+<!-- Stat 3: Plan Complete -->
+<div class="rounded-2xl bg-surface-container-low p-3.5 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase">Syllabus</span>
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">analytics</span>
+</div>
+</div>
+<div class="mt-2.5">
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">15.5%</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden mt-1.5">
+<div class="bg-primary h-full rounded-full" style="width: 16%;"></div>
+</div>
+<div class="text-on-surface-variant font-label-code text-[11px] mt-1">14 of 90 days total</div>
+</div>
+</div>
+<!-- Stat 4: Weekly Velocity -->
+<div class="rounded-2xl bg-surface-container-low p-3.5 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-code text-on-surface-variant uppercase">Velocity</span>
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-[#ff7a00]">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+</div>
+</div>
+<div class="mt-2.5">
+<div class="font-headline-sm text-headline-sm font-bold text-primary">1.05x</div>
+<div class="flex items-center text-on-surface-variant font-label-code text-[11px] mt-0.5">
+<span class="text-primary font-semibold mr-1">+0.05x</span> ahead of goal
+        </div>
+</div>
+</div>
+</div>
+<!-- Monthly Habit Calendar Heatmap -->
+<div class="rounded-2xl bg-surface-container-low p-4 space-y-3 shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-primary text-[20px]">calendar_month</span>
+<span class="font-headline-sm text-[16px] font-bold text-on-surface">May 2025 Activity</span>
+</div>
+<span class="font-label-code text-label-code text-primary bg-primary/10 px-2.5 py-0.5 rounded-full font-semibold">14/14 DAYS ACTIVE</span>
+</div>
+<!-- Day Headers -->
+<div class="grid grid-cols-7 gap-1 text-center font-label-code text-[11px] text-on-surface-variant py-1">
+<span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+</div>
+<!-- Calendar Cells Grid -->
+<div class="grid grid-cols-7 gap-1.5 text-center font-label-code text-[11px]">
+<!-- Empty offset for Thursday start (3 days offset: M,T,W empty) -->
+<div class="h-8 rounded-lg bg-surface-container/20 opacity-30 flex items-center justify-center text-on-surface-variant">28</div>
+<div class="h-8 rounded-lg bg-surface-container/20 opacity-30 flex items-center justify-center text-on-surface-variant">29</div>
+<div class="h-8 rounded-lg bg-surface-container/20 opacity-30 flex items-center justify-center text-on-surface-variant">30</div>
+<!-- Day 1 to 12: Completed Streak with glow -->
+<div class="h-8 rounded-lg bg-primary/20 text-primary font-bold flex items-center justify-center shadow-[0_0_8px_rgba(109,255,186,0.3)]">1</div>
+<div class="h-8 rounded-lg bg-primary/20 text-primary font-bold flex items-center justify-center shadow-[0_0_8px_rgba(109,255,186,0.3)]">2</div>
+<div class="h-8 rounded-lg bg-primary/20 text-primary font-bold flex items-center justify-center shadow-[0_0_8px_rgba(109,255,186,0.3)]">3</div>
+<div class="h-8 rounded-lg bg-primary/20 text-primary font-bold flex items-center justify-center shadow-[0_0_8px_rgba(109,255,186,0.3)]">4</div>
+<div class="h-8 rounded-lg bg-primary/20 text-primary font-bold flex items-center justify-center shadow-[0_0_8px_rgba(109,255,186,0.3)]">5</div>
+<div class="h-8 rounded-lg bg-primary/20 text-primary font-bold flex items-center justify-center shadow-[0_0_8px_rgba(109,255,186,0.3)]">6</div>
+<div class="h-8 rounded-lg bg-primary/20 text-primary font-bold flex items-center justify-center shadow-[0_0_8px_rgba(109,255,186,0.3)]">7</div>
+<div class="h-8 rounded-lg bg-primary/20 text-primary font-bold flex items-center justify-center shadow-[0_0_8px_rgba(109,255,186,0.3)]">8</div>
+<div class="h-8 rounded-lg bg-primary/20 text-primary font-bold flex items-center justify-center shadow-[0_0_8px_rgba(109,255,186,0.3)]">9</div>
+<div class="h-8 rounded-lg bg-primary/20 text-primary font-bold flex items-center justify-center shadow-[0_0_8px_rgba(109,255,186,0.3)]">10</div>
+<div class="h-8 rounded-lg bg-primary/20 text-primary font-bold flex items-center justify-center shadow-[0_0_8px_rgba(109,255,186,0.3)]">11</div>
+<div class="h-8 rounded-lg bg-primary/20 text-primary font-bold flex items-center justify-center shadow-[0_0_8px_rgba(109,255,186,0.3)]">12</div>
+<!-- Day 13: Streak Freeze Rest Day -->
+<div class="h-8 rounded-lg bg-secondary/20 text-secondary font-bold flex items-center justify-center relative shadow-[0_0_8px_rgba(78,222,163,0.3)]" title="Rest Day Freeze Protected">
+<span>13</span>
+<span class="material-symbols-outlined text-[10px] absolute top-0.5 right-0.5" style="font-variation-settings: 'FILL' 1;">ac_unit</span>
+</div>
+<!-- Day 14: Today Pulsing Active -->
+<div class="h-8 rounded-lg bg-primary text-on-primary font-extrabold flex items-center justify-center shadow-[0_0_12px_rgba(109,255,186,0.9)] animate-pulse">
+        14
+      </div>
+<!-- Future Days (15 to 31) -->
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">15</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">16</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">17</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">18</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">19</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">20</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">21</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">22</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">23</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">24</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">25</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">26</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">27</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">28</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">29</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">30</div>
+<div class="h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/70">31</div>
+</div>
+<!-- Calendar Legend -->
+<div class="flex items-center justify-between pt-2 border-t border-surface-container-highest/50 font-label-code text-[11px] text-on-surface-variant">
+<div class="flex items-center space-x-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_6px_rgba(109,255,186,0.8)]"></span>
+<span>Done (13)</span>
+</div>
+<div class="flex items-center space-x-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span>Freeze Used (1)</span>
+</div>
+<div class="flex items-center space-x-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-surface-container"></span>
+<span>Upcoming</span>
+</div>
+</div>
+</div>
+<!-- Milestone Badges Carousel -->
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-primary text-[20px]">military_tech</span>
+<span class="font-headline-sm text-[16px] font-bold text-on-surface">Achievements</span>
+</div>
+<span class="font-label-code text-label-code text-on-surface-variant">3 / 8 UNLOCKED</span>
+</div>
+<!-- Horizontal scroll badges -->
+<div class="flex space-x-3 overflow-x-auto pb-1 scrollbar-none -mx-margin-mobile px-margin-mobile">
+<!-- Badge 1: 7-Day Streak -->
+<div class="flex-shrink-0 w-32 p-3 rounded-2xl bg-surface-container-low flex flex-col items-center text-center shadow-sm relative overflow-hidden">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-[#ff7a00] shadow-[0_0_12px_rgba(255,122,0,0.35)] mb-2">
+<span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+</div>
+<span class="font-label-pill text-[12px] font-bold text-on-surface truncate w-full">7-Day Streak</span>
+<span class="font-label-code text-[10px] text-primary uppercase mt-0.5">Unlocked</span>
+</div>
+<!-- Badge 2: Milestone 1 / Capstone 1 -->
+<div class="flex-shrink-0 w-32 p-3 rounded-2xl bg-surface-container-low flex flex-col items-center text-center shadow-sm relative overflow-hidden">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary shadow-[0_0_12px_rgba(109,255,186,0.35)] mb-2">
+<span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<span class="font-label-pill text-[12px] font-bold text-on-surface truncate w-full">Pandas Pioneer</span>
+<span class="font-label-code text-[10px] text-primary uppercase mt-0.5">Unlocked</span>
+</div>
+<!-- Badge 3: Weekend Warrior -->
+<div class="flex-shrink-0 w-32 p-3 rounded-2xl bg-surface-container-low flex flex-col items-center text-center shadow-sm relative overflow-hidden">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-secondary shadow-[0_0_12px_rgba(78,222,163,0.35)] mb-2">
+<span class="material-symbols-outlined text-[26px]">wb_sunny</span>
+</div>
+<span class="font-label-pill text-[12px] font-bold text-on-surface truncate w-full">No Zero Days</span>
+<span class="font-label-code text-[10px] text-primary uppercase mt-0.5">Unlocked</span>
+</div>
+<!-- Badge 4: 30-Day Sprint (Locked) -->
+<div class="flex-shrink-0 w-32 p-3 rounded-2xl bg-surface-container-low/70 flex flex-col items-center text-center shadow-sm relative opacity-75">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant mb-2 relative">
+<span class="material-symbols-outlined text-[24px]">lock</span>
+</div>
+<span class="font-label-pill text-[12px] font-semibold text-on-surface-variant truncate w-full">30-Day Titan</span>
+<div class="w-full bg-surface-container-high h-1 rounded-full overflow-hidden mt-1.5">
+<div class="bg-primary h-full" style="width: 46%;"></div>
+</div>
+<span class="font-label-code text-[9px] text-on-surface-variant mt-1">14 / 30 DAYS</span>
+</div>
+</div>
+</div>
+<!-- Shareable Streak Showcase Card -->
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-[16px] font-bold text-on-surface">Momentum Card</span>
+<span class="font-label-code text-[11px] text-on-surface-variant">READY TO EXPORT</span>
+</div>
+<!-- The actual stylized social share preview -->
+<div class="relative overflow-hidden rounded-2xl bg-gradient-to-b from-surface-container to-surface-container-low p-4 shadow-xl" id="shareCard">
+<!-- Background subtle cyber matrix detail -->
+<div class="absolute -right-10 -bottom-10 w-32 h-32 rounded-full bg-primary/10 blur-2xl pointer-events-none"></div>
+<!-- Card Header inside preview -->
+<div class="flex items-center justify-between pb-3 border-b border-surface-container-highest/60">
+<div class="flex items-center space-x-2">
+<div class="w-6 h-6 rounded-md bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[16px]">explore</span>
+</div>
+<span class="font-headline-sm text-[14px] font-bold tracking-tight text-on-surface">Roadie</span>
+</div>
+<span class="font-label-code text-[10px] text-primary px-2 py-0.5 rounded-full bg-surface-container-high">#BUILDINPUBLIC</span>
+</div>
+<!-- Card Core Message -->
+<div class="py-3.5 space-y-2">
+<div class="flex items-baseline space-x-2">
+<span class="font-headline-lg-mobile text-[26px] font-extrabold text-on-surface tracking-tight">14-Day Streak</span>
+<span class="text-[#ff7a00] text-[20px]">🔥</span>
+</div>
+<p class="font-body-sm text-[13px] text-on-surface-variant italic">
+          “Day 14 in the books. No tutorial hell allowed. Jupyter notebooks or bust.”
+        </p>
+<!-- Mini pill badges -->
+<div class="flex flex-wrap gap-2 pt-1 font-label-code text-[11px]">
+<span class="px-2 py-1 rounded-md bg-surface-container-high text-on-surface">🐍 Python for Data Science</span>
+<span class="px-2 py-1 rounded-md bg-surface-container-high text-primary">⏱ 820 Mins Logged</span>
+<span class="px-2 py-1 rounded-md bg-surface-container-high text-[#ffb5a0]">⚡️ 1.05x Velocity</span>
+</div>
+</div>
+<div class="pt-2 text-right">
+<span class="font-label-code text-[10px] text-on-surface-variant">roadie.run/@alex_data</span>
+</div>
+</div>
+<!-- Actions for sharing -->
+<div class="flex items-center space-x-2 pt-1">
+<button class="flex-1 py-3 px-4 rounded-xl bg-primary text-on-primary font-label-pill text-body-md font-bold flex items-center justify-center space-x-2 shadow-[0_4px_16px_rgba(109,255,186,0.35)] active:scale-[0.98] transition-all" id="shareTriggerBtn">
+<span class="material-symbols-outlined text-[18px]">rocket_launch</span>
+<span>Share Progress</span>
+</button>
+<button class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface active:scale-95 transition-all" id="copyCardBtn" title="Copy Card Link">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+</button>
+<button class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface active:scale-95 transition-all" id="downloadCardBtn" title="Download Image">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  // Micro-interaction handlers for progress actions
+  const shareBtn = document.getElementById('shareTriggerBtn');
+  const copyBtn = document.getElementById('copyCardBtn');
+  const freezeBtn = document.getElementById('freezeInfoBtn');
+
+  if (shareBtn) {
+    shareBtn.addEventListener('click', () => {
+      const originalText = shareBtn.innerHTML;
+      shareBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check</span><span>Sharing link copied!</span>';
+      shareBtn.classList.replace('bg-primary', 'bg-secondary');
+      setTimeout(() => {
+        shareBtn.innerHTML = originalText;
+        shareBtn.classList.replace('bg-secondary', 'bg-primary');
+      }, 2000);
+    });
+  }
+
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      copyBtn.classList.add('text-primary');
+      setTimeout(() => copyBtn.classList.remove('text-primary'), 1500);
+    });
+  }
+
+  if (freezeBtn) {
+    freezeBtn.addEventListener('click', () => {
+      freezeBtn.innerText = 'SHIELD ACTIVE';
+      freezeBtn.classList.add('text-secondary');
+      setTimeout(() => {
+        freezeBtn.innerText = 'EQUIPPED';
+        freezeBtn.classList.remove('text-secondary');
+      }, 2000);
+    });
+  }
+</script></main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface-container-low/90 backdrop-blur-xl shadow-[0_-4px_24px_rgba(0,0,0,0.45)]" data-active-classes="text-primary font-semibold"><div class="flex items-center justify-around h-16 px-space-xs"><a class="min-w-[44px] min-h-[44px] flex flex-col items-center justify-center gap-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="roadie-today" href="#"><span class="material-symbols-outlined text-[24px]">bolt</span><span class="font-label-pill text-label-pill">Today</span></a><a class="min-w-[44px] min-h-[44px] flex flex-col items-center justify-center gap-1 text-primary font-semibold relative after:content-[''] after:absolute after:bottom-1.5 after:w-1 after:h-1 after:rounded-full after:bg-primary after:shadow-[0_0_8px_rgba(109,255,186,0.9)] transition-colors" data-path="roadie-roadmap" href="#"><span class="material-symbols-outlined text-[24px]">alt_route</span><span class="font-label-pill text-label-pill">Roadmap</span></a><a class="min-w-[44px] min-h-[44px] flex flex-col items-center justify-center gap-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="roadie-progress" href="#"><span class="material-symbols-outlined text-[24px]">trending_up</span><span class="font-label-pill text-label-pill">Progress</span></a><a class="min-w-[44px] min-h-[44px] flex flex-col items-center justify-center gap-1 text-on-surface-variant hover:text-on-surface transition-colors" data-path="roadie-settings" href="#"><span class="material-symbols-outlined text-[24px]">tune</span><span class="font-label-pill text-label-pill">Settings</span></a></div></nav></body></html>
