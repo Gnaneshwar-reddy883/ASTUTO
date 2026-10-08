@@ -1,4 +1,4 @@
-import type { AiReply, Plan, Stats, Task } from "../types";
+import type { AiReply, Plan, ProgressActivityDay, Stats, Task } from "../types";
 
 export const mockPlan: Plan = {
   id: "plan-python-foundations",
@@ -230,6 +230,20 @@ export const mockTodayTasks: Task[] = [
   },
 ];
 
+const activityMinutesPattern = [0, 30, 45, 0, 20, 50, 0, 35, 25, 60, 15, 0, 40, 55];
+const recentStreakMinutes = [20, 35, 30, 50, 25, 45, 60, 30, 40, 25, 55, 35, 45, 30];
+const mockProgressActivity: ProgressActivityDay[] = Array.from({ length: 91 }, (_, index) => {
+  const date = new Date(Date.UTC(2026, 6, 13 + index)).toISOString().slice(0, 10);
+  const isToday = date === "2026-10-08";
+  const minutes = index > 87
+    ? 0
+    : index >= 74
+      ? (isToday ? 35 : recentStreakMinutes[index - 74])
+      : activityMinutesPattern[index % activityMinutesPattern.length];
+
+  return { date, minutes, isToday };
+});
+
 export const mockStats: Stats = {
   streak: {
     currentDays: 14,
@@ -259,6 +273,74 @@ export const mockStats: Stats = {
       progress: 42,
       nextLevel: "Confident builder",
     },
+  },
+  learningProgress: {
+    tasksCompleted: 28,
+    taskGoal: 180,
+    activity: mockProgressActivity,
+    badges: [
+      {
+        id: "first-spark",
+        title: "First Spark",
+        description: "Completed the first focused learning session.",
+        icon: "sparkles",
+        status: "earned",
+        unlockedLabel: "Day 1",
+      },
+      {
+        id: "fortnight-warrior",
+        title: "Fortnight Warrior",
+        description: "Kept a 14-day learning streak going.",
+        icon: "flame",
+        status: "earned",
+        unlockedLabel: "Today",
+      },
+      {
+        id: "syntax-sorcerer",
+        title: "Syntax Sorcerer",
+        description: "Practiced Python syntax across the first week.",
+        icon: "code",
+        status: "earned",
+        unlockedLabel: "Week 1",
+      },
+      {
+        id: "cli-master",
+        title: "CLI Master",
+        description: "Create five useful command-line scripts.",
+        icon: "terminal",
+        status: "in-progress",
+        progress: 3,
+        target: 5,
+      },
+      {
+        id: "thirty-day-rhythm",
+        title: "30-Day Rhythm",
+        description: "Maintain a steady practice habit for 30 days.",
+        icon: "calendar",
+        status: "in-progress",
+        progress: 14,
+        target: 30,
+      },
+      {
+        id: "halfway-mark",
+        title: "Halfway Mark",
+        description: "Reach the midpoint of the 90-day learning plan.",
+        icon: "target",
+        status: "upcoming",
+        progress: 14,
+        target: 45,
+      },
+      {
+        id: "ninety-day-finish",
+        title: "90-Day Finisher",
+        description: "Complete the full learning plan and project work.",
+        icon: "trophy",
+        status: "upcoming",
+        progress: 14,
+        target: 90,
+      },
+    ],
+    shareQuote: "Day 14 in the books. One small practice at a time.",
   },
 };
 

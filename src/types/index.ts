@@ -65,6 +65,40 @@ export interface RoadmapStats {
   };
 }
 
+export interface ProgressActivityDay {
+  date: string;
+  minutes: number;
+  isToday?: boolean;
+}
+
+export type ProgressBadgeIcon =
+  | "sparkles"
+  | "flame"
+  | "code"
+  | "terminal"
+  | "calendar"
+  | "target"
+  | "trophy";
+
+export interface ProgressBadge {
+  id: string;
+  title: string;
+  description: string;
+  icon: ProgressBadgeIcon;
+  status: "earned" | "in-progress" | "upcoming";
+  progress?: number;
+  target?: number;
+  unlockedLabel?: string;
+}
+
+export interface LearningProgress {
+  tasksCompleted: number;
+  taskGoal: number;
+  activity: ProgressActivityDay[];
+  badges: ProgressBadge[];
+  shareQuote: string;
+}
+
 export interface Day {
   id: string;
   label: string;
@@ -122,6 +156,7 @@ export interface Stats {
   milestoneTitle: string;
   milestoneProgress: number;
   roadmap: RoadmapStats;
+  learningProgress: LearningProgress;
 }
 
 export interface AiReply {
