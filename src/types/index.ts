@@ -26,6 +26,45 @@ export interface Phase {
   nextUnlockInDays: number;
 }
 
+export interface RoadmapWeek {
+  label: string;
+  taskCount: number;
+}
+
+export interface RoadmapMonth {
+  title: string;
+  weeks: RoadmapWeek[];
+}
+
+export interface RoadmapPhase {
+  id: string;
+  name: string;
+  title: string;
+  subtitle: string;
+  status: "completed" | "current" | "upcoming" | "goal";
+  progress?: number;
+  months: RoadmapMonth[];
+  milestoneAfter?: string;
+}
+
+export interface SwotAnalysis {
+  strengths: string[];
+  weaknesses: string[];
+  opportunities: string[];
+  threats: string[];
+}
+
+export interface RoadmapStats {
+  hoursLearned: number;
+  swot: SwotAnalysis;
+  motivation: number;
+  skillLevel: {
+    label: string;
+    progress: number;
+    nextLevel: string;
+  };
+}
+
 export interface Day {
   id: string;
   label: string;
@@ -47,6 +86,7 @@ export interface Plan {
   currentDay: number;
   totalDays: number;
   currentPhase: Phase;
+  roadmap: RoadmapPhase[];
   week: Week;
   resources: Resource[];
 }
@@ -81,6 +121,7 @@ export interface Stats {
   weeklyGoalMinutes: number;
   milestoneTitle: string;
   milestoneProgress: number;
+  roadmap: RoadmapStats;
 }
 
 export interface AiReply {

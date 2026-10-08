@@ -12,32 +12,36 @@
 - `/onboarding` — collect learning goals and availability (placeholder).
 - `/roadmap-preview` — preview a generated plan (placeholder).
 - `/today` — today's schedule, task completion, progress summary, resources, and mock AI drawer.
-- `/roadmap` — full learning plan (placeholder).
+- `/roadmap` — six-phase zigzag learning flowchart, expandable month/week plan, and learning statistics.
 - `/progress` — streak and learning history (placeholder).
 - `/settings` — profile and timetable settings (placeholder).
 
 ## Components
-- `AppShell`, `TaskCard`, `PhaseNode`, `StreakBadge`, `ProgressRing`, `MotivationCard`, `ResourcesPanel`, `AiDrawer`, `PlaceholderPage`.
+- `AppShell`, `TaskCard`, `PhaseNode`, `StreakBadge`, `ProgressRing`, `RoadmapFlow`, `RoadmapStatsCard`, `MotivationCard`, `ResourcesPanel`, `AiDrawer`, `PlaceholderPage`.
 
 ## Data types
 - `User`: id, name, avatar initials, skill name.
-- `Plan`: skill, day count, phase, week, and learning resources.
+- `Plan`: skill, day count, current phase, six roadmap nodes with milestones and expandable month/week task counts, week, and learning resources.
 - `Phase`: name, title, summary, progress, and next unlock.
+- `RoadmapPhase`: name, title, subtitle, completion state, optional progress, months, and the milestone before the next node.
+- `RoadmapMonth` / `RoadmapWeek`: month heading and week labels with task counts.
 - `Week` / `Day`: weekly target and daily completion state.
 - `Task`: title, source, URL, estimated minutes, time slot, completion, optional status, and tags.
 - `Streak`: current and best streak, weekly target, completed days, freezes, and cohort percentile.
-- `Stats`: streak, predicted mastery, retention points, weekly minutes, and milestone progress.
+- `Stats`: streak, predicted mastery, retention points, weekly minutes, milestone progress, and roadmap insights.
+- `RoadmapStats`: hours learned, 2×2 SWOT lists, motivation score, and skill-level progress.
 
 ## User flows
 - Onboarding → roadmap preview → today.
 - Today → check off a task → see local completion and progress feedback.
 - Today → open ASTUTO AI → send a typed message or one of the suggested prompts → receive a mock reply.
+- Roadmap → select a phase → expand its months and weekly task counts inline.
 - Brand menu → switch the displayed skill or edit the local timetable.
 
 ## Backend TODO
-- `GET /api/plan` — return user, plan, phases, week, and resource data.
+- `GET /api/plan` — return user, plan, six roadmap phases, milestones, month/week task counts, week, and resource data.
 - `GET /api/plan/today/tasks` — return scheduled tasks for the current learner and date.
 - `POST /api/tasks/:taskId/complete` — save task completion.
-- `GET /api/stats` — return streak, retention, weekly cadence, and milestone progress.
+- `GET /api/stats` — return streak, retention, weekly cadence, milestone progress, hours learned, SWOT lists, motivation, and skill-level progress.
 - `POST /api/ai/messages` — send a learner message and return an assistant reply.
 - Expected tables: `users`, `plans`, `phases`, `weeks`, `days`, `tasks`, `streaks`, `stats`, `ai_messages`.

@@ -20,6 +20,112 @@ export const mockPlan: Plan = {
     nextUnlock: "Phase 2: Web Scraping & APIs",
     nextUnlockInDays: 7,
   },
+  roadmap: [
+    {
+      id: "plan-setup",
+      name: "Getting started",
+      title: "Learning setup",
+      subtitle: "Your goal and weekly rhythm are in place.",
+      status: "completed",
+      months: [
+        {
+          title: "Getting started",
+          weeks: [{ label: "Week 1", taskCount: 4 }],
+        },
+      ],
+      milestoneAfter: "First script written",
+    },
+    {
+      id: "phase-foundations",
+      name: "Phase 1",
+      title: "Foundations & Core Logic",
+      subtitle: "Build strong Python habits and core problem-solving skills.",
+      status: "current",
+      progress: 65,
+      months: [
+        {
+          title: "Month 1: Basics",
+          weeks: [
+            { label: "Week 1", taskCount: 5 },
+            { label: "Week 2", taskCount: 6 },
+            { label: "Week 3", taskCount: 5 },
+            { label: "Week 4", taskCount: 4 },
+          ],
+        },
+        {
+          title: "Month 2: Core logic",
+          weeks: [
+            { label: "Week 5", taskCount: 5 },
+            { label: "Week 6", taskCount: 6 },
+            { label: "Week 7", taskCount: 4 },
+          ],
+        },
+      ],
+      milestoneAfter: "Foundations complete",
+    },
+    {
+      id: "phase-apis",
+      name: "Phase 2",
+      title: "Web Scraping & APIs",
+      subtitle: "Collect real information and work with useful data sources.",
+      status: "upcoming",
+      months: [
+        {
+          title: "Month 3: Data collection",
+          weeks: [
+            { label: "Week 8", taskCount: 5 },
+            { label: "Week 9", taskCount: 5 },
+            { label: "Week 10", taskCount: 4 },
+          ],
+        },
+      ],
+      milestoneAfter: "First API project",
+    },
+    {
+      id: "phase-analysis",
+      name: "Phase 3",
+      title: "Data Analysis & Visualization",
+      subtitle: "Turn raw datasets into clear, useful insights.",
+      status: "upcoming",
+      months: [
+        {
+          title: "Month 4: Find the story",
+          weeks: [
+            { label: "Week 11", taskCount: 5 },
+            { label: "Week 12", taskCount: 6 },
+            { label: "Week 13", taskCount: 4 },
+          ],
+        },
+      ],
+      milestoneAfter: "Insights shared",
+    },
+    {
+      id: "phase-portfolio",
+      name: "Phase 4",
+      title: "Portfolio Projects",
+      subtitle: "Bring your skills together in practical work you can show.",
+      status: "upcoming",
+      months: [
+        {
+          title: "Month 5: Build and share",
+          weeks: [
+            { label: "Week 14", taskCount: 4 },
+            { label: "Week 15", taskCount: 5 },
+            { label: "Week 16", taskCount: 3 },
+          ],
+        },
+      ],
+      milestoneAfter: "Portfolio ready",
+    },
+    {
+      id: "goal-independent",
+      name: "Your goal",
+      title: "Independent Python learner",
+      subtitle: "Keep building, exploring, and solving real problems.",
+      status: "goal",
+      months: [],
+    },
+  ],
   week: {
     label: "This week",
     completedMinutes: 420,
@@ -139,6 +245,21 @@ export const mockStats: Stats = {
   weeklyGoalMinutes: 600,
   milestoneTitle: "CLIBudget Engine",
   milestoneProgress: 65,
+  roadmap: {
+    hoursLearned: 34,
+    swot: {
+      strengths: ["Consistent 14-day streak", "Strong pattern spotting"],
+      weaknesses: ["More debugging practice", "Reviewing before rushing"],
+      opportunities: ["Build small data projects", "Practice with real APIs"],
+      threats: ["Busy college weeks", "Long sessions crowding evenings"],
+    },
+    motivation: 78,
+    skillLevel: {
+      label: "Curious learner",
+      progress: 42,
+      nextLevel: "Confident builder",
+    },
+  },
 };
 
 export const mockAiReplies: Record<string, string> = {
