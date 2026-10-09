@@ -12,11 +12,11 @@ export default function App() {
   return (
     <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
-        <Route path="/" element={<Navigate to="/today" replace />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/landing" element={<Navigate to="/" replace />} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="/roadmap-preview" element={<RoadmapPreviewPage />} />
         <Route element={<AppShell />}>
-          <Route path="/landing" element={<LandingPage />} />
-          <Route path="/onboarding" element={<OnboardingPage />} />
-          <Route path="/roadmap-preview" element={<RoadmapPreviewPage />} />
           <Route path="/today" element={<TodayPage />} />
           <Route path="/roadmap" element={<RoadmapPage />} />
           <Route path="/progress" element={<ProgressPage />} />

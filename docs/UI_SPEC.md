@@ -8,9 +8,9 @@
 5. A lightweight AI companion helps adjust a plan without judgment.
 
 ## Routes
-- `/landing` — public product introduction (placeholder in this build).
-- `/onboarding` — collect learning goals and availability (placeholder).
-- `/roadmap-preview` — preview a generated plan (placeholder).
+- `/` — public ASTUTO landing page with an interactive skill prompt and product overview; outside `AppShell`.
+- `/onboarding` — four local-state steps for skill, current level, target duration, and morning/college/evening/night minutes; finish passes the draft through router state.
+- `/roadmap-preview` — front-end-only roadmap phases, source comparison count, first-week preview, and navigation to `/today`; outside `AppShell`.
 - `/today` — today's schedule, task completion, progress summary, resources, and mock AI drawer.
 - `/roadmap` — six-phase zigzag learning flowchart, expandable month/week plan, and learning statistics.
 - `/progress` — streak and freeze tokens, summary metrics, a soft-green activity heatmap, earned/upcoming badges, and a local-only mock share card.
@@ -36,7 +36,7 @@
 - `Stats.learningProgress`: progress-page activity and achievement data returned with the existing stats response.
 
 ## User flows
-- Onboarding → roadmap preview → today.
+- Landing → onboarding → roadmap preview → today. Onboarding data is held in React state and passed using router location state only; it is not persisted.
 - Today → check off a task → see local completion and progress feedback.
 - Today → open ASTUTO AI → send a typed message or one of the suggested prompts → receive a mock reply.
 - Roadmap → select a phase → expand its months and weekly task counts inline.
