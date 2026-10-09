@@ -14,10 +14,10 @@
 - `/today` — today's schedule, task completion, progress summary, resources, and mock AI drawer.
 - `/roadmap` — six-phase zigzag learning flowchart, expandable month/week plan, and learning statistics.
 - `/progress` — streak and freeze tokens, summary metrics, a soft-green activity heatmap, earned/upcoming badges, and a local-only mock share card.
-- `/settings` — profile and timetable settings (placeholder).
+- `/settings` — active plan summary, daily minutes for morning/college/evening/night, reminder switches, and selectable coach tones with sample notifications; all edits stay in local page state.
 
 ## Components
-- `AppShell`, `TaskCard`, `PhaseNode`, `StreakBadge`, `ProgressRing`, `RoadmapFlow`, `RoadmapStatsCard`, `ProgressActivityHeatmap`, `ProgressBadges`, `ProgressShareCard`, `ProgressIcon`, `MotivationCard`, `ResourcesPanel`, `AiDrawer`, `PlaceholderPage`.
+- `AppShell`, `TaskCard`, `PhaseNode`, `StreakBadge`, `ProgressRing`, `RoadmapFlow`, `RoadmapStatsCard`, `ProgressActivityHeatmap`, `ProgressBadges`, `ProgressShareCard`, `ProgressIcon`, `SettingsPlanCard`, `TimeSlotEditor`, `SettingSwitch`, `CoachToneCard`, `MotivationCard`, `ResourcesPanel`, `AiDrawer`, `PlaceholderPage`.
 
 ## Data types
 - `User`: id, name, avatar initials, skill name.
@@ -41,6 +41,7 @@
 - Today → open ASTUTO AI → send a typed message or one of the suggested prompts → receive a mock reply.
 - Roadmap → select a phase → expand its months and weekly task counts inline.
 - Progress → view streak/freezes, activity, milestones, and summary stats; the mock Share action only confirms a share preview locally.
+- Settings → adjust one or more daily slot durations, toggle reminders, and select one coach tone; changes update locally for the current page session.
 - Brand menu → switch the displayed skill or edit the local timetable.
 
 ## Backend TODO
@@ -49,4 +50,5 @@
 - `POST /api/tasks/:taskId/complete` — save task completion.
 - `GET /api/stats` — return streak/freezes, retention, weekly cadence, milestone progress, hours learned, SWOT lists, motivation, skill level, progress activity, task totals, and badge states.
 - `POST /api/ai/messages` — send a learner message and return an assistant reply.
+- Settings currently use React local state only; no settings persistence endpoint is called.
 - Expected tables: `users`, `plans`, `phases`, `weeks`, `days`, `tasks`, `streaks`, `stats`, `ai_messages`.
