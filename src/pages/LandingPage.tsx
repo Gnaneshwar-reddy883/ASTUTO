@@ -67,7 +67,7 @@ export function LandingPage() {
               <span className="h-2 w-2 rounded-full bg-progress-strong" />
               A better rhythm for learning anything
             </div>
-            <h1 className="max-w-[720px] font-serif text-[clamp(3.2rem,7.2vw,6.25rem)] font-semibold leading-[0.98] tracking-[-0.075em]">
+            <h1 className="max-w-[720px] font-sans text-[clamp(3.2rem,7.2vw,6.25rem)] font-semibold leading-[0.98] tracking-[-0.075em]">
               Make room for the skill you{" "}
               <span className="relative inline-block text-progress-strong">
                 really want.
@@ -183,7 +183,7 @@ export function LandingPage() {
           <div className="mx-auto grid max-w-[1440px] gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-center lg:px-12 lg:py-24">
             <div className="max-w-[470px]">
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-progress-strong">The self-study loop</p>
-              <h2 className="font-serif text-4xl font-semibold leading-[1.05] tracking-[-0.06em] sm:text-5xl">You don't need more motivation. You need less guesswork.</h2>
+              <h2 className="font-sans text-4xl font-semibold leading-[1.05] tracking-[-0.06em] sm:text-5xl">You don't need more motivation. You need less guesswork.</h2>
               <p className="mt-5 leading-7 text-muted">A skill is a long road. ASTUTO makes the next few steps feel clear, useful, and possible to fit in.</p>
             </div>
             <div className="grid gap-3 sm:grid-cols-3">
@@ -206,7 +206,7 @@ export function LandingPage() {
           <div className="mb-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
             <div className="max-w-[650px]">
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-progress-strong">A thoughtful sequence</p>
-              <h2 className="font-serif text-4xl font-semibold leading-[1.05] tracking-[-0.06em] sm:text-5xl">From “one day” to a good first week.</h2>
+              <h2 className="font-sans text-4xl font-semibold leading-[1.05] tracking-[-0.06em] sm:text-5xl">From “one day” to a good first week.</h2>
             </div>
             <p className="max-w-[340px] text-sm leading-6 text-muted">No giant commitment up front. Just a plan with a sensible order and room for real life.</p>
           </div>
@@ -232,7 +232,7 @@ export function LandingPage() {
           <div className="mx-auto grid max-w-[1440px] items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[.9fr_1.1fr] lg:px-12 lg:py-24">
             <div className="max-w-[520px]">
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-progress-strong">Progress without the pressure</p>
-              <h2 className="font-serif text-4xl font-semibold leading-[1.05] tracking-[-0.06em] sm:text-5xl">Your plan should fit your life. Not the other way around.</h2>
+              <h2 className="font-sans text-4xl font-semibold leading-[1.05] tracking-[-0.06em] sm:text-5xl">Your plan should fit your life. Not the other way around.</h2>
               <p className="mt-5 text-base leading-7 text-muted">Set short sessions for mornings, between classes, evenings, or whenever you have a pocket of focus. The plan meets you there.</p>
               <div className="mt-7 space-y-3">
                 {["Free learning resources, picked for the next step", "A steady sequence instead of another open tab", "A daily plan that respects your energy"].map((text) => <p key={text} className="flex items-center gap-2.5 text-sm font-medium"><CheckCircle2 size={17} className="shrink-0 text-progress-strong" />{text}</p>)}
@@ -259,7 +259,7 @@ export function LandingPage() {
         <section className="mx-auto flex max-w-[1440px] flex-col items-center px-5 py-20 text-center sm:px-8 lg:px-12 lg:py-28">
           <span className="mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-mint text-progress-strong"><Sparkles size={22} /></span>
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-progress-strong">Your next chapter, in small steps</p>
-          <h2 className="mt-3 max-w-[720px] font-serif text-4xl font-semibold leading-[1.03] tracking-[-0.06em] sm:text-6xl">Start with the time you have.</h2>
+          <h2 className="mt-3 max-w-[720px] font-sans text-4xl font-semibold leading-[1.03] tracking-[-0.06em] sm:text-6xl">Start with the time you have.</h2>
           <p className="mt-5 max-w-[500px] text-base leading-7 text-muted">Set up your first plan in about two minutes. Change the rhythm whenever life changes.</p>
           <button type="button" onClick={startSetup} className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-pill bg-primary px-6 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5">Build my learning plan <ArrowRight size={17} /></button>
           <p className="mt-4 text-xs text-muted">Free to start · No account required for this preview</p>

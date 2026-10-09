@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { getPlan, getStats } from "../services/api";
 import type { Plan, Stats } from "../types";
+import { usePlan } from "../state/PlanContext";
 import { AiDrawer } from "./AiDrawer";
 
 const navigation = [
@@ -24,15 +25,19 @@ const navigation = [
 ];
 
 export function AppShell() {
+  const { skill, setSkill, currentDay, totalDays, slots, updateSlotStartTime } = usePlan();
+  const morningStart = slots.find((s) => s.id === "morning")?.startTime || "8:15 AM";
   const [plan, setPlan] = useState<Plan | null>(null);
   const [stats, setStats] = useState<Stats | null>(null);
   const [aiOpen, setAiOpen] = useState(false);
   const [brandOpen, setBrandOpen] = useState(false);
-  const [skillLabel, setSkillLabel] = useState("");
   const [editingTimetable, setEditingTimetable] = useState(false);
-  const [timetable, setTimetable] = useState("8:15 AM");
-  const [savedTimetable, setSavedTimetable] = useState("8:15 AM");
+  const [timetable, setTimetable] = useState(morningStart);
   const [noticeOpen, setNoticeOpen] = useState(false);
+
+  useEffect(() => {
+    setTimetable(morningStart);
+  }, [morningStart]);
 
   useEffect(() => {
     let active = true;
@@ -41,12 +46,9 @@ export function AppShell() {
         if (active) {
           setPlan(value);
           setStats(nextStats);
-          setSkillLabel(value.skillName);
         }
       })
-      .catch(() => {
-        if (active) setSkillLabel("Your learning plan");
-      });
+      .catch(() => {});
     return () => {
       active = false;
     };
@@ -64,7 +66,7 @@ export function AppShell() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [brandOpen, noticeOpen]);
 
-  const displaySkill = skillLabel || "Your learning plan";
+  const displaySkill = skill || "Your learning plan";
   const activeNavClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
       isActive ? "bg-mint text-text" : "text-muted hover:bg-bg hover:text-text"
@@ -124,17 +126,17 @@ export function AppShell() {
                 </span>
                 <span className="text-base font-bold tracking-[-0.04em] lg:hidden">ASTUTO</span>
                 <span className="hidden text-sm font-bold tracking-[-0.04em] lg:inline">ASTUTO</span>
-                  <span className="hidden max-w-[280px] items-center gap-1.5 truncate rounded-pill border border-border bg-surface px-3 py-2 text-xs font-medium sm:inline-flex">
+                <span className="hidden max-w-[280px] items-center gap-1.5 truncate rounded-pill border border-border bg-surface px-3 py-2 text-xs font-medium sm:inline-flex">
                   <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-progress-strong" />
                   <span className="max-w-[190px] truncate">{displaySkill}</span>
                   <span className="text-muted">·</span>
-                  Day {plan?.currentDay ?? "—"} of {plan?.totalDays ?? "—"}
+                  Day {currentDay} of {totalDays}
                   <ChevronDown size={14} className="ml-0.5 text-muted" />
                 </span>
                 <span className="inline-flex max-w-[120px] shrink-0 items-center gap-1 whitespace-nowrap rounded-pill border border-border bg-surface px-2 py-1.5 text-[11px] font-medium sm:hidden">
                   <span className="max-w-[48px] shrink-0 truncate">{displaySkill.split(" ")[0]}</span>
                   <span className="text-muted">·</span>
-                  D{plan?.currentDay ?? "—"}
+                  D{currentDay}
                   <ChevronDown size={12} className="shrink-0 text-muted" />
                 </span>
               </button>
@@ -148,8 +150,10 @@ export function AppShell() {
                     type="button"
                     role="menuitem"
                     onClick={() => {
-                      setSkillLabel((current) =>
-                        current === "Python for Data Science" ? "Data Structures & Algorithms" : "Python for Data Science",
+                      setSkill(
+                        skill === "Python for Data Science"
+                          ? "Data Structures & Algorithms"
+                          : "Python for Data Science",
                       );
                       setBrandOpen(false);
                     }}
@@ -172,7 +176,7 @@ export function AppShell() {
                       className="mt-1 border-t border-border p-3"
                       onSubmit={(event) => {
                         event.preventDefault();
-                        setSavedTimetable(timetable.trim() || savedTimetable);
+                        updateSlotStartTime("morning", timetable.trim() || morningStart);
                         setEditingTimetable(false);
                         setBrandOpen(false);
                       }}
@@ -191,7 +195,7 @@ export function AppShell() {
                           Save
                         </button>
                       </div>
-                      <span className="sr-only">Saved time is {savedTimetable}</span>
+                      <span className="sr-only">Saved time is {morningStart}</span>
                     </form>
                   )}
                 </div>

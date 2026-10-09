@@ -65,7 +65,7 @@ export function ProgressActivityHeatmap({ activity }: ProgressActivityHeatmapPro
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Practice history</p>
-          <h2 className="mt-2 font-display text-2xl font-semibold tracking-[-0.04em] text-text sm:text-[1.7rem]">
+          <h2 className="mt-2 font-sans text-2xl font-semibold tracking-[-0.04em] text-text sm:text-[1.7rem]">
             Activity &amp; cadence heatmap
           </h2>
           <p className="mt-1.5 text-sm text-muted">A little practice leaves a mark.</p>

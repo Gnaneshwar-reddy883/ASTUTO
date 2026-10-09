@@ -1,6 +1,7 @@
 import { createMockAiReply, mockPlan, mockStats, mockTodayTasks } from "../data/mock";
 import type { AiReply, Plan, Stats, Task } from "../types";
 
+// TODO(backend): PlanContext local state currently manages active client plan state; replace mock data access here with real API endpoints and server persistence.
 // TODO(backend): replace with real API call
 export async function getPlan(): Promise<Plan> {
   return structuredClone(mockPlan);

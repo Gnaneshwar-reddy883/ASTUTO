@@ -28,7 +28,7 @@ export function ProgressBadges({ badges }: ProgressBadgesProps) {
       <div className="flex items-end justify-between gap-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Earned &amp; upcoming</p>
-          <h2 className="mt-2 font-display text-2xl font-semibold tracking-[-0.04em] text-text sm:text-[1.7rem]">
+          <h2 className="mt-2 font-sans text-2xl font-semibold tracking-[-0.04em] text-text sm:text-[1.7rem]">
             Learning badges
           </h2>
         </div>

@@ -1,7 +1,6 @@
 // Purpose: let learners adjust their plan view, daily study slots, reminders, and coach tone.
 // Components used: SettingsPlanCard, TimeSlotEditor, SettingSwitch, and CoachToneCard (page-local UI components).
 // API functions called: none; all edits use React local state. Real data needed: a persisted learning-plan summary and saved preferences.
-import { useMemo, useState } from "react";
 import {
   Bell,
   BookOpen,
@@ -15,25 +14,8 @@ import {
   Sunrise,
   Zap,
 } from "lucide-react";
-
-type SlotId = "morning" | "college" | "evening" | "night";
-type ToneId = "gentle" | "funny" | "savage";
-type ReminderId = "daily" | "preSession";
-
-type TimeSlotPreference = {
-  id: SlotId;
-  label: string;
-  detail: string;
-  startTime: string;
-  minutes: number;
-};
-
-const initialSlots: TimeSlotPreference[] = [
-  { id: "morning", label: "Morning", detail: "Theory and concepts", startTime: "7:30 AM", minutes: 30 },
-  { id: "college", label: "College", detail: "A short review between classes", startTime: "1:00 PM", minutes: 0 },
-  { id: "evening", label: "Evening", detail: "Hands-on practice and coding", startTime: "7:30 PM", minutes: 20 },
-  { id: "night", label: "Night", detail: "Flashcards and a quick recap", startTime: "9:30 PM", minutes: 10 },
-];
+import { usePlan, type TimeSlotPreference, type ToneId } from "../state/PlanContext";
+import type { TimeSlot } from "../types";
 
 const slotIcons = {
   morning: Sunrise,
@@ -44,7 +26,7 @@ const slotIcons = {
 
 const toneOptions = [
   {
-    id: "gentle",
+    id: "gentle" as ToneId,
     title: "Gentle",
     descriptor: "Encouraging and patient",
     detail: "A calm reminder that makes room for real life.",
@@ -52,7 +34,7 @@ const toneOptions = [
     Icon: Heart,
   },
   {
-    id: "funny",
+    id: "funny" as ToneId,
     title: "Funny",
     descriptor: "Playful and relatable",
     detail: "A light nudge to help you reset and get started.",
@@ -60,7 +42,7 @@ const toneOptions = [
     Icon: Smile,
   },
   {
-    id: "savage",
+    id: "savage" as ToneId,
     title: "Savage",
     descriptor: "Direct and focused",
     detail: "Straight to the next action, without the extra pep talk.",
@@ -106,13 +88,14 @@ const settingsRangeStyles = `
 `;
 
 type SettingsPlanCardProps = {
+  skill: string;
+  duration: number;
+  currentDay: number;
   dailyMinutes: number;
 };
 
-function SettingsPlanCard({ dailyMinutes }: SettingsPlanCardProps) {
-  const daysComplete = 14;
-  const totalDays = 90;
-  const planProgress = Math.round((daysComplete / totalDays) * 100);
+function SettingsPlanCard({ skill, duration, currentDay, dailyMinutes }: SettingsPlanCardProps) {
+  const planProgress = Math.round((currentDay / duration) * 100);
 
   return (
     <section aria-labelledby="plan-heading" className="overflow-hidden rounded-card border border-border bg-surface">
@@ -129,13 +112,13 @@ function SettingsPlanCard({ dailyMinutes }: SettingsPlanCardProps) {
             </span>
           </div>
           <h2 id="plan-heading" className="mt-4 font-sans text-2xl font-semibold tracking-tight sm:text-3xl">
-            Python for Data Science
+            {skill}
           </h2>
-          <p className="mt-1 text-sm text-muted">A 90-day plan paced around your daily routine.</p>
+          <p className="mt-1 text-sm text-muted">A {duration}-day plan paced around your daily routine.</p>
 
           <div className="mt-6 flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
             <p className="text-sm font-medium text-text">
-              Day {daysComplete} <span className="font-normal text-muted">of {totalDays}</span>
+              Day {currentDay} <span className="font-normal text-muted">of {duration}</span>
             </p>
             <p className="text-xs text-muted">{dailyMinutes} min planned each day</p>
           </div>
@@ -170,7 +153,7 @@ function SettingsPlanCard({ dailyMinutes }: SettingsPlanCardProps) {
 
 type TimeSlotEditorProps = {
   slots: TimeSlotPreference[];
-  onChange: (slotId: SlotId, minutes: number) => void;
+  onChange: (slotId: TimeSlot, minutes: number) => void;
 };
 
 function TimeSlotEditor({ slots, onChange }: TimeSlotEditorProps) {
@@ -323,21 +306,18 @@ function CoachToneCard({ selectedTone, onSelect }: CoachToneCardProps) {
 }
 
 export function SettingsPage() {
-  const [slots, setSlots] = useState(initialSlots);
-  const [reminders, setReminders] = useState<Record<ReminderId, boolean>>({
-    daily: true,
-    preSession: true,
-  });
-  const [selectedTone, setSelectedTone] = useState<ToneId>("gentle");
-  const dailyMinutes = useMemo(() => slots.reduce((sum, slot) => sum + slot.minutes, 0), [slots]);
-
-  function updateSlot(slotId: SlotId, minutes: number) {
-    setSlots((current) => current.map((slot) => slot.id === slotId ? { ...slot, minutes } : slot));
-  }
-
-  function toggleReminder(reminderId: ReminderId) {
-    setReminders((current) => ({ ...current, [reminderId]: !current[reminderId] }));
-  }
+  const {
+    skill,
+    duration,
+    currentDay,
+    slots,
+    totalMinutes,
+    updateSlotMinutes,
+    tone,
+    setTone,
+    reminders,
+    toggleReminder,
+  } = usePlan();
 
   return (
     <main className="min-h-[100dvh] bg-bg px-4 pb-20 pt-8 text-text sm:px-6 sm:pt-10 lg:px-10">
@@ -357,10 +337,15 @@ export function SettingsPage() {
           </div>
         </header>
 
-        <SettingsPlanCard dailyMinutes={dailyMinutes} />
+        <SettingsPlanCard
+          skill={skill}
+          duration={duration}
+          currentDay={currentDay}
+          dailyMinutes={totalMinutes}
+        />
 
         <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1.25fr)_minmax(300px,0.75fr)]">
-          <TimeSlotEditor slots={slots} onChange={updateSlot} />
+          <TimeSlotEditor slots={slots} onChange={updateSlotMinutes} />
 
           <section aria-labelledby="reminders-heading" className="rounded-card border border-border bg-surface p-5 sm:p-7">
             <div className="flex items-start gap-3">
@@ -405,12 +390,12 @@ export function SettingsPage() {
               <p className="mt-1 text-sm text-muted">Choose how your practice reminders sound. You can change it any time.</p>
             </div>
             <span className="rounded-pill bg-lavender px-3 py-1.5 text-xs font-medium text-muted">
-              {toneOptions.find((tone) => tone.id === selectedTone)?.title} tone selected
+              {toneOptions.find((toneItem) => toneItem.id === tone)?.title} tone selected
             </span>
           </div>
-          <CoachToneCard selectedTone={selectedTone} onSelect={setSelectedTone} />
+          <CoachToneCard selectedTone={tone} onSelect={setTone} />
           <p aria-live="polite" className="sr-only">
-            {toneOptions.find((tone) => tone.id === selectedTone)?.title} tone selected. Changes are local to this session.
+            {toneOptions.find((toneItem) => toneItem.id === tone)?.title} tone selected. Changes are local to this session.
           </p>
         </section>
 

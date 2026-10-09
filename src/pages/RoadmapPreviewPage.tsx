@@ -14,12 +14,14 @@ import {
   Target,
 } from "lucide-react";
 import { defaultOnboardingDraft, isOnboardingDraft, type OnboardingDraft, type OnboardingRouteState } from "../types/onboarding";
+import { usePlan } from "../state/PlanContext";
 
 export function RoadmapPreviewPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { asDraft } = usePlan();
   const routeState = location.state as OnboardingRouteState | null;
-  const draft: OnboardingDraft = isOnboardingDraft(routeState?.draft) ? routeState.draft : { ...defaultOnboardingDraft, skill: "Python for Data Science" };
+  const draft: OnboardingDraft = isOnboardingDraft(routeState?.draft) ? routeState.draft : asDraft || { ...defaultOnboardingDraft, skill: "Python for Data Science" };
   const skill = draft.skill || "your chosen skill";
   const dailyTotal = Object.values(draft.minutes).reduce((total, minutes) => total + minutes, 0);
   const activeSlots = Object.entries(draft.minutes).filter(([, minutes]) => minutes > 0);
@@ -71,7 +73,7 @@ export function RoadmapPreviewPage() {
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
               <div>
                 <span className="inline-flex items-center gap-2 rounded-pill bg-mint px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.13em] text-progress-strong"><CheckCircle2 size={14} /> Your plan is taking shape</span>
-                <h1 className="mt-5 max-w-[750px] font-serif text-4xl font-semibold leading-[1.02] tracking-[-0.065em] sm:text-6xl">
+                <h1 className="mt-5 max-w-[750px] font-sans text-4xl font-semibold leading-[1.02] tracking-[-0.065em] sm:text-6xl">
                   A {draft.duration}-day path to <span className="text-progress-strong">{skill}.</span>
                 </h1>
                 <p className="mt-4 max-w-[650px] text-sm leading-6 text-muted sm:text-base sm:leading-7">

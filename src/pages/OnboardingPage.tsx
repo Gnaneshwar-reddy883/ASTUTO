@@ -24,12 +24,14 @@ import {
   type OnboardingRouteState,
   type PlanDuration,
 } from "../types/onboarding";
+import { usePlan } from "../state/PlanContext";
 
 export function OnboardingPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { asDraft, applyDraft } = usePlan();
   const routeState = location.state as OnboardingRouteState | null;
-  const initialDraft = isOnboardingDraft(routeState?.draft) ? routeState.draft : defaultOnboardingDraft;
+  const initialDraft = isOnboardingDraft(routeState?.draft) ? routeState.draft : asDraft || defaultOnboardingDraft;
   const [draft, setDraft] = useState<OnboardingDraft>(() => ({
     ...initialDraft,
     minutes: { ...initialDraft.minutes },
@@ -56,14 +58,19 @@ export function OnboardingPage() {
     { key: "night", label: "Night", hint: "A quiet end-of-day moment", Icon: Moon },
   ];
 
-  const updateDraft = (update: Partial<OnboardingDraft>) => setDraft((current) => ({ ...current, ...update }));
+  const updateDraft = (update: Partial<OnboardingDraft>) => {
+    const nextDraft = { ...draft, ...update };
+    setDraft(nextDraft);
+    applyDraft(nextDraft);
+  };
   const changeMinutes = (slot: TimeSlot, value: number) => {
-    setDraft((current) => ({
-      ...current,
-      minutes: { ...current.minutes, [slot]: Math.max(0, Math.min(120, value)) },
-    }));
+    const nextMinutes = { ...draft.minutes, [slot]: Math.max(0, Math.min(120, value)) };
+    const nextDraft = { ...draft, minutes: nextMinutes };
+    setDraft(nextDraft);
+    applyDraft(nextDraft);
   };
   const next = () => {
+    applyDraft(draft);
     if (step < 4) setStep((current) => current + 1);
     else navigate("/roadmap-preview", { state: { draft } });
   };
@@ -100,7 +107,7 @@ export function OnboardingPage() {
               <div className="mb-7 flex items-start justify-between gap-4">
                 <div>
                   <span className="mb-2 inline-flex items-center gap-1.5 rounded-pill bg-mint px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.1em] text-progress-strong"><Sparkles size={13} /> Your learning direction</span>
-                  <h1 className="font-serif text-3xl font-semibold leading-tight tracking-[-0.055em] sm:text-4xl">{stepTitles[step - 1]}</h1>
+                  <h1 className="font-sans text-3xl font-semibold leading-tight tracking-[-0.055em] sm:text-4xl">{stepTitles[step - 1]}</h1>
                   <p className="mt-2 max-w-[560px] text-sm leading-6 text-muted">
                     {step === 1 && "One skill is enough to begin. You can make the goal more specific whenever you're ready."}
                     {step === 2 && "Your starting point helps us keep the first steps useful, not overwhelming."}
@@ -108,7 +115,7 @@ export function OnboardingPage() {
                     {step === 4 && "Choose the windows that feel realistic. Any slot can be left at zero."}
                   </p>
                 </div>
-                <span className="hidden h-11 w-11 shrink-0 place-items-center rounded-2xl bg-bg text-progress-strong sm:grid"><span className="font-serif text-xl">{String(step).padStart(2, "0")}</span></span>
+                <span className="hidden h-11 w-11 shrink-0 place-items-center rounded-2xl bg-bg text-progress-strong sm:grid"><span className="font-sans text-xl">{String(step).padStart(2, "0")}</span></span>
               </div>
 
               {step === 1 && (

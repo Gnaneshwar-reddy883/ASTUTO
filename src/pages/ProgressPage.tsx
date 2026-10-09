@@ -58,7 +58,7 @@ export function ProgressPage() {
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-lavender text-muted">
             <ProgressIcon name="sparkles" className="h-5 w-5" />
           </div>
-          <h1 className="mt-4 font-display text-2xl font-semibold tracking-[-0.04em] text-text">Your progress is taking a pause</h1>
+          <h1 className="mt-4 font-sans text-2xl font-semibold tracking-[-0.04em] text-text">Your progress is taking a pause</h1>
           <p className="mt-2 text-sm leading-relaxed text-muted">{error ?? "We couldn’t find your progress data."}</p>
           <button
             className="mt-5 rounded-full bg-text px-5 py-2.5 text-sm font-semibold text-surface transition-transform duration-150 hover:-translate-y-0.5"
@@ -85,7 +85,7 @@ export function ProgressPage() {
       <header className="mb-7 flex flex-wrap items-end justify-between gap-4 sm:mb-8">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-progress-strong">Your practice, adding up</p>
-          <h1 className="mt-2 font-display text-[2.15rem] font-semibold leading-tight tracking-[-0.055em] text-text sm:text-5xl">
+          <h1 className="mt-2 font-sans text-[2.15rem] font-semibold leading-tight tracking-[-0.055em] text-text sm:text-5xl">
             Progress <span className="text-muted">&amp;</span> momentum
           </h1>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted sm:text-base">
@@ -109,7 +109,7 @@ export function ProgressPage() {
                 Current streak
               </div>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="font-display text-6xl font-semibold leading-none tracking-[-0.075em] text-text sm:text-7xl">{streak.currentDays}</span>
+                <span className="font-sans text-6xl font-semibold leading-none tracking-[-0.075em] text-text sm:text-7xl">{streak.currentDays}</span>
                 <span className="text-base font-medium text-muted">days</span>
               </div>
               <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
@@ -118,7 +118,7 @@ export function ProgressPage() {
             </div>
             <div className="rounded-xl border border-progress-strong/10 bg-surface/55 px-4 py-3 sm:min-w-[150px]">
               <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">Personal best</p>
-              <p className="mt-1 font-display text-2xl font-semibold tracking-[-0.04em] text-text">{streak.personalBest}<span className="ml-1 text-xs font-medium text-muted">days</span></p>
+              <p className="mt-1 font-sans text-2xl font-semibold tracking-[-0.04em] text-text">{streak.personalBest}<span className="ml-1 text-xs font-medium text-muted">days</span></p>
               <p className="mt-0.5 text-xs text-muted">A rhythm you’ve already made.</p>
             </div>
           </div>
@@ -127,7 +127,7 @@ export function ProgressPage() {
         <article className="flex min-w-0 items-center justify-between gap-4 rounded-card border border-border bg-lavender p-5 sm:p-6 md:col-span-5">
           <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Streak freezes</p>
-            <p className="mt-2 font-display text-4xl font-semibold leading-none tracking-[-0.06em] text-text">{streak.freezeCount}</p>
+            <p className="mt-2 font-sans text-4xl font-semibold leading-none tracking-[-0.06em] text-text">{streak.freezeCount}</p>
             <p className="mt-2 max-w-[220px] text-sm leading-relaxed text-muted">
               Tokens set aside for a day life gets in the way.
             </p>
@@ -153,7 +153,7 @@ export function ProgressPage() {
             <p className="text-xs font-medium text-muted">This week</p>
             <ProgressIcon name="calendar" className="h-4 w-4 text-progress-strong" />
           </div>
-          <p className="mt-3 font-display text-2xl font-semibold tracking-[-0.045em] text-text">{stats.weeklyMinutes}<span className="ml-1.5 text-sm font-medium text-muted">min</span></p>
+          <p className="mt-3 font-sans text-2xl font-semibold tracking-[-0.045em] text-text">{stats.weeklyMinutes}<span className="ml-1.5 text-sm font-medium text-muted">min</span></p>
           <div
             aria-label="Weekly learning goal progress"
             aria-valuemax={100}
@@ -172,7 +172,7 @@ export function ProgressPage() {
             <p className="text-xs font-medium text-muted">Time invested</p>
             <ProgressIcon name="clock" className="h-4 w-4 text-progress-strong" />
           </div>
-          <p className="mt-3 font-display text-2xl font-semibold tracking-[-0.045em] text-text">{stats.roadmap.hoursLearned}<span className="ml-1.5 text-sm font-medium text-muted">hours</span></p>
+          <p className="mt-3 font-sans text-2xl font-semibold tracking-[-0.045em] text-text">{stats.roadmap.hoursLearned}<span className="ml-1.5 text-sm font-medium text-muted">hours</span></p>
           <p className="mt-2 text-[11px] text-muted">Every hour is a step forward.</p>
         </article>
 
@@ -181,7 +181,7 @@ export function ProgressPage() {
             <p className="text-xs font-medium text-muted">Tasks completed</p>
             <ProgressIcon name="check" className="h-4 w-4 text-progress-strong" />
           </div>
-          <p className="mt-3 font-display text-2xl font-semibold tracking-[-0.045em] text-text">{learningProgress.tasksCompleted}<span className="ml-1.5 text-sm font-medium text-muted">/ {learningProgress.taskGoal}</span></p>
+          <p className="mt-3 font-sans text-2xl font-semibold tracking-[-0.045em] text-text">{learningProgress.tasksCompleted}<span className="ml-1.5 text-sm font-medium text-muted">/ {learningProgress.taskGoal}</span></p>
           <div
             aria-label="Learning plan task progress"
             aria-valuemax={100}
@@ -200,7 +200,7 @@ export function ProgressPage() {
             <p className="text-xs font-medium text-muted">Predicted mastery</p>
             <ProgressIcon name="target" className="h-4 w-4 text-progress-strong" />
           </div>
-          <p className="mt-3 font-display text-2xl font-semibold tracking-[-0.045em] text-text">{stats.predictedMastery}<span className="ml-0.5 text-sm font-medium text-muted">%</span></p>
+          <p className="mt-3 font-sans text-2xl font-semibold tracking-[-0.045em] text-text">{stats.predictedMastery}<span className="ml-0.5 text-sm font-medium text-muted">%</span></p>
           <p className="mt-2 text-[11px] text-muted">A forecast, not a finish line.</p>
         </article>
       </section>

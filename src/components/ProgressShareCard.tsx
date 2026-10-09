@@ -17,7 +17,7 @@ export function ProgressShareCard({ stats, learningProgress }: ProgressShareCard
       <div className="relative grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.8fr)] lg:items-center">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">A moment worth keeping</p>
-          <h2 className="mt-2 font-display text-2xl font-semibold tracking-[-0.04em] text-text sm:text-[1.7rem]">
+          <h2 className="mt-2 font-sans text-2xl font-semibold tracking-[-0.04em] text-text sm:text-[1.7rem]">
             Your progress, in a card
           </h2>
           <p className="mt-1.5 max-w-md text-sm leading-relaxed text-muted">
@@ -46,20 +46,20 @@ export function ProgressShareCard({ stats, learningProgress }: ProgressShareCard
             </div>
             <span className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted">My learning note</span>
           </div>
-          <p className="mt-5 font-display text-xl font-medium leading-snug tracking-[-0.025em] text-text sm:text-2xl">
+          <p className="mt-5 font-sans text-xl font-medium leading-snug tracking-[-0.025em] text-text sm:text-2xl">
             “{learningProgress.shareQuote || "One small practice at a time."}”
           </p>
           <div className="mt-5 grid grid-cols-3 gap-2 border-t border-border pt-4">
             <div>
-              <p className="font-display text-xl font-semibold tracking-[-0.04em] text-text">{stats.streak.currentDays}</p>
+              <p className="font-sans text-xl font-semibold tracking-[-0.04em] text-text">{stats.streak.currentDays}</p>
               <p className="mt-0.5 text-[10px] leading-tight text-muted">day streak</p>
             </div>
             <div>
-              <p className="font-display text-xl font-semibold tracking-[-0.04em] text-text">{stats.roadmap.hoursLearned}</p>
+              <p className="font-sans text-xl font-semibold tracking-[-0.04em] text-text">{stats.roadmap.hoursLearned}</p>
               <p className="mt-0.5 text-[10px] leading-tight text-muted">hours learned</p>
             </div>
             <div>
-              <p className="font-display text-xl font-semibold tracking-[-0.04em] text-text">{learningProgress.tasksCompleted}</p>
+              <p className="font-sans text-xl font-semibold tracking-[-0.04em] text-text">{learningProgress.tasksCompleted}</p>
               <p className="mt-0.5 text-[10px] leading-tight text-muted">tasks done</p>
             </div>
           </div>

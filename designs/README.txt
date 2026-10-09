@@ -1,1 +1,3 @@
 Layout and content come from the screens in desktop/ and mobile/. Colors, fonts and radii come from the design tokens in the build prompt, NOT from the dark-theme screenshots or the DESIGN.md files, which describe the old dark theme.
+Ignore /designs/_old.
+
