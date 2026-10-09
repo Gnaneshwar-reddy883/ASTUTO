@@ -1,4 +1,4 @@
-import type { SVGProps } from "react";
+import type { ReactNode, SVGProps } from "react";
 
 export type ProgressIconName =
   | "flame"
@@ -17,7 +17,7 @@ type ProgressIconProps = SVGProps<SVGSVGElement> & {
   name: ProgressIconName;
 };
 
-const iconPaths: Record<ProgressIconName, React.ReactNode> = {
+const iconPaths: Record<ProgressIconName, ReactNode> = {
   flame: (
     <>
       <path d="M12 22c4.4 0 7.5-3 7.5-7.2 0-3.2-1.8-5.1-4.4-8.3-.2 2.2-1.3 3.1-2.1 3.6C12.5 6.2 10 3.8 7.2 2c.4 3.8-.5 5.7-2.4 8.1-1.2 1.5-2.3 2.8-2.3 5.1C2.5 19 6.2 22 12 22Z" />

@@ -38,7 +38,7 @@ export function ProgressShareCard({ stats, learningProgress }: ProgressShareCard
           )}
         </div>
 
-        <div className="relative overflow-hidden rounded-[18px] border border-surface/70 bg-surface p-5 shadow-[0_14px_36px_rgba(76,81,102,0.08)] sm:p-6">
+        <div className="relative overflow-hidden rounded-card border border-surface/70 bg-surface p-5 shadow-sm sm:p-6">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <span className="h-2.5 w-2.5 rounded-full bg-progress-strong" />

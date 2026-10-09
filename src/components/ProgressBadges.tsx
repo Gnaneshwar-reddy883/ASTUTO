@@ -24,12 +24,12 @@ export function ProgressBadges({ badges }: ProgressBadgesProps) {
   const earnedCount = badges.filter((badge) => badge.status === "earned").length;
 
   return (
-    <section className="rounded-card border border-border bg-surface p-5 shadow-[0_10px_30px_rgba(43,71,55,0.04)] sm:p-7">
+    <section className="rounded-card border border-border bg-surface p-5 shadow-sm sm:p-7">
       <div className="flex items-end justify-between gap-3">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Milestones</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Earned &amp; upcoming</p>
           <h2 className="mt-2 font-display text-2xl font-semibold tracking-[-0.04em] text-text sm:text-[1.7rem]">
-            Little wins, collected
+            Learning badges
           </h2>
         </div>
         <p className="shrink-0 pb-1 text-xs font-medium text-progress-strong">
@@ -49,7 +49,7 @@ export function ProgressBadges({ badges }: ProgressBadgesProps) {
                 key={badge.id}
               >
                 <div className="flex items-start gap-3">
-                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-[13px] ${earned ? "bg-mint text-progress-strong" : "bg-surface text-muted"}`}>
+                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${earned ? "bg-mint text-progress-strong" : "bg-surface text-muted"}`}>
                     <ProgressIcon name={badgeIconNames[badge.icon]} className="h-5 w-5" />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -73,11 +73,15 @@ export function ProgressBadges({ badges }: ProgressBadgesProps) {
                       <span>{badge.progress ?? 0} / {badge.target}</span>
                       <span>{percent}%</span>
                     </div>
-                    <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-border">
-                      <div
-                        className="h-full rounded-full bg-progress-strong transition-[width] duration-300"
-                        style={{ width: `${percent}%` }}
-                      />
+                    <div
+                      aria-label={`${badge.title} progress`}
+                      aria-valuemax={badge.target}
+                      aria-valuemin={0}
+                      aria-valuenow={badge.progress ?? 0}
+                      className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-border"
+                      role="progressbar"
+                    >
+                      <div className="h-full rounded-full bg-progress-strong transition-[width] duration-300" style={{ width: `${percent}%` }} />
                     </div>
                   </div>
                 ) : (

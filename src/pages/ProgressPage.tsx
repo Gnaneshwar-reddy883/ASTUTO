@@ -1,6 +1,6 @@
 // Purpose: make a learner's steady practice, momentum, and milestones visible without pressure.
 // Components used: ProgressActivityHeatmap, ProgressBadges, ProgressShareCard, and ProgressIcon.
-// API function called: getStats(). Real data needed: the Stats fields returned by getStats, including streak, weekly metrics, roadmap.hoursLearned, and learningProgress.
+// API function called: getStats(). Real data needed: streak/freezes, weekly goals, predicted mastery, hours learned, activity, task totals, and badge progress.
 import { useCallback, useEffect, useState } from "react";
 import { ProgressActivityHeatmap } from "../components/ProgressActivityHeatmap";
 import { ProgressBadges } from "../components/ProgressBadges";
@@ -134,7 +134,7 @@ export function ProgressPage() {
           </div>
           <div className="flex shrink-0 items-center gap-2">
             {Array.from({ length: Math.min(streak.freezeCount, 4) }, (_, index) => (
-              <div className="flex h-11 w-11 items-center justify-center rounded-full border border-surface bg-surface text-progress-strong shadow-[0_3px_12px_rgba(85,91,120,0.06)]" key={index} title="Streak freeze token">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full border border-surface bg-surface text-progress-strong shadow-sm" key={index} title="Streak freeze token">
                 <ProgressIcon name="snowflake" className="h-5 w-5" />
               </div>
             ))}
@@ -154,7 +154,14 @@ export function ProgressPage() {
             <ProgressIcon name="calendar" className="h-4 w-4 text-progress-strong" />
           </div>
           <p className="mt-3 font-display text-2xl font-semibold tracking-[-0.045em] text-text">{stats.weeklyMinutes}<span className="ml-1.5 text-sm font-medium text-muted">min</span></p>
-          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-bg">
+          <div
+            aria-label="Weekly learning goal progress"
+            aria-valuemax={100}
+            aria-valuemin={0}
+            aria-valuenow={weeklyPercent}
+            className="mt-3 h-1.5 overflow-hidden rounded-full bg-bg"
+            role="progressbar"
+          >
             <div className="h-full rounded-full bg-progress-strong" style={{ width: `${weeklyPercent}%` }} />
           </div>
           <p className="mt-2 text-[11px] text-muted">{weeklyPercent}% of {stats.weeklyGoalMinutes} min weekly goal</p>
@@ -175,7 +182,14 @@ export function ProgressPage() {
             <ProgressIcon name="check" className="h-4 w-4 text-progress-strong" />
           </div>
           <p className="mt-3 font-display text-2xl font-semibold tracking-[-0.045em] text-text">{learningProgress.tasksCompleted}<span className="ml-1.5 text-sm font-medium text-muted">/ {learningProgress.taskGoal}</span></p>
-          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-bg">
+          <div
+            aria-label="Learning plan task progress"
+            aria-valuemax={100}
+            aria-valuemin={0}
+            aria-valuenow={taskPercent}
+            className="mt-3 h-1.5 overflow-hidden rounded-full bg-bg"
+            role="progressbar"
+          >
             <div className="h-full rounded-full bg-progress-strong" style={{ width: `${taskPercent}%` }} />
           </div>
           <p className="mt-2 text-[11px] text-muted">Learning plan progress</p>

@@ -17,7 +17,7 @@
 - `/settings` — profile and timetable settings (placeholder).
 
 ## Components
-- `AppShell`, `TaskCard`, `PhaseNode`, `StreakBadge`, `ProgressRing`, `RoadmapFlow`, `RoadmapStatsCard`, `MotivationCard`, `ResourcesPanel`, `AiDrawer`, `PlaceholderPage`.
+- `AppShell`, `TaskCard`, `PhaseNode`, `StreakBadge`, `ProgressRing`, `RoadmapFlow`, `RoadmapStatsCard`, `ProgressActivityHeatmap`, `ProgressBadges`, `ProgressShareCard`, `ProgressIcon`, `MotivationCard`, `ResourcesPanel`, `AiDrawer`, `PlaceholderPage`.
 
 ## Data types
 - `User`: id, name, avatar initials, skill name.

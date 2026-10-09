@@ -26,15 +26,15 @@ export function ProgressActivityHeatmap({ activity }: ProgressActivityHeatmapPro
     const recent = [...activity]
       .sort((a, b) => a.date.localeCompare(b.date))
       .slice(-84);
-    const leadingBlanks = recent.length ? parseDate(recent[0].date).getUTCDay() : 0;
+    const leadingBlanks = recent.length ? (parseDate(recent[0].date).getUTCDay() + 6) % 7 : 0;
     const cells: HeatmapCell[] = [...Array<null>(leadingBlanks).fill(null), ...recent];
     while (cells.length % 7 !== 0) cells.push(null);
     const grouped: HeatmapCell[][] = [];
     for (let index = 0; index < cells.length; index += 7) {
       grouped.push(cells.slice(index, index + 7));
     }
-    const padded = grouped.slice(-13);
-    while (padded.length < 13) padded.unshift(Array<null>(7).fill(null));
+    const padded = grouped.slice(-12);
+    while (padded.length < 12) padded.unshift(Array<null>(7).fill(null));
     const labels = padded.map((week, index) => {
       const firstDate = week.find((day): day is ProgressActivityDay => day !== null);
       if (!firstDate) return "";
@@ -61,12 +61,12 @@ export function ProgressActivityHeatmap({ activity }: ProgressActivityHeatmapPro
   }, [activity]);
 
   return (
-    <section className="rounded-card border border-border bg-surface p-5 shadow-[0_10px_30px_rgba(43,71,55,0.04)] sm:p-7">
+    <section className="rounded-card border border-border bg-surface p-5 shadow-sm sm:p-7">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Practice history</p>
           <h2 className="mt-2 font-display text-2xl font-semibold tracking-[-0.04em] text-text sm:text-[1.7rem]">
-            Your rhythm, at a glance
+            Activity &amp; cadence heatmap
           </h2>
           <p className="mt-1.5 text-sm text-muted">A little practice leaves a mark.</p>
         </div>
@@ -86,25 +86,25 @@ export function ProgressActivityHeatmap({ activity }: ProgressActivityHeatmapPro
           <span />
         </div>
         <div className="min-w-0">
-          <div className="mb-2 grid grid-cols-13 text-[10px] text-muted">
+          <div
+            className="mb-2 grid text-[10px] text-muted"
+            style={{ gridTemplateColumns: `repeat(${weeks.length}, minmax(0, 1fr))` }}
+          >
             {monthLabels.map((label, index) => (
               <span className="min-w-0" key={`${label}-${index}`}>{label}</span>
             ))}
           </div>
           <div
-            aria-label="Practice activity over the last twelve weeks"
+            aria-label={`Calendar heatmap of practice over the last twelve weeks: ${activeDays} active days and ${totalMinutes} minutes practiced`}
             className="grid grid-flow-col grid-rows-7 gap-[5px]"
+            role="img"
             style={{ gridTemplateColumns: `repeat(${weeks.length}, minmax(0, 1fr))` }}
           >
             {weeks.flatMap((week, weekIndex) =>
               week.map((day, dayIndex) => (
                 <div
-                  aria-label={
-                    day
-                      ? `${day.date}: ${day.minutes} minutes practiced${day.isToday ? ", today" : ""}`
-                      : "No activity recorded"
-                  }
-                  className={`aspect-square w-full max-w-[17px] justify-self-center rounded-[4px] transition-transform duration-150 hover:scale-110 ${day ? intensityClass(day.minutes) : "bg-bg"}`}
+                  aria-hidden="true"
+                  className={`aspect-square w-full max-w-[17px] justify-self-center rounded-sm transition-transform duration-150 hover:scale-110 ${day ? intensityClass(day.minutes) : "bg-bg"}`}
                   key={`${weekIndex}-${dayIndex}`}
                   title={day ? `${day.date} · ${day.minutes} min` : "No activity recorded"}
                 />
@@ -117,11 +117,11 @@ export function ProgressActivityHeatmap({ activity }: ProgressActivityHeatmapPro
       <div className="mt-5 flex flex-wrap items-center justify-between gap-x-5 gap-y-3 border-t border-border pt-4">
         <div className="flex items-center gap-1.5 text-xs text-muted">
           <span>Less</span>
-          <span className="h-3 w-3 rounded-[3px] border border-border bg-bg" />
-          <span className="h-3 w-3 rounded-[3px] bg-progress" />
-          <span className="h-3 w-3 rounded-[3px] bg-mint" />
-          <span className="h-3 w-3 rounded-[3px] bg-progress-strong/55" />
-          <span className="h-3 w-3 rounded-[3px] bg-progress-strong" />
+          <span className="h-3 w-3 rounded-sm border border-border bg-bg" />
+          <span className="h-3 w-3 rounded-sm bg-progress" />
+          <span className="h-3 w-3 rounded-sm bg-mint" />
+          <span className="h-3 w-3 rounded-sm bg-progress-strong/55" />
+          <span className="h-3 w-3 rounded-sm bg-progress-strong" />
           <span>More</span>
         </div>
         <p className="text-xs text-muted">{activeDays} practice days · {totalMinutes} minutes</p>

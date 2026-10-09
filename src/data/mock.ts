@@ -230,15 +230,22 @@ export const mockTodayTasks: Task[] = [
   },
 ];
 
-const activityMinutesPattern = [0, 30, 45, 0, 20, 50, 0, 35, 25, 60, 15, 0, 40, 55];
-const recentStreakMinutes = [20, 35, 30, 50, 25, 45, 60, 30, 40, 25, 55, 35, 45, 30];
+const activityMinutesPattern = [0, 16, 24, 0, 12, 30, 0, 20, 15, 35, 10, 0, 22, 28];
+const recentStreakMinutes = [45, 60, 55, 75, 40, 65, 80, 45, 60, 50, 75, 55, 70, 60];
+const millisecondsPerDay = 24 * 60 * 60 * 1000;
+const now = new Date();
+const todayUtc = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+const daysSinceMonday = (new Date(todayUtc).getUTCDay() + 6) % 7;
+const firstActivityDay = todayUtc - (84 + daysSinceMonday) * millisecondsPerDay;
 const mockProgressActivity: ProgressActivityDay[] = Array.from({ length: 91 }, (_, index) => {
-  const date = new Date(Date.UTC(2026, 6, 13 + index)).toISOString().slice(0, 10);
-  const isToday = date === "2026-10-08";
-  const minutes = index > 87
+  const activityDate = new Date(firstActivityDay + index * millisecondsPerDay);
+  const date = activityDate.toISOString().slice(0, 10);
+  const daysBeforeToday = Math.round((todayUtc - activityDate.getTime()) / millisecondsPerDay);
+  const isToday = daysBeforeToday === 0;
+  const minutes = daysBeforeToday < 0
     ? 0
-    : index >= 74
-      ? (isToday ? 35 : recentStreakMinutes[index - 74])
+    : daysBeforeToday < 14
+      ? recentStreakMinutes[13 - daysBeforeToday]
       : activityMinutesPattern[index % activityMinutesPattern.length];
 
   return { date, minutes, isToday };
