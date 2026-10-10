@@ -2,11 +2,13 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
 import { mockPlan } from "../data/mock";
+import { getSettings, updateSettings } from "../services/api";
 import type { TimeSlot } from "../types";
 import type { LearnerLevel, OnboardingDraft, PlanDuration } from "../types/onboarding";
 
@@ -76,25 +78,62 @@ export function PlanProvider({ children }: { children: ReactNode }) {
 
   const [freezeCount, setFreezeCount] = useState<number>(2);
 
+  // Load preferences from SQLite on app startup
+  useEffect(() => {
+    let active = true;
+    getSettings()
+      .then((saved) => {
+        if (!active) return;
+        if (saved.tone) setTone(saved.tone);
+        if (saved.reminders) setReminders(saved.reminders);
+        if (saved.slots && Array.isArray(saved.slots)) {
+          setSlots((current) =>
+            current.map((c) => {
+              const matching = saved.slots?.find((s) => s.id === c.id);
+              return matching ? { ...c, minutes: matching.minutes, startTime: matching.startTime || c.startTime } : c;
+            }),
+          );
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const setToneAndSave = useCallback((newTone: ToneId) => {
+    setTone(newTone);
+    void updateSettings({ tone: newTone });
+  }, []);
+
   const updateSlotMinutes = useCallback((slotId: TimeSlot, minutes: number) => {
     const clamped = Math.max(0, Math.min(120, minutes));
-    setSlots((current) =>
-      current.map((slot) => (slot.id === slotId ? { ...slot, minutes: clamped } : slot)),
-    );
+    setSlots((current) => {
+      const updated = current.map((slot) => (slot.id === slotId ? { ...slot, minutes: clamped } : slot));
+      void updateSettings({ slots: updated });
+      return updated;
+    });
   }, []);
 
   const updateSlotStartTime = useCallback((slotId: TimeSlot, startTime: string) => {
-    setSlots((current) =>
-      current.map((slot) => (slot.id === slotId ? { ...slot, startTime } : slot)),
-    );
+    setSlots((current) => {
+      const updated = current.map((slot) => (slot.id === slotId ? { ...slot, startTime } : slot));
+      void updateSettings({ slots: updated });
+      return updated;
+    });
   }, []);
 
   const setAllSlots = useCallback((newSlots: TimeSlotPreference[]) => {
     setSlots(newSlots);
+    void updateSettings({ slots: newSlots });
   }, []);
 
   const toggleReminder = useCallback((reminderId: ReminderId) => {
-    setReminders((current) => ({ ...current, [reminderId]: !current[reminderId] }));
+    setReminders((current) => {
+      const updated = { ...current, [reminderId]: !current[reminderId] };
+      void updateSettings({ reminders: updated });
+      return updated;
+    });
   }, []);
 
   const reshufflePlan = useCallback((mode: ReshuffleMode, useFreezes = true) => {
@@ -173,7 +212,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
       updateSlotStartTime,
       setAllSlots,
       tone,
-      setTone,
+      setTone: setToneAndSave,
       reminders,
       toggleReminder,
       freezeCount,
@@ -194,6 +233,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
       updateSlotStartTime,
       setAllSlots,
       tone,
+      setToneAndSave,
       reminders,
       toggleReminder,
       freezeCount,

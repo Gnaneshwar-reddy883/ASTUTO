@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { AlertCircle, ArrowRight, CalendarDays, Check, Clock3, RotateCw, Sparkles } from "lucide-react";
-import { completeTask, getPlan, getStats, getTodayTasks } from "../services/api";
+import { AlertCircle, ArrowRight, CalendarDays, Check, Clock3, Plus, RotateCw, Sparkles, X } from "lucide-react";
+import { completeTask, createTask, getPlan, getStats, getTodayTasks } from "../services/api";
 import type { Plan, Stats, Task, TimeSlot } from "../types";
 import { MotivationCard } from "../components/MotivationCard";
 import { PhaseNode } from "../components/PhaseNode";
@@ -25,6 +25,32 @@ export function TodayPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [actionError, setActionError] = useState("");
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
+  const [newSlot, setNewSlot] = useState<TimeSlot>("evening");
+  const [newMinutes, setNewMinutes] = useState(20);
+  const [addingTask, setAddingTask] = useState(false);
+
+  async function handleCreateTask(e: React.FormEvent) {
+    e.preventDefault();
+    if (!newTitle.trim() || addingTask) return;
+    setAddingTask(true);
+    setActionError("");
+    try {
+      const created = await createTask({
+        title: newTitle.trim(),
+        slot: newSlot,
+        estimatedMinutes: Number(newMinutes) || 15,
+      });
+      setTasks((curr) => [...curr, created]);
+      setNewTitle("");
+      setShowAddForm(false);
+    } catch {
+      setActionError("Could not save the new task to the database. Please try again.");
+    } finally {
+      setAddingTask(false);
+    }
+  }
 
   async function loadToday() {
     setLoading(true);
@@ -161,10 +187,91 @@ export function TodayPage() {
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">Small steps, real progress</p>
               <h2 id="today-plan-heading" className="mt-1 text-xl font-semibold tracking-[-0.035em]">Today’s practice</h2>
             </div>
-            <span className="inline-flex items-center gap-1.5 pb-1 text-xs text-muted">
-              <Clock3 size={14} /> {remainingMinutes} min left
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="hidden items-center gap-1.5 pb-1 text-xs text-muted sm:inline-flex">
+                <Clock3 size={14} /> {remainingMinutes} min left
+              </span>
+              <button
+                type="button"
+                onClick={() => setShowAddForm((v) => !v)}
+                className="inline-flex items-center gap-1 rounded-pill bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-transform hover:scale-[1.02]"
+              >
+                {showAddForm ? <X size={14} /> : <Plus size={14} />}
+                {showAddForm ? "Cancel" : "Add Task"}
+              </button>
+            </div>
           </div>
+
+          {showAddForm && (
+            <form onSubmit={handleCreateTask} className="mb-5 rounded-2xl border border-border bg-surface p-4 shadow-sm animate-slide-up">
+              <h3 className="mb-3 text-sm font-semibold">Add a new practice task</h3>
+              <div className="space-y-3">
+                <div>
+                  <label htmlFor="task-title" className="mb-1 block text-xs font-medium text-muted">
+                    Task Title
+                  </label>
+                  <input
+                    id="task-title"
+                    type="text"
+                    required
+                    placeholder="e.g. Build a mini calculator script"
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    className="w-full rounded-xl border border-border bg-bg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label htmlFor="task-slot" className="mb-1 block text-xs font-medium text-muted">
+                      Time Slot
+                    </label>
+                    <select
+                      id="task-slot"
+                      value={newSlot}
+                      onChange={(e) => setNewSlot(e.target.value as TimeSlot)}
+                      className="w-full rounded-xl border border-border bg-bg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                    >
+                      <option value="morning">Morning</option>
+                      <option value="college">College</option>
+                      <option value="evening">Evening</option>
+                      <option value="night">Night</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="task-minutes" className="mb-1 block text-xs font-medium text-muted">
+                      Minutes
+                    </label>
+                    <input
+                      id="task-minutes"
+                      type="number"
+                      min={5}
+                      max={180}
+                      step={5}
+                      value={newMinutes}
+                      onChange={(e) => setNewMinutes(Number(e.target.value))}
+                      className="w-full rounded-xl border border-border bg-bg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-end gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddForm(false)}
+                    className="rounded-pill px-3 py-1.5 text-xs font-medium text-muted hover:bg-bg"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={addingTask}
+                    className="rounded-pill bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground disabled:opacity-50"
+                  >
+                    {addingTask ? "Saving..." : "Save to SQLite"}
+                  </button>
+                </div>
+              </div>
+            </form>
+          )}
           {actionError && <p role="alert" className="mb-3 text-sm text-muted">{actionError}</p>}
           <div className="space-y-5">
             {groupedTasks.map((group) => group.tasks.length > 0 && (
