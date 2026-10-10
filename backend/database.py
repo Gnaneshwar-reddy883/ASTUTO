@@ -153,14 +153,22 @@ def get_settings_from_db():
         return DEFAULT_SETTINGS
 
 def save_settings_to_db(settings_data: dict):
+    current = get_settings_from_db()
+    merged = dict(current)
+    for key, value in settings_data.items():
+        if isinstance(value, dict) and isinstance(merged.get(key), dict):
+            merged[key] = {**merged[key], **value}
+        else:
+            merged[key] = value
+
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(
             "INSERT OR REPLACE INTO settings (key, value) VALUES ('user_preferences', ?)",
-            (json.dumps(settings_data),),
+            (json.dumps(merged),),
         )
         conn.commit()
-        return settings_data
+        return merged
 
 def fetch_all_tasks():
     with get_connection() as conn:

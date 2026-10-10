@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { AlertCircle, ArrowRight, CalendarDays, Check, Clock3, Plus, RotateCw, Sparkles, X } from "lucide-react";
-import { completeTask, createTask, getPlan, getStats, getTodayTasks } from "../services/api";
+import { completeTask, createTask, getPlan, getStats, getTodayTasks, toggleTaskApi } from "../services/api";
 import type { Plan, Stats, Task, TimeSlot } from "../types";
 import { MotivationCard } from "../components/MotivationCard";
 import { PhaseNode } from "../components/PhaseNode";
@@ -46,7 +46,7 @@ export function TodayPage() {
       setNewTitle("");
       setShowAddForm(false);
     } catch {
-      setActionError("Could not save the new task to the database. Please try again.");
+      setActionError("Could not save the new task. Please try again.");
     } finally {
       setAddingTask(false);
     }
@@ -87,16 +87,18 @@ export function TodayPage() {
     if (!task) return;
 
     setActionError("");
-    if (task.completed) {
-      setTasks((current) => current.map((item) => item.id === id ? { ...item, completed: false } : item));
-      return;
-    }
-
     try {
-      const completedTask = await completeTask(id);
-      setTasks((current) =>
-        current.map((item) => item.id === id ? { ...item, completed: completedTask.completed } : item),
-      );
+      if (task.completed) {
+        const updated = await toggleTaskApi(id);
+        setTasks((current) =>
+          current.map((item) => (item.id === id ? { ...item, completed: updated.completed } : item)),
+        );
+      } else {
+        const completedTask = await completeTask(id);
+        setTasks((current) =>
+          current.map((item) => (item.id === id ? { ...item, completed: completedTask.completed } : item)),
+        );
+      }
     } catch {
       setActionError("That task could not be updated. Please try again.");
     }
@@ -266,7 +268,7 @@ export function TodayPage() {
                     disabled={addingTask}
                     className="rounded-pill bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground disabled:opacity-50"
                   >
-                    {addingTask ? "Saving..." : "Save to SQLite"}
+                    {addingTask ? "Saving..." : "Save task"}
                   </button>
                 </div>
               </div>

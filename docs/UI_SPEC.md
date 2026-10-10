@@ -56,12 +56,31 @@
 - Settings → adjust daily slot durations, toggle reminders, and select coach tone; updates sync with `PlanContext`.
 - Brand menu → switch the displayed skill or edit the local timetable; updates sync with `PlanContext`.
 
-## Backend TODO
+## Backend integration & API
+- Base URL configured via `VITE_API_BASE_URL` (defaults to `http://localhost:8000`).
+- CORS allows `http://localhost:5000`, `http://127.0.0.1:5000`, `http://localhost:5173`, and `http://127.0.0.1:5173`.
+
+### Endpoints
+- `GET /` — API greeting.
+- `GET /health` — health check endpoint (`{"status": "ok"}`).
 - `GET /api/plan` — return user, plan, six roadmap phases, milestones, month/week task counts, week, and resource data.
 - `GET /api/plan/today/tasks` — return scheduled tasks for the current learner and date.
-- `POST /api/tasks/:taskId/complete` — save task completion.
+- `POST /api/tasks` — create a new scheduled practice task.
+- `POST /api/tasks/:taskId/toggle` — toggle task completion state.
+- `POST /api/tasks/:taskId/complete` — mark task as completed.
+- `DELETE /api/tasks/:taskId` — remove a practice task.
 - `GET /api/stats` — return streak/freezes, retention, weekly cadence, milestone progress, hours learned, SWOT lists, motivation, skill level, progress activity, task totals, and badge states.
 - `POST /api/ai/messages` — send a learner message and return an assistant reply.
 - `POST /api/plan/reshuffle` — save learner reshuffle choice (distribute minutes across upcoming days or extend target completion date) and apply streak freezes.
-- Settings currently use React local state only; no settings persistence endpoint is called.
-- Expected tables: `users`, `plans`, `phases`, `weeks`, `days`, `tasks`, `streaks`, `stats`, `ai_messages`.
+- `GET /api/settings` — retrieve saved learner preferences (tone, reminders, slot minutes and start times).
+- `PUT /api/settings` — persist updated learner preferences, merging partial edits with existing preferences.
+
+### Offline fallback behavior
+- If any backend fetch fails or the server is unreachable, `src/services/api.ts` gracefully falls back to mock data from `src/data/mock.ts`.
+- The UI shows one small, calm status banner: "Showing demo data. Backend is offline." without displaying error screens or crashing.
+- Task additions, completions, and setting edits apply locally to offline mock state during the session.
+
+### Known limitations
+- Reshuffle state is in-memory: updates to `STREAK_STATE` and `DEFAULT_PLAN["totalDays"]` reset if the backend server restarts.
+- Only the `tasks` and `settings` tables are in SQLite: user profiles, roadmap phases, and stats are served from in-memory objects.
+- The AI replies are keyword-based: assistant replies are determined by keyword matching without an external LLM service.
