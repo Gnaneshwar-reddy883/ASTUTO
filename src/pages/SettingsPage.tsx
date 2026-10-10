@@ -331,9 +331,9 @@ export function SettingsPage() {
               Make your learning routine feel like it fits you.
             </p>
           </div>
-          <div className="inline-flex items-center gap-2 rounded-pill border border-border bg-surface px-3 py-2 text-xs font-medium text-muted">
-            <span aria-hidden="true" className="h-2 w-2 rounded-full bg-progress-strong" />
-            Local preview only
+          <div className="inline-flex items-center gap-2 rounded-pill border border-[#c4e6d2] bg-mint px-3 py-2 text-xs font-semibold text-[#2a6847]">
+            <span aria-hidden="true" className="h-2 w-2 rounded-full bg-progress-strong animate-pulse" />
+            Saved to SQLite
           </div>
         </header>
 

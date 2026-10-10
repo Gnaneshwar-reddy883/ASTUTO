@@ -17,6 +17,7 @@ import {
   Sunrise,
 } from "lucide-react";
 import { usePlan, type ReshuffleMode } from "../state/PlanContext";
+import { reshufflePlanApi } from "../services/api";
 
 export function MissedDaysPage() {
   const navigate = useNavigate();
@@ -25,12 +26,15 @@ export function MissedDaysPage() {
   const [useFreezes, setUseFreezes] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  const handleApply = () => {
+  const handleApply = async () => {
     setSubmitting(true);
+    try {
+      await reshufflePlanApi(selectedOption, useFreezes && freezeCount >= 2);
+    } catch (err) {
+      console.error("Backend reshuffle failed:", err);
+    }
     reshufflePlan(selectedOption, useFreezes && freezeCount >= 2);
-    setTimeout(() => {
-      navigate("/today");
-    }, 400);
+    navigate("/today");
   };
 
   return (
