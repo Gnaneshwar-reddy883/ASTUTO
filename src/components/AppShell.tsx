@@ -12,7 +12,7 @@ import {
   UserRound,
   X,
 } from "lucide-react";
-import { getPlan, getStats } from "../services/api";
+import { getPlan, getStats, useBackendOffline } from "../services/api";
 import type { Plan, Stats } from "../types";
 import { usePlan } from "../state/PlanContext";
 import { AiDrawer } from "./AiDrawer";
@@ -25,6 +25,7 @@ const navigation = [
 ];
 
 export function AppShell() {
+  const isOffline = useBackendOffline();
   const { skill, setSkill, currentDay, totalDays, slots, updateSlotStartTime } = usePlan();
   const morningStart = slots.find((s) => s.id === "morning")?.startTime || "8:15 AM";
   const [plan, setPlan] = useState<Plan | null>(null);
@@ -251,6 +252,15 @@ export function AppShell() {
         </header>
 
         <main className="mx-auto min-h-[calc(100dvh-68px)] max-w-[1440px] px-4 pb-24 pt-7 sm:px-6 sm:pt-9 lg:px-10 lg:pb-12">
+          {isOffline && (
+            <div
+              role="status"
+              className="mb-6 flex items-center gap-2.5 rounded-2xl border border-border bg-peach/60 px-4 py-2.5 text-xs text-text shadow-xs"
+            >
+              <span className="h-2 w-2 rounded-full bg-streak" />
+              <span className="font-medium">Showing demo data. Backend is offline.</span>
+            </div>
+          )}
           <Outlet />
         </main>
       </div>

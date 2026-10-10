@@ -78,7 +78,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
 
   const [freezeCount, setFreezeCount] = useState<number>(2);
 
-  // Load preferences from SQLite on app startup
+  // Load preferences from backend on app startup
   useEffect(() => {
     let active = true;
     getSettings()
