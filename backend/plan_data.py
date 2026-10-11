@@ -41,6 +41,7 @@ DEFAULT_PLAN = {
     "skillName": "Python for Data Science",
     "currentDay": 14,
     "totalDays": 90,
+    "missedDays": 0,
     "currentPhase": {
         "id": "phase-foundations",
         "name": "Phase 1",
@@ -214,6 +215,8 @@ def reshuffle_plan(mode: str, use_freezes: bool = True):
 
     if mode == "extend":
         DEFAULT_PLAN["totalDays"] += 2
+
+    DEFAULT_PLAN["missedDays"] = 0
 
     return {
         "success": True,

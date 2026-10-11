@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { AlertCircle, ArrowRight, CalendarDays, Check, Clock3, Plus, RotateCw, Sparkles, X } from "lucide-react";
-import { completeTask, createTask, getPlan, getStats, getTodayTasks, toggleTaskApi } from "../services/api";
+import { completeTask, createTask, getPlan, getStats, getTodayTasks, toggleTaskApi, useBackendOffline } from "../services/api";
 import type { Plan, Stats, Task, TimeSlot } from "../types";
 import { MotivationCard } from "../components/MotivationCard";
 import { PhaseNode } from "../components/PhaseNode";
@@ -19,6 +19,7 @@ const slots: { id: TimeSlot; label: string; note: string }[] = [
 
 export function TodayPage() {
   const { currentDay } = usePlan();
+  const isOffline = useBackendOffline();
   const [plan, setPlan] = useState<Plan | null>(null);
   const [stats, setStats] = useState<Stats | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -137,6 +138,8 @@ export function TodayPage() {
     );
   }
 
+  const missed = plan.missedDays;
+
   return (
     <div className="mx-auto max-w-[1240px] animate-slide-up">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-8">
@@ -164,23 +167,31 @@ export function TodayPage() {
       </div>
 
       {/* Missed days recovery banner */}
-      <div className="mb-7 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-peach/70 p-4 shadow-sm sm:px-5 sm:py-3.5">
-        <div className="flex items-center gap-3">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-surface text-streak shadow-xs">
-            <Sparkles size={17} />
-          </span>
-          <div>
-            <p className="text-sm font-semibold text-text">You missed 2 days. Want to reshuffle?</p>
-            <p className="text-xs text-muted">A gentle readjustment to protect your rhythm and streak.</p>
-          </div>
-        </div>
-        <Link
-          to="/missed-days"
-          className="inline-flex min-h-9 items-center gap-1.5 rounded-pill bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5"
+      {missed > 0 && (
+        <div
+          className={`mb-7 flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-peach/70 p-4 shadow-sm sm:px-5 sm:py-3.5 ${
+            isOffline ? "hidden sm:flex" : "flex"
+          }`}
         >
-          Reshuffle plan <ArrowRight size={14} />
-        </Link>
-      </div>
+          <div className="flex items-center gap-3">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-surface text-muted shadow-xs">
+              <Sparkles size={17} />
+            </span>
+            <div>
+              <p className="text-sm font-semibold text-text">
+                You missed {missed} {missed === 1 ? "day" : "days"}. Want to reshuffle?
+              </p>
+              <p className="text-xs text-muted">A gentle readjustment to protect your rhythm and streak.</p>
+            </div>
+          </div>
+          <Link
+            to="/missed-days"
+            className="inline-flex min-h-9 items-center gap-1.5 rounded-pill bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5"
+          >
+            Reshuffle plan <ArrowRight size={14} />
+          </Link>
+        </div>
+      )}
 
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px] xl:gap-8">
         <section aria-labelledby="today-plan-heading" className="min-w-0">

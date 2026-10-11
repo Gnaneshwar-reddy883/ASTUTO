@@ -119,6 +119,7 @@ export interface Plan {
   skillName: string;
   currentDay: number;
   totalDays: number;
+  missedDays: number;
   currentPhase: Phase;
   roadmap: RoadmapPhase[];
   week: Week;

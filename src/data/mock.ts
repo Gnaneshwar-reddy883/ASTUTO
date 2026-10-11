@@ -11,6 +11,7 @@ export const mockPlan: Plan = {
   skillName: "Python for Data Science",
   currentDay: 14,
   totalDays: 90,
+  missedDays: 0,
   currentPhase: {
     id: "phase-foundations",
     name: "Phase 1",
