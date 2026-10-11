@@ -9,3 +9,9 @@ A UI-only learning companion built with React, Vite, TypeScript, Tailwind CSS, a
 3. Open the preview at the address provided by Vite (port 5000 in Replit).
 
 The app opens at `/today`. All plan, task, statistics, and AI-assistant responses are mock data; no account, database, external API, or secret is used.
+
+## Credits
+
+- Gnaneshwar (Gnaneshwar-reddy883): product, frontend, backend integration and fixes.
+- sriharshanth2-hub: initial FastAPI + SQLite backend (PR #1).
+
