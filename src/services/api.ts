@@ -300,6 +300,7 @@ export async function reshufflePlanApi(
   } catch {
     setBackendOffline(true);
     // TODO(backend): fallback to mock data when backend is unreachable
+    mockPlan.missedDays = 0;
     return {
       success: true,
       mode,

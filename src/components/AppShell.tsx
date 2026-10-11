@@ -97,15 +97,6 @@ export function AppShell() {
             </NavLink>
           ))}
         </nav>
-        <div className="mt-auto rounded-card border border-border bg-bg p-4">
-          <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
-            <Flame size={17} className="text-streak" fill="currentColor" />
-            {stats ? `${stats.streak.currentDays}-day streak` : "Your streak"}
-          </div>
-          <p className="text-xs leading-relaxed text-muted">
-            {stats ? `${stats.streak.currentDays} days of showing up. Keep your rhythm.` : "A little practice, often."}
-          </p>
-        </div>
       </aside>
 
       <div className="lg:pl-[248px]">
@@ -257,7 +248,7 @@ export function AppShell() {
               role="status"
               className="mb-6 flex items-center gap-2.5 rounded-2xl border border-border bg-peach/60 px-4 py-2.5 text-xs text-text shadow-xs"
             >
-              <span className="h-2 w-2 rounded-full bg-streak" />
+              <span className="h-2 w-2 rounded-full bg-muted" />
               <span className="font-medium">Showing demo data. Backend is offline.</span>
             </div>
           )}
