@@ -227,8 +227,20 @@ def reshuffle_plan(mode: str, use_freezes: bool = True):
     }
 
 def get_stats_data():
+    streak_info = dict(STREAK_STATE)
+    try:
+        from database import get_streak_state
+        db_state = get_streak_state()
+        if db_state:
+            streak_info["currentDays"] = db_state["current_streak"]
+            streak_info["personalBest"] = db_state["longest_streak"]
+            streak_info["freezeCount"] = db_state["freezes_held"]
+            streak_info["lastActiveDate"] = db_state["last_active_date"]
+    except Exception:
+        pass
+
     return {
-        "streak": dict(STREAK_STATE),
+        "streak": streak_info,
         "predictedMastery": 94,
         "dailyRetention": [32, 41, 52, 48, 59, 72, 94],
         "weeklyMinutes": 420,

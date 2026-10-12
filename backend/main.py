@@ -1,4 +1,6 @@
-from fastapi import FastAPI, HTTPException
+import os
+from typing import Optional
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from database import (
@@ -10,7 +12,12 @@ from database import (
     delete_task_in_db,
     get_settings_from_db,
     save_settings_to_db,
+    get_streak_state,
+    save_streak_state,
+    get_completed_dates,
+    get_effective_today,
 )
+from streak_rules import evaluate_streak
 from plan_data import DEFAULT_PLAN, get_stats_data, reshuffle_plan
 
 app = FastAPI()
@@ -49,10 +56,23 @@ class CreateTaskRequest(BaseModel):
     optional: bool = False
     tags: list[str] = ["Custom"]
 
+def sync_streak_state(client_date: Optional[str] = None) -> dict:
+    effective_today = get_effective_today(client_date)
+    state = get_streak_state()
+    if state is None:
+        init_db()
+        state = get_streak_state()
+    completed_dates = get_completed_dates()
+    new_state = evaluate_streak(state, effective_today, completed_dates)
+    save_streak_state(new_state)
+    return new_state
+
 # Initialize SQLite database on startup
 @app.on_event("startup")
 def startup_event():
     init_db()
+    if os.getenv("ASTUTO_OVERRIDE_TODAY"):
+        print("WARNING: ASTUTO_OVERRIDE_TODAY is set (dev only)")
 
 @app.get("/")
 def read_root():
@@ -67,8 +87,18 @@ def get_plan():
     return DEFAULT_PLAN
 
 @app.get("/api/stats")
-def get_stats():
-    return get_stats_data()
+def get_stats(client_date: Optional[str] = None):
+    try:
+        new_state = sync_streak_state(client_date)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    stats = get_stats_data()
+    stats["streak"]["currentDays"] = new_state["current_streak"]
+    stats["streak"]["personalBest"] = new_state["longest_streak"]
+    stats["streak"]["freezeCount"] = new_state["freezes_held"]
+    stats["streak"]["lastActiveDate"] = new_state["last_active_date"]
+    return stats
 
 @app.get("/api/settings")
 def get_settings():
@@ -87,17 +117,57 @@ def post_create_task(body: CreateTaskRequest):
     return create_task_in_db(body.dict())
 
 @app.post("/api/tasks/{task_id}/toggle")
-def post_toggle_task(task_id: str):
-    task = toggle_task_in_db(task_id)
+async def post_toggle_task(
+    task_id: str,
+    request: Request,
+    client_date: Optional[str] = None,
+):
+    effective_client_date = client_date
+    if effective_client_date is None:
+        try:
+            body = await request.json()
+            if isinstance(body, dict) and "client_date" in body:
+                effective_client_date = body["client_date"]
+        except Exception:
+            pass
+
+    try:
+        effective_today = get_effective_today(effective_client_date)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    task = toggle_task_in_db(task_id, completion_date=effective_today)
     if not task:
         raise HTTPException(status_code=404, detail=f"Task '{task_id}' not found")
+
+    sync_streak_state(effective_client_date)
     return task
 
 @app.post("/api/tasks/{task_id}/complete")
-def complete_task(task_id: str):
-    task = complete_task_in_db(task_id)
+async def complete_task(
+    task_id: str,
+    request: Request,
+    client_date: Optional[str] = None,
+):
+    effective_client_date = client_date
+    if effective_client_date is None:
+        try:
+            body = await request.json()
+            if isinstance(body, dict) and "client_date" in body:
+                effective_client_date = body["client_date"]
+        except Exception:
+            pass
+
+    try:
+        effective_today = get_effective_today(effective_client_date)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    task = complete_task_in_db(task_id, completion_date=effective_today)
     if not task:
         raise HTTPException(status_code=404, detail=f"Task '{task_id}' not found")
+
+    sync_streak_state(effective_client_date)
     return task
 
 @app.delete("/api/tasks/{task_id}")
