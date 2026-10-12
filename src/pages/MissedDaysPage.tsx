@@ -1,6 +1,6 @@
 // Purpose: provide a warm, guilt-free recovery flow for missed study days with streak-freeze preservation and flexible schedule reshuffle options.
 // Components used: lucide-react icons, Link, useNavigate. API functions called: none; state managed through PlanContext. Real data needed: active streak, streak freezes, plan duration, daily time slots.
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
@@ -17,7 +17,16 @@ import {
   Sunrise,
 } from "lucide-react";
 import { usePlan, type ReshuffleMode } from "../state/PlanContext";
-import { reshufflePlanApi } from "../services/api";
+import { getPlan, reshufflePlanApi } from "../services/api";
+
+// Mirrors reshufflePlan in src/state/PlanContext.tsx (frontend only). The backend does not adjust slot minutes in spread mode. TODO: single source of truth once the freeze/reshuffle rules are decided.
+const MORNING_EXTRA_MINUTES = 5;
+const EVENING_EXTRA_MINUTES = 7;
+const TOTAL_EXTRA_MINUTES = MORNING_EXTRA_MINUTES + EVENING_EXTRA_MINUTES;
+const SPREAD_DAYS = 7;
+
+// Matches the fixed +2 days that PlanContext and plan_data.py add in extend mode. TODO(backend): make this depend on missed days once the reshuffle rules are decided.
+const EXTEND_DAYS = 2;
 
 export function MissedDaysPage() {
   const navigate = useNavigate();
@@ -25,6 +34,22 @@ export function MissedDaysPage() {
   const [selectedOption, setSelectedOption] = useState<ReshuffleMode>("spread");
   const [useFreezes, setUseFreezes] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [missedDays, setMissedDays] = useState(2);
+
+  useEffect(() => {
+    let active = true;
+    getPlan()
+      .then((plan) => {
+        if (!active) return;
+        if (plan?.missedDays && plan.missedDays > 0) {
+          setMissedDays(plan.missedDays);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const handleApply = async () => {
     setSubmitting(true);
@@ -48,7 +73,7 @@ export function MissedDaysPage() {
         </Link>
         <span className="inline-flex items-center gap-1.5 rounded-pill bg-mint px-3 py-1.5 text-xs font-semibold text-progress-strong">
           <span className="h-2 w-2 rounded-full bg-progress-strong animate-pulse" />
-          Pitstop Mode · 2 days offline
+          Pitstop Mode · {missedDays} {missedDays === 1 ? "day" : "days"} offline
         </span>
       </div>
 
@@ -124,7 +149,7 @@ export function MissedDaysPage() {
                   type="checkbox"
                   checked={useFreezes}
                   onChange={(e) => setUseFreezes(e.target.checked)}
-                  className="h-4 w-4 rounded border-border text-progress-strong focus:ring-progress-strong"
+                  className="h-4 w-4 rounded border-border accent-progress-strong text-progress-strong focus:ring-progress-strong"
                 />
                 <span className="text-xs font-semibold text-text sm:text-sm">
                   Use 2 Streak Freezes to preserve your 14-day flame
@@ -185,18 +210,18 @@ export function MissedDaysPage() {
                 Spread tasks across the next days
               </h3>
               <p className="mt-1.5 text-xs leading-relaxed text-muted sm:text-sm">
-                Adds just <strong className="text-text font-semibold">+12 mins</strong> to daily
-                study windows over the next 7 days. Your target end date ({duration} days) remains
+                Adds just <strong className="text-text font-semibold">+{TOTAL_EXTRA_MINUTES} mins</strong> to daily
+                study windows over the next {SPREAD_DAYS} days. Your target end date ({duration} days) remains
                 unchanged.
               </p>
 
               <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-bg p-2.5 text-xs">
                 <span className="inline-flex items-center gap-1 font-semibold text-progress-strong">
-                  <Sunrise size={13} /> Morn: +5m
+                  <Sunrise size={13} /> Morn: +{MORNING_EXTRA_MINUTES}m
                 </span>
                 <span className="text-border">·</span>
                 <span className="inline-flex items-center gap-1 font-semibold text-progress-strong">
-                  <Moon size={13} /> Eve: +7m
+                  <Moon size={13} /> Eve: +{EVENING_EXTRA_MINUTES}m
                 </span>
                 <span className="ml-auto inline-flex items-center gap-1 text-muted">
                   <ShieldCheck size={13} className="text-progress-strong" /> End date kept
@@ -237,7 +262,7 @@ export function MissedDaysPage() {
               </h3>
               <p className="mt-1.5 text-xs leading-relaxed text-muted sm:text-sm">
                 Keep your standard daily minutes unchanged. We gently shift your completion date
-                from day {duration} to day {duration + 2}.
+                from day {duration} to day {duration + EXTEND_DAYS}.
               </p>
 
               <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-bg p-2.5 text-xs">
@@ -245,7 +270,7 @@ export function MissedDaysPage() {
                   <Clock3 size={13} className="text-progress-strong" /> Daily minutes unchanged
                 </span>
                 <span className="ml-auto inline-flex items-center gap-1 font-semibold text-muted">
-                  <CalendarDays size={13} /> +2 days added
+                  <CalendarDays size={13} /> +{EXTEND_DAYS} days added
                 </span>
               </div>
             </div>
