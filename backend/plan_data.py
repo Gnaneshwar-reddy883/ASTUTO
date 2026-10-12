@@ -1,4 +1,5 @@
 from datetime import datetime, timezone, timedelta
+from typing import Optional
 
 def get_progress_activity():
     activity_pattern = [0, 16, 24, 0, 12, 30, 0, 20, 15, 35, 10, 0, 22, 28]
@@ -207,11 +208,9 @@ STREAK_STATE = {
     "topPercent": 4,
 }
 
-def reshuffle_plan(mode: str, use_freezes: bool = True):
-    freezes_used = 0
-    if use_freezes and STREAK_STATE["freezeCount"] >= 2:
-        STREAK_STATE["freezeCount"] -= 2
-        freezes_used = 2
+def reshuffle_plan(mode: str, use_freezes: bool = True, freezes_held: Optional[int] = None):
+    # Reshuffle never changes freezes; freezes are auto-managed exclusively by the streak engine
+    remaining = freezes_held if freezes_held is not None else STREAK_STATE.get("freezeCount", 0)
 
     if mode == "extend":
         DEFAULT_PLAN["totalDays"] += 2
@@ -221,8 +220,8 @@ def reshuffle_plan(mode: str, use_freezes: bool = True):
     return {
         "success": True,
         "mode": mode,
-        "freezesUsed": freezes_used,
-        "remainingFreezes": STREAK_STATE["freezeCount"],
+        "freezesUsed": 0,
+        "remainingFreezes": remaining,
         "totalDays": DEFAULT_PLAN["totalDays"],
     }
 
