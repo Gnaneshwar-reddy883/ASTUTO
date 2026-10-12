@@ -98,6 +98,20 @@ A missed day triggers a "reshuffle" (spread tasks across remaining days, or exte
 - Design constraint: the freeze indicator must not use the orange streak-flame color.
 - Tone constraint: a freeze is presented as a kind safety net, never as a penalty.
 
+### Streak freeze rules (decided)
+
+- Active day: completing at least 1 task that day.
+- Earning: 1 freeze at signup, then +1 at every 7-day streak milestone (7, 14, 21...).
+- Cap: max 2 held. If already at 2, nothing is added.
+- Use: automatic on a fully missed day, 1 freeze per missed day, applied when the user next opens the app, oldest missed day first.
+- A frozen day preserves the streak but does not increase it, and does not count as progress.
+- If missed days exceed freezes held: streak resets to 0, longest streak is kept and shown, no freezes are consumed, no failure screen.
+- Reshuffle is independent: a missed day always offers reshuffle, whether or not a freeze was used.
+- Day boundary: user's local midnight.
+- UI: freeze pills use muted or soft-blue tokens, never orange. Orange stays on the streak flame only.
+- Rules must live in ONE config constant (freezeStartCount, freezeCap, freezeMilestoneEvery, freezeCostPerDay) when implemented.
+- Status: rules decided, NOT yet implemented. The current code placeholder (starts at 2, costs 2, auto-ticked) is outdated.
+
 ## 9. Data Model (target, simplified)
 
 - users: id, name, timezone, notification_prefs, tone
