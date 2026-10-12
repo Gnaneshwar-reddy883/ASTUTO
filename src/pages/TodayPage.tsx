@@ -17,6 +17,14 @@ const slots: { id: TimeSlot; label: string; note: string }[] = [
   { id: "night", label: "Night", note: "Close the loop" },
 ];
 
+function getTimeGreeting(date = new Date()): string {
+  const hours = date.getHours();
+  if (hours >= 5 && hours < 12) return "Good morning";
+  if (hours >= 12 && hours < 17) return "Good afternoon";
+  if (hours >= 17 && hours < 22) return "Good evening";
+  return "Welcome back";
+}
+
 export function TodayPage() {
   const { currentDay } = usePlan();
   const isOffline = useBackendOffline();
@@ -82,6 +90,7 @@ export function TodayPage() {
     .reduce((total, task) => total + task.estimatedMinutes, 0);
   const dateLabel = new Intl.DateTimeFormat(undefined, { weekday: "long", month: "long", day: "numeric" }).format(new Date());
   const firstName = plan?.user.name.split(" ")[0] ?? "there";
+  const greeting = getTimeGreeting();
 
   async function toggleTask(id: string) {
     const task = tasks.find((item) => item.id === id);
@@ -148,7 +157,7 @@ export function TodayPage() {
             <CalendarDays size={15} />
             {dateLabel}
             <span aria-hidden="true">·</span>
-            <span>Good morning, {firstName}</span>
+            <span>{greeting}, {firstName}</span>
           </p>
           <h1 className="text-[clamp(1.8rem,4vw,2.6rem)] font-semibold leading-tight tracking-[-0.055em]">
             Ready for day {currentDay || plan.currentDay}, {firstName}?
