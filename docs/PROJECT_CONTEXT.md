@@ -88,7 +88,8 @@
 - Review mobile (390px) for /roadmap, /progress, /settings, /onboarding (/today is done).
 - Greeting on /today is hardcoded to "Good morning"; it should depend on the time of day.
 - /missed-days polish: the checkbox uses the browser's default blue (not a design token); the "+12 mins / Morn +5m / Eve +7m" numbers are hardcoded.
-- Define streak freeze rules (see Streak Freeze).
+- Streak freeze: rules decided, see PRD; implementation pending.
+  Freeze code still uses the old placeholder until the implementation task is done.
 - Ask the collaborator to review the merged backend and integration changes (settings merge, CORS).
 
 ## 8. FUTURE PLANS (Not Current Scope): Exam Mode
