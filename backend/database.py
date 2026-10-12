@@ -223,15 +223,6 @@ def init_db():
                 (effective_today, now_iso),
             )
 
-        # Create the active_dates table if it does not already exist
-        cursor.execute(
-            """
-            CREATE TABLE IF NOT EXISTS active_dates (
-                date TEXT PRIMARY KEY
-            )
-            """
-        )
-
         conn.commit()
 
 def get_streak_state() -> Optional[Dict[str, Any]]:
@@ -302,19 +293,6 @@ def get_completed_dates() -> Set[str]:
         )
         rows = cursor.fetchall()
         return {row[0] for row in rows if row[0]}
-
-def log_active_date(date_str: str):
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute("INSERT OR IGNORE INTO active_dates (date) VALUES (?)", (date_str,))
-        conn.commit()
-
-def get_activity_log() -> List[str]:
-    with get_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT date FROM active_dates ORDER BY date ASC")
-        rows = cursor.fetchall()
-        return [row[0] for row in rows]
 
 DEFAULT_SETTINGS = {
     "tone": "gentle",

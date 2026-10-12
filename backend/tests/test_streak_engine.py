@@ -18,8 +18,6 @@ from database import (
     toggle_task_in_db,
     fetch_all_tasks,
     create_task_in_db,
-    log_active_date,
-    get_activity_log,
 )
 from streak_rules import evaluate_streak, FREEZE_CONFIG, prune_frozen_dates
 from main import app
@@ -916,64 +914,3 @@ def test_reshuffle_leaves_freezes_held_in_db_unchanged():
     # Assert directly on the DB that freezes_held was not modified
     db_state = get_streak_state()
     assert db_state["freezes_held"] == 2
-
-
-def test_log_active_date_deduplicates_and_orders():
-    # Calling log_active_date multiple times for the same date only creates one row (INSERT OR IGNORE works)
-    log_active_date("2026-10-12")
-    log_active_date("2026-10-10")
-    log_active_date("2026-10-12")
-    log_active_date("2026-10-11")
-    log_active_date("2026-10-10")
-
-    dates = get_activity_log()
-    assert dates == ["2026-10-10", "2026-10-11", "2026-10-12"]
-
-    # Verify directly with a count query
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT COUNT(*) FROM active_dates WHERE date = '2026-10-12'")
-    assert cursor.fetchone()[0] == 1
-    cursor.execute("SELECT COUNT(*) FROM active_dates")
-    assert cursor.fetchone()[0] == 3
-    conn.close()
-
-
-def test_activity_log_endpoint_returns_expected_structure():
-    client = TestClient(app)
-    # Empty log initially
-    res = client.get("/api/activity-log")
-    assert res.status_code == 200
-    data = res.json()
-    assert "activeDates" in data
-    assert isinstance(data["activeDates"], list)
-
-    # Log some dates
-    log_active_date("2026-10-05")
-    log_active_date("2026-10-06")
-
-    res2 = client.get("/api/activity-log")
-    assert res2.status_code == 200
-    assert res2.json() == {"activeDates": ["2026-10-05", "2026-10-06"]}
-
-
-def test_task_complete_and_toggle_logs_to_activity_log():
-    client = TestClient(app)
-    today = get_effective_today()
-
-    # Complete a task
-    res = client.post("/api/tasks/lecture-review/complete", params={"client_date": today})
-    assert res.status_code == 200
-
-    log_res = client.get("/api/activity-log")
-    assert log_res.status_code == 200
-    assert today in log_res.json()["activeDates"]
-
-    # Toggle off does NOT remove the active date
-    toggle_res = client.post("/api/tasks/lecture-review/toggle", params={"client_date": today})
-    assert toggle_res.status_code == 200
-    assert toggle_res.json()["completed"] is False
-
-    log_res2 = client.get("/api/activity-log")
-    assert today in log_res2.json()["activeDates"]
-
