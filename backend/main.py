@@ -1,4 +1,5 @@
 import os
+import json
 from typing import Optional
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -17,7 +18,7 @@ from database import (
     get_completed_dates,
     get_effective_today,
 )
-from streak_rules import evaluate_streak
+from streak_rules import evaluate_streak, FREEZE_CONFIG
 from plan_data import DEFAULT_PLAN, get_stats_data, reshuffle_plan
 
 app = FastAPI()
@@ -97,7 +98,20 @@ def get_stats(client_date: Optional[str] = None):
     stats["streak"]["currentDays"] = new_state["current_streak"]
     stats["streak"]["personalBest"] = new_state["longest_streak"]
     stats["streak"]["freezeCount"] = new_state["freezes_held"]
+    stats["streak"]["freezeCap"] = FREEZE_CONFIG["freezeCap"]
     stats["streak"]["lastActiveDate"] = new_state["last_active_date"]
+
+    frozen_dates_raw = new_state.get("frozen_dates", "[]")
+    if isinstance(frozen_dates_raw, str):
+        try:
+            stats["streak"]["frozenDates"] = json.loads(frozen_dates_raw)
+        except Exception:
+            stats["streak"]["frozenDates"] = []
+    elif isinstance(frozen_dates_raw, (list, set)):
+        stats["streak"]["frozenDates"] = list(frozen_dates_raw)
+    else:
+        stats["streak"]["frozenDates"] = []
+
     return stats
 
 @app.get("/api/settings")
@@ -198,4 +212,6 @@ def post_ai_message(body: AiMessageRequest):
 
 @app.post("/api/plan/reshuffle")
 def post_plan_reshuffle(body: ReshuffleRequest):
-    return reshuffle_plan(mode=body.mode, use_freezes=body.use_freezes)
+    streak_state = get_streak_state()
+    freezes_held = streak_state["freezes_held"] if streak_state else 0
+    return reshuffle_plan(mode=body.mode, use_freezes=body.use_freezes, freezes_held=freezes_held)

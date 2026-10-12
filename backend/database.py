@@ -2,9 +2,10 @@ import os
 import sqlite3
 import json
 import uuid
-from datetime import datetime, timezone, date
+from datetime import datetime, timezone, date, timedelta
 from pathlib import Path
 from typing import Optional, Dict, Any, Set, List
+from streak_rules import prune_frozen_dates
 
 # Path to the SQLite database file (stored in the backend folder by default)
 def get_db_path() -> Path:
@@ -191,10 +192,21 @@ def init_db():
                 prev_streak INTEGER,
                 prev_longest INTEGER,
                 prev_last_active_date TEXT,
+                prev_freezes_held INTEGER DEFAULT NULL,
+                prev_frozen_dates TEXT DEFAULT NULL,
                 updated_at TEXT
             )
             """
         )
+
+        # For existing databases, ensure prev_freezes_held and prev_frozen_dates exist
+        cursor.execute("PRAGMA table_info(streak_state)")
+        streak_cols = [row[1] for row in cursor.fetchall()]
+        if "prev_freezes_held" not in streak_cols:
+            cursor.execute("ALTER TABLE streak_state ADD COLUMN prev_freezes_held INTEGER DEFAULT NULL")
+        if "prev_frozen_dates" not in streak_cols:
+            cursor.execute("ALTER TABLE streak_state ADD COLUMN prev_frozen_dates TEXT DEFAULT NULL")
+
         cursor.execute("SELECT COUNT(*) FROM streak_state")
         streak_count = cursor.fetchone()[0]
         if streak_count == 0:
@@ -205,8 +217,8 @@ def init_db():
                 """
                 INSERT INTO streak_state (
                     id, current_streak, longest_streak, last_active_date, freezes_held, frozen_dates,
-                    prev_streak, prev_longest, prev_last_active_date, updated_at
-                ) VALUES (1, 14, 18, ?, 2, '[]', NULL, NULL, NULL, ?)
+                    prev_streak, prev_longest, prev_last_active_date, prev_freezes_held, prev_frozen_dates, updated_at
+                ) VALUES (1, 14, 18, ?, 2, '[]', NULL, NULL, NULL, NULL, NULL, ?)
                 """,
                 (effective_today, now_iso),
             )
@@ -220,6 +232,7 @@ def get_streak_state() -> Optional[Dict[str, Any]]:
         row = cursor.fetchone()
         if not row:
             return None
+        keys = row.keys()
         return {
             "id": row["id"],
             "current_streak": row["current_streak"],
@@ -230,16 +243,22 @@ def get_streak_state() -> Optional[Dict[str, Any]]:
             "prev_streak": row["prev_streak"],
             "prev_longest": row["prev_longest"],
             "prev_last_active_date": row["prev_last_active_date"],
+            "prev_freezes_held": row["prev_freezes_held"] if "prev_freezes_held" in keys else None,
+            "prev_frozen_dates": row["prev_frozen_dates"] if "prev_frozen_dates" in keys else None,
             "updated_at": row["updated_at"],
         }
 
 def save_streak_state(state: Dict[str, Any]):
     now_iso = datetime.now(timezone.utc).isoformat()
+    effective_today = get_effective_today()
+
     frozen_dates_val = state.get("frozen_dates", "[]")
-    if isinstance(frozen_dates_val, (list, set)):
-        frozen_dates_val = json.dumps(list(frozen_dates_val))
-    elif frozen_dates_val is None:
-        frozen_dates_val = "[]"
+    pruned_dates = prune_frozen_dates(frozen_dates_val, effective_today, max_age_days=30)
+    frozen_dates_json = json.dumps(pruned_dates)
+
+    prev_frozen_val = state.get("prev_frozen_dates")
+    if isinstance(prev_frozen_val, (list, set)):
+        prev_frozen_val = json.dumps(sorted(list(prev_frozen_val)))
 
     with get_connection() as conn:
         cursor = conn.cursor()
@@ -247,18 +266,20 @@ def save_streak_state(state: Dict[str, Any]):
             """
             INSERT OR REPLACE INTO streak_state (
                 id, current_streak, longest_streak, last_active_date, freezes_held, frozen_dates,
-                prev_streak, prev_longest, prev_last_active_date, updated_at
-            ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                prev_streak, prev_longest, prev_last_active_date, prev_freezes_held, prev_frozen_dates, updated_at
+            ) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 state.get("current_streak", 0),
                 state.get("longest_streak", 0),
                 state.get("last_active_date"),
                 state.get("freezes_held", 0),
-                frozen_dates_val,
+                frozen_dates_json,
                 state.get("prev_streak"),
                 state.get("prev_longest"),
                 state.get("prev_last_active_date"),
+                state.get("prev_freezes_held"),
+                prev_frozen_val,
                 now_iso,
             ),
         )
