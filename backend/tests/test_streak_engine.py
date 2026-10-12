@@ -426,6 +426,7 @@ def test_stats_endpoint_returns_streak_fields():
     assert streak["currentDays"] == 14
     assert streak["personalBest"] == 18
     assert streak["freezeCount"] == 2
+    assert streak["freezeCap"] == 2
     assert "lastActiveDate" in streak
     assert streak["lastActiveDate"] == get_effective_today()
 

@@ -18,7 +18,7 @@ from database import (
     get_completed_dates,
     get_effective_today,
 )
-from streak_rules import evaluate_streak
+from streak_rules import evaluate_streak, FREEZE_CONFIG
 from plan_data import DEFAULT_PLAN, get_stats_data, reshuffle_plan
 
 app = FastAPI()
@@ -98,6 +98,7 @@ def get_stats(client_date: Optional[str] = None):
     stats["streak"]["currentDays"] = new_state["current_streak"]
     stats["streak"]["personalBest"] = new_state["longest_streak"]
     stats["streak"]["freezeCount"] = new_state["freezes_held"]
+    stats["streak"]["freezeCap"] = FREEZE_CONFIG["freezeCap"]
     stats["streak"]["lastActiveDate"] = new_state["last_active_date"]
 
     frozen_dates_raw = new_state.get("frozen_dates", "[]")
