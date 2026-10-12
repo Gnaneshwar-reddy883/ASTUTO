@@ -1,10 +1,10 @@
 # ASTUTO
 
-ASTUTO turns any skill, daily routine, and deadline into a single, sequenced roadmap built from curated free resources. Daily to-dos map directly into the learner's actual time slots, supported by streaks, streak freezes, and funny nudges. It functions as a calm, personal learning coach that adapts to schedule interruptions without guilt or judgment.
+ASTUTO turns any skill, daily routine, and deadline into a single, sequenced roadmap built from curated free resources. Daily to-dos map directly into the learner's actual time slots, supported by streaks, streak freezes, and funny nudges. It functions as a calm, personal learning coach that adapts to schedule interruptions without guilt or judgment. Today the app runs on demo data; the researched-roadmap pipeline is planned (see Current Status).
 
 ## Current Status
 
-- **UI:** Built and working across all routes (`/`, `/onboarding`, `/roadmap-preview`, `/today`, `/roadmap`, `/progress`, `/settings`, `/missed-days`).
+- **UI:** Built across all routes (`/`, `/onboarding`, `/roadmap-preview`, `/today`, `/roadmap`, `/progress`, `/settings`, `/missed-days`); some screens are still being polished and mobile review is in progress.
 - **Backend:** A FastAPI + SQLite backend stores tasks and settings in SQLite (`backend/astuto.db`).
 - **In-Memory State:** Plan, stats, streak, and reshuffle state are currently in memory.
 - **AI Assistant:** The assistant is keyword-based, not a real AI.
