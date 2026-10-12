@@ -17,6 +17,8 @@ from database import (
     save_streak_state,
     get_completed_dates,
     get_effective_today,
+    log_active_date,
+    get_activity_log,
 )
 from streak_rules import evaluate_streak
 from plan_data import DEFAULT_PLAN, get_stats_data, reshuffle_plan
@@ -117,6 +119,10 @@ def get_stats(client_date: Optional[str] = None):
 def get_settings():
     return get_settings_from_db()
 
+@app.get("/api/activity-log")
+def get_activity_log_endpoint():
+    return {"activeDates": get_activity_log()}
+
 @app.put("/api/settings")
 def put_settings(body: dict):
     return save_settings_to_db(body)
@@ -153,6 +159,9 @@ async def post_toggle_task(
     if not task:
         raise HTTPException(status_code=404, detail=f"Task '{task_id}' not found")
 
+    if task.get("completed"):
+        log_active_date(effective_today)
+
     sync_streak_state(effective_client_date)
     return task
 
@@ -179,6 +188,9 @@ async def complete_task(
     task = complete_task_in_db(task_id, completion_date=effective_today)
     if not task:
         raise HTTPException(status_code=404, detail=f"Task '{task_id}' not found")
+
+    if task.get("completed"):
+        log_active_date(effective_today)
 
     sync_streak_state(effective_client_date)
     return task
