@@ -10,31 +10,23 @@ import {
   CheckCircle2,
   Clock3,
   Flame,
-  Moon,
-  ShieldCheck,
   Snowflake,
   Sparkles,
-  Sunrise,
 } from "lucide-react";
 import { usePlan, type ReshuffleMode } from "../state/PlanContext";
-import { getPlan, reshufflePlanApi } from "../services/api";
-
-// Mirrors reshufflePlan in src/state/PlanContext.tsx (frontend only). The backend does not adjust slot minutes in spread mode. TODO: single source of truth once the freeze/reshuffle rules are decided.
-const MORNING_EXTRA_MINUTES = 5;
-const EVENING_EXTRA_MINUTES = 7;
-const TOTAL_EXTRA_MINUTES = MORNING_EXTRA_MINUTES + EVENING_EXTRA_MINUTES;
-const SPREAD_DAYS = 7;
+import { getPlan, getStats, reshufflePlanApi } from "../services/api";
+import type { Stats } from "../types";
 
 // Matches the fixed +2 days that PlanContext and plan_data.py add in extend mode. TODO(backend): make this depend on missed days once the reshuffle rules are decided.
 const EXTEND_DAYS = 2;
 
 export function MissedDaysPage() {
   const navigate = useNavigate();
-  const { duration, freezeCount, reshufflePlan } = usePlan();
+  const { duration, reshufflePlan } = usePlan();
   const [selectedOption, setSelectedOption] = useState<ReshuffleMode>("spread");
-  const [useFreezes, setUseFreezes] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [missedDays, setMissedDays] = useState(2);
+  const [stats, setStats] = useState<Stats | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -46,6 +38,12 @@ export function MissedDaysPage() {
         }
       })
       .catch(() => {});
+    getStats()
+      .then((st) => {
+        if (!active) return;
+        setStats(st);
+      })
+      .catch(() => {});
     return () => {
       active = false;
     };
@@ -54,11 +52,11 @@ export function MissedDaysPage() {
   const handleApply = async () => {
     setSubmitting(true);
     try {
-      await reshufflePlanApi(selectedOption, useFreezes && freezeCount >= 2);
+      await reshufflePlanApi(selectedOption);
     } catch (err) {
       console.error("Backend reshuffle failed:", err);
     }
-    reshufflePlan(selectedOption, useFreezes && freezeCount >= 2);
+    reshufflePlan(selectedOption);
     navigate("/today");
   };
 
@@ -85,12 +83,12 @@ export function MissedDaysPage() {
           <div className="mb-4 flex items-center gap-3">
             <div className="relative grid h-12 w-12 place-items-center rounded-2xl bg-peach text-streak shadow-sm">
               <Flame size={24} fill="currentColor" />
-              <span className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-surface text-xs shadow-sm">
-                ❄️
+              <span className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-surface text-progress-strong shadow-sm">
+                <Snowflake className="h-3 w-3" />
               </span>
             </div>
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-streak">
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-progress-strong">
                 Safe Return
               </p>
               <p className="text-xs text-muted">Zero penalty · Your momentum is safe</p>
@@ -109,62 +107,37 @@ export function MissedDaysPage() {
       </div>
 
       <div className="space-y-6">
-        {freezeCount > 0 && (
-          <section
-            aria-labelledby="freeze-protection-heading"
-            className="relative overflow-hidden rounded-2xl border border-progress-strong/30 bg-mint/35 p-5 shadow-sm sm:p-6"
-          >
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-start gap-3.5">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-surface text-progress-strong shadow-sm">
-                  <Snowflake size={20} />
-                </span>
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h2
-                      id="freeze-protection-heading"
-                      className="font-sans text-base font-semibold text-text"
-                    >
-                      Streak Freeze Protection
-                    </h2>
-                    <span className="rounded-pill bg-surface px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-progress-strong">
-                      Ready
+        <section
+          aria-labelledby="freeze-protection-heading"
+          className="relative overflow-hidden rounded-2xl border border-progress-strong/30 bg-mint/35 p-5 shadow-sm sm:p-6"
+        >
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-3.5">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-surface text-progress-strong shadow-sm">
+                <Snowflake className="h-5 w-5" />
+              </span>
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h2
+                    id="freeze-protection-heading"
+                    className="font-sans text-base font-semibold text-text"
+                  >
+                    Streak Freeze Protection
+                  </h2>
+                  {stats && (
+                    <span className="inline-flex items-center gap-1.5 rounded-pill bg-surface px-2.5 py-0.5 text-xs font-semibold text-progress-strong">
+                      <Snowflake className="h-3.5 w-3.5" />
+                      {stats.streak.freezeCount} / {stats.streak.freezeCap} streak freezes held
                     </span>
-                  </div>
-                  <p className="mt-1 text-xs leading-relaxed text-muted sm:text-sm">
-                    You have {freezeCount} Streak Freezes available ❄️❄️. We can automatically
-                    shield your 14-day streak flame so not a single spark is lost.
-                  </p>
+                  )}
                 </div>
+                <p className="mt-1 text-xs leading-relaxed text-muted sm:text-sm">
+                  Streak freezes are applied automatically when you complete a task after a missed day. A plain app open spends nothing.
+                </p>
               </div>
             </div>
-
-            <label
-              className="mt-4 flex cursor-pointer items-center justify-between rounded-xl border border-border/80 bg-surface/80 p-3.5 transition-colors hover:bg-surface"
-              htmlFor="freeze-toggle"
-            >
-              <div className="flex items-center gap-3">
-                <input
-                  id="freeze-toggle"
-                  type="checkbox"
-                  checked={useFreezes}
-                  onChange={(e) => setUseFreezes(e.target.checked)}
-                  className="h-4 w-4 rounded border-border accent-progress-strong text-progress-strong focus:ring-progress-strong"
-                />
-                <span className="text-xs font-semibold text-text sm:text-sm">
-                  Use 2 Streak Freezes to preserve your 14-day flame
-                </span>
-              </div>
-              <span
-                className={`text-xs font-bold ${
-                  useFreezes ? "text-progress-strong" : "text-muted"
-                }`}
-              >
-                {useFreezes ? "Shield Active" : "Off"}
-              </span>
-            </label>
-          </section>
-        )}
+          </div>
+        </section>
 
         <section aria-labelledby="reshuffle-pace-heading">
           <div className="mb-3 flex items-center justify-between">
@@ -210,23 +183,9 @@ export function MissedDaysPage() {
                 Spread tasks across the next days
               </h3>
               <p className="mt-1.5 text-xs leading-relaxed text-muted sm:text-sm">
-                Adds just <strong className="text-text font-semibold">+{TOTAL_EXTRA_MINUTES} mins</strong> to daily
-                study windows over the next {SPREAD_DAYS} days. Your target end date ({duration} days) remains
+                Adds a few extra minutes to your morning and evening sessions so you can catch up. Your target end date ({duration} days) remains
                 unchanged.
               </p>
-
-              <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-bg p-2.5 text-xs">
-                <span className="inline-flex items-center gap-1 font-semibold text-progress-strong">
-                  <Sunrise size={13} /> Morn: +{MORNING_EXTRA_MINUTES}m
-                </span>
-                <span className="text-border">·</span>
-                <span className="inline-flex items-center gap-1 font-semibold text-progress-strong">
-                  <Moon size={13} /> Eve: +{EVENING_EXTRA_MINUTES}m
-                </span>
-                <span className="ml-auto inline-flex items-center gap-1 text-muted">
-                  <ShieldCheck size={13} className="text-progress-strong" /> End date kept
-                </span>
-              </div>
             </div>
 
             <div
