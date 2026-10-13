@@ -20,8 +20,8 @@
 - **Full PRD:** https://claude.ai/artifact/4Mb6SkF3LYLRFp4MDQev2m (not directly accessible; user will provide if needed).
 
 ### Streak Freeze
-- **Status:** Confirmed feature. Its exact rules are NOT yet defined; do not invent them or build logic for them yet.
-- **Open Questions to Settle Before Building:** How a freeze is earned, maximum number that can be held, whether it applies automatically on a missed day or the user chooses to activate it, and how it interacts with the reshuffle mechanism.
+- **Status:** Confirmed feature. Rules are decided and implemented in the backend (single source of truth `FREEZE_CONFIG` in `backend/streak_rules.py`, full rules in `docs/PRD.md` under "Streak freeze"); frontend freeze UI is still pending.
+- **Decided rules:** see docs/PRD.md under "Streak freeze". Do not re-open them.
 - **Design Constraint:** The freeze indicator must NOT use the orange streak-flame color (`#F97316`); use an existing neutral or soft pastel token instead.
 - **Tone Constraint:** A freeze is presented as a kind safety net, never as a penalty or guilt-inducing message.
 - **Current Repository Footprint (Audit):**
@@ -88,8 +88,7 @@
 - Review mobile (390px) for /roadmap, /progress, /settings, /onboarding (/today is done).
 - Greeting on /today is hardcoded to "Good morning"; it should depend on the time of day.
 - /missed-days polish: the checkbox uses the browser's default blue (not a design token); the "+12 mins / Morn +5m / Eve +7m" numbers are hardcoded.
-- Streak freeze: rules decided, see PRD; implementation pending.
-  Freeze code still uses the old placeholder until the implementation task is done.
+- Streak freeze: backend freeze logic merged (PR #11), seed fix in progress on fix/freeze-seed-followup, frontend freeze UI (Branch C) pending.
 - Ask the collaborator to review the merged backend and integration changes (settings merge, CORS).
 
 ## 8. FUTURE PLANS (Not Current Scope): Exam Mode

@@ -336,10 +336,10 @@ def test_client_date_more_than_1_day_from_utc_rejected():
 def test_database_seed_first_run():
     state = get_streak_state()
     assert state is not None
-    assert state["current_streak"] == 14
-    assert state["longest_streak"] == 18
-    assert state["freezes_held"] == 2
-    assert state["last_active_date"] == get_effective_today()
+    assert state["current_streak"] == 0
+    assert state["longest_streak"] == 0
+    assert state["freezes_held"] == FREEZE_CONFIG["freezeStartCount"]
+    assert state["last_active_date"] is None
     assert state["prev_streak"] is None
     assert state["prev_longest"] is None
     assert state["prev_last_active_date"] is None
@@ -423,12 +423,12 @@ def test_stats_endpoint_returns_streak_fields():
 
     assert "streak" in data
     streak = data["streak"]
-    assert streak["currentDays"] == 14
-    assert streak["personalBest"] == 18
-    assert streak["freezeCount"] == 2
+    assert streak["currentDays"] == 0
+    assert streak["personalBest"] == 0
+    assert streak["freezeCount"] == 1
     assert streak["freezeCap"] == 2
     assert "lastActiveDate" in streak
-    assert streak["lastActiveDate"] == get_effective_today()
+    assert streak["lastActiveDate"] is None
 
     # Existing stats fields preserved
     assert "predictedMastery" in data
@@ -482,6 +482,44 @@ def test_complete_and_toggle_endpoints_sync_streak(monkeypatch):
     assert stats_res2.status_code == 200
     assert stats_res2.json()["streak"]["currentDays"] == 14
     assert stats_res2.json()["streak"]["lastActiveDate"] == yesterday
+
+
+def test_http_complete_task_across_one_day_gap_consumes_freeze_and_updates_stats(monkeypatch):
+    client = TestClient(app)
+
+    # Day D (2026-10-10): complete a seeded uncompleted task ('lecture-review')
+    day_d = "2026-10-10"
+    monkeypatch.setenv("ASTUTO_OVERRIDE_TODAY", day_d)
+    res_d = client.post("/api/tasks/lecture-review/complete")
+    assert res_d.status_code == 200
+
+    # Intermediate assertions: stats after Day D
+    stats_d = client.get("/api/stats")
+    assert stats_d.status_code == 200
+    streak_d = stats_d.json()["streak"]
+    assert streak_d["currentDays"] == 1
+    assert streak_d["personalBest"] == 1
+    assert streak_d["freezeCount"] == 1
+    assert streak_d["frozenDates"] == []
+    assert streak_d["lastActiveDate"] == day_d
+
+    # Day D+1 (2026-10-11) is skipped entirely.
+
+    # Day D+2 (2026-10-12): complete a second seeded uncompleted task ('list-comprehensions')
+    day_d2 = "2026-10-12"
+    monkeypatch.setenv("ASTUTO_OVERRIDE_TODAY", day_d2)
+    res_d2 = client.post("/api/tasks/list-comprehensions/complete")
+    assert res_d2.status_code == 200
+
+    # Final assertions after D+2
+    stats_d2 = client.get("/api/stats")
+    assert stats_d2.status_code == 200
+    streak_d2 = stats_d2.json()["streak"]
+    assert streak_d2["currentDays"] == 2
+    assert streak_d2["personalBest"] == 2
+    assert streak_d2["freezeCount"] == 0
+    assert streak_d2["frozenDates"] == ["2026-10-11"]
+    assert streak_d2["lastActiveDate"] == day_d2
 
 
 # --- Branch B Streak Freeze Tests ---
