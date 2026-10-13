@@ -92,25 +92,19 @@ A missed day triggers a "reshuffle" (spread tasks across remaining days, or exte
 
 ### Streak freeze
 
-- Status: confirmed feature. Its rules are NOT yet defined.
-- Current code behavior (starts with 2 freezes, each use costs 2) is a placeholder, not a product decision.
-- To decide before building further: how a freeze is earned, how many can be held, whether it applies automatically on a missed day or the user chooses, and how it interacts with reshuffle.
-- Design constraint: the freeze indicator must not use the orange streak-flame color.
-- Tone constraint: a freeze is presented as a kind safety net, never as a penalty.
-
-### Streak freeze rules (decided)
-
-- Active day: completing at least 1 task that day.
-- Earning: 1 freeze at signup, then +1 at every 7-day streak milestone (7, 14, 21...).
-- Cap: max 2 held. If already at 2, nothing is added.
-- Use: automatic on a fully missed day, 1 freeze per missed day, applied when the user next opens the app, oldest missed day first.
-- A frozen day preserves the streak but does not increase it, and does not count as progress.
-- If missed days exceed freezes held: streak resets to 0, longest streak is kept and shown, no freezes are consumed, no failure screen.
-- Reshuffle is independent: a missed day always offers reshuffle, whether or not a freeze was used.
-- Day boundary: user's local midnight.
-- UI: freeze pills use muted or soft-blue tokens, never orange. Orange stays on the streak flame only.
-- Rules must live in ONE config constant (freezeStartCount, freezeCap, freezeMilestoneEvery, freezeCostPerDay) when implemented.
-- Status: rules decided, NOT yet implemented. The current code placeholder (starts at 2, costs 2, auto-ticked) is outdated.
+- Rules source of truth: All freeze rules live in ONE config constant (`FREEZE_CONFIG` in `backend/streak_rules.py`), containing `freezeStartCount` (1), `freezeCap` (2), `freezeMilestoneEvery` (7), and `freezeCostPerDay` (1).
+- Active day: Completing at least 1 task that day.
+- Day boundary: User's local midnight.
+- Starting & Cap: A new user starts with 1 freeze (`freezeStartCount = 1`). Maximum capacity is 2 freezes (`freezeCap = 2`).
+- Earning: +1 freeze at every 7-day streak milestone (7, 14, 21...) up to the cap of 2 (`freezeMilestoneEvery = 7`).
+- Auto-applied: Freezes are automatically applied (cost of 1 freeze per missed day), never manual.
+- Preserved streak: A frozen day preserves the streak but does not increase it and does not count as progress.
+- Consumption on completion: Freezes are consumed and recorded in `frozen_dates` ONLY when the user completes a task that day. On plain app open, the streak is displayed as preserved but no freezes are spent and no dates are written.
+- All-or-nothing rule: If missed days exceed freezes held, the streak resets to 0 (and upon next completion starts at 1); no freezes are spent. When the streak resets, the longest streak is kept and shown, and there is no failure screen.
+- Undo support: Unchecking/undoing a task restores all five streak snapshot fields (`current_streak`, `longest_streak`, `last_active_date`, `freezes_held`, `frozen_dates`).
+- Pruning: Frozen dates are retained for up to 30 days and pruned on save.
+- Reshuffle: Reshuffle is independent; a missed day always offers reshuffle, whether or not a freeze was used.
+- UI & Copy constraints: The `/missed-days` copy must not claim the streak is "saved" until a task is completed. Freeze pills use muted or soft-blue tokens, never orange. Orange stays on the streak flame only. A freeze is presented as a kind safety net, never as a penalty.
 
 ## 9. Data Model (target, simplified)
 

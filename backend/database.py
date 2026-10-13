@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime, timezone, date, timedelta
 from pathlib import Path
 from typing import Optional, Dict, Any, Set, List
-from streak_rules import prune_frozen_dates
+from streak_rules import prune_frozen_dates, FREEZE_CONFIG
 
 # Path to the SQLite database file (stored in the backend folder by default)
 def get_db_path() -> Path:
@@ -210,17 +210,15 @@ def init_db():
         cursor.execute("SELECT COUNT(*) FROM streak_state")
         streak_count = cursor.fetchone()[0]
         if streak_count == 0:
-            # DEV DEMO SEED, not real-user defaults
-            effective_today = get_effective_today()
             now_iso = datetime.now(timezone.utc).isoformat()
             cursor.execute(
                 """
                 INSERT INTO streak_state (
                     id, current_streak, longest_streak, last_active_date, freezes_held, frozen_dates,
                     prev_streak, prev_longest, prev_last_active_date, prev_freezes_held, prev_frozen_dates, updated_at
-                ) VALUES (1, 14, 18, ?, 2, '[]', NULL, NULL, NULL, NULL, NULL, ?)
+                ) VALUES (1, 0, 0, NULL, ?, '[]', NULL, NULL, NULL, NULL, NULL, ?)
                 """,
-                (effective_today, now_iso),
+                (FREEZE_CONFIG["freezeStartCount"], now_iso),
             )
 
         conn.commit()
