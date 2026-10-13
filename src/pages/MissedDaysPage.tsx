@@ -183,7 +183,7 @@ export function MissedDaysPage() {
                 Spread tasks across the next days
               </h3>
               <p className="mt-1.5 text-xs leading-relaxed text-muted sm:text-sm">
-                Distributes missed tasks across your upcoming study sessions so you can catch up smoothly. Your target end date ({duration} days) remains
+                Adds a few extra minutes to your morning and evening sessions so you can catch up. Your target end date ({duration} days) remains
                 unchanged.
               </p>
             </div>
