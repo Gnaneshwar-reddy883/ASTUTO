@@ -2,6 +2,7 @@
 // Components used: ProgressActivityHeatmap, ProgressBadges, ProgressShareCard, and ProgressIcon.
 // API function called: getStats(). Real data needed: streak/freezes, weekly goals, predicted mastery, hours learned, activity, task totals, and badge progress.
 import { useCallback, useEffect, useState } from "react";
+import { Snowflake } from "lucide-react";
 import { ProgressActivityHeatmap } from "../components/ProgressActivityHeatmap";
 import { ProgressBadges } from "../components/ProgressBadges";
 import { ProgressIcon } from "../components/ProgressIcon";
@@ -127,22 +128,30 @@ export function ProgressPage() {
         <article className="flex min-w-0 items-center justify-between gap-4 rounded-card border border-border bg-lavender p-5 sm:p-6 md:col-span-5">
           <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Streak freezes</p>
-            <p className="mt-2 font-sans text-4xl font-semibold leading-none tracking-[-0.06em] text-text">{streak.freezeCount}</p>
+            <p className="mt-2 font-sans text-4xl font-semibold leading-none tracking-[-0.06em] text-text">
+              {streak.freezeCount} <span className="text-xl font-normal text-muted">/ {streak.freezeCap}</span>
+            </p>
             <p className="mt-2 max-w-[220px] text-sm leading-relaxed text-muted">
               Tokens set aside for a day life gets in the way.
             </p>
           </div>
           <div className="flex shrink-0 items-center gap-2">
-            {Array.from({ length: Math.min(streak.freezeCount, 4) }, (_, index) => (
-              <div className="flex h-11 w-11 items-center justify-center rounded-full border border-surface bg-surface text-progress-strong shadow-sm" key={index} title="Streak freeze token">
-                <ProgressIcon name="snowflake" className="h-5 w-5" />
-              </div>
-            ))}
-            {streak.freezeCount === 0 && (
-              <div className="flex h-11 w-11 items-center justify-center rounded-full border border-surface bg-surface text-muted">
-                <ProgressIcon name="snowflake" className="h-5 w-5" />
-              </div>
-            )}
+            {Array.from({ length: streak.freezeCap }, (_, index) => {
+              const isFilled = index < streak.freezeCount;
+              return (
+                <div
+                  key={index}
+                  className={`flex h-11 w-11 items-center justify-center rounded-full border ${
+                    isFilled
+                      ? "border-surface bg-surface text-progress-strong shadow-sm"
+                      : "border-dashed border-border bg-transparent text-muted"
+                  }`}
+                  title={isFilled ? "Streak freeze token held" : "Empty streak freeze slot"}
+                >
+                  <Snowflake className="h-5 w-5" />
+                </div>
+              );
+            })}
           </div>
         </article>
       </section>

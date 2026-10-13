@@ -102,10 +102,19 @@ export async function getTodayTasks(): Promise<Task[]> {
   }
 }
 
+export function getLocalTodayDate(): string {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 // TODO(backend): replace with real API call
 export async function completeTask(id: string): Promise<Task> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/tasks/${id}/complete`, {
+    const clientDate = getLocalTodayDate();
+    const response = await fetch(`${API_BASE_URL}/api/tasks/${id}/complete?client_date=${clientDate}`, {
       method: "POST",
     });
     if (!response.ok) {
@@ -142,7 +151,8 @@ export async function completeTask(id: string): Promise<Task> {
 // TODO(backend): replace with real API call
 export async function toggleTaskApi(id: string): Promise<Task> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/tasks/${id}/toggle`, {
+    const clientDate = getLocalTodayDate();
+    const response = await fetch(`${API_BASE_URL}/api/tasks/${id}/toggle?client_date=${clientDate}`, {
       method: "POST",
     });
     if (!response.ok) {
@@ -233,7 +243,8 @@ export async function createTask(input: CreateTaskInput): Promise<Task> {
 // TODO(backend): replace with real API call
 export async function getStats(): Promise<Stats> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/stats`);
+    const clientDate = getLocalTodayDate();
+    const response = await fetch(`${API_BASE_URL}/api/stats?client_date=${clientDate}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch stats: ${response.status}`);
     }
@@ -281,7 +292,6 @@ export interface ReshuffleResponse {
 // TODO(backend): replace with real API call
 export async function reshufflePlanApi(
   mode: "spread" | "extend",
-  useFreezes: boolean,
 ): Promise<ReshuffleResponse> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/plan/reshuffle`, {
@@ -289,7 +299,7 @@ export async function reshufflePlanApi(
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ mode, use_freezes: useFreezes }),
+      body: JSON.stringify({ mode }),
     });
     if (!response.ok) {
       throw new Error(`Failed to reshuffle plan: ${response.status}`);
@@ -304,8 +314,8 @@ export async function reshufflePlanApi(
     return {
       success: true,
       mode,
-      freezesUsed: useFreezes ? 2 : 0,
-      remainingFreezes: 0,
+      freezesUsed: 0,
+      remainingFreezes: mockStats.streak.freezeCount,
       totalDays: mode === "extend" ? 92 : 90,
     };
   }

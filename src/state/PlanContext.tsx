@@ -51,9 +51,7 @@ export interface PlanContextValue {
   setTone: (tone: ToneId) => void;
   reminders: Record<ReminderId, boolean>;
   toggleReminder: (reminderId: ReminderId) => void;
-  freezeCount: number;
-  setFreezeCount: (count: number) => void;
-  reshufflePlan: (mode: ReshuffleMode, useFreezes?: boolean) => void;
+  reshufflePlan: (mode: ReshuffleMode) => void;
   asDraft: OnboardingDraft;
   applyDraft: (draft: Partial<OnboardingDraft>) => void;
 }
@@ -75,8 +73,6 @@ export function PlanProvider({ children }: { children: ReactNode }) {
     daily: true,
     preSession: true,
   });
-
-  const [freezeCount, setFreezeCount] = useState<number>(2);
 
   // Load preferences from backend on app startup
   useEffect(() => {
@@ -136,10 +132,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const reshufflePlan = useCallback((mode: ReshuffleMode, useFreezes = true) => {
-    if (useFreezes) {
-      setFreezeCount((prev) => Math.max(0, prev - 2));
-    }
+  const reshufflePlan = useCallback((mode: ReshuffleMode) => {
     if (mode === "spread") {
       setSlots((current) =>
         current.map((slot) => {
@@ -215,8 +208,6 @@ export function PlanProvider({ children }: { children: ReactNode }) {
       setTone: setToneAndSave,
       reminders,
       toggleReminder,
-      freezeCount,
-      setFreezeCount,
       reshufflePlan,
       asDraft,
       applyDraft,
@@ -236,7 +227,6 @@ export function PlanProvider({ children }: { children: ReactNode }) {
       setToneAndSave,
       reminders,
       toggleReminder,
-      freezeCount,
       reshufflePlan,
       asDraft,
       applyDraft,

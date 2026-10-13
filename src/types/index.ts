@@ -145,7 +145,10 @@ export interface Streak {
   weeklyTargetDays: number;
   completedDays: number;
   freezeCount: number;
+  freezeCap: number;
   topPercent: number;
+  lastActiveDate?: string | null;
+  frozenDates?: string[];
 }
 
 export interface Stats {
