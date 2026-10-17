@@ -25,7 +25,7 @@ INITIAL_TASKS = [
         "estimatedMinutes": 20,
         "slot": "morning",
         "timeLabel": "8:15 AM",
-        "completed": True,
+        "completed": False,
         "optional": False,
         "tags": ["Global vs local", "Closures"],
     },
@@ -291,6 +291,36 @@ def get_completed_dates() -> Set[str]:
         )
         rows = cursor.fetchall()
         return {row[0] for row in rows if row[0]}
+
+def get_task_stats(week_start: str, week_end: str) -> dict:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT COUNT(*), COALESCE(SUM(estimated_minutes), 0) FROM tasks WHERE completed = 1"
+        )
+        row = cursor.fetchone()
+        tasks_completed = row[0] if row else 0
+        total_minutes = row[1] if row else 0
+
+        cursor.execute(
+            "SELECT COALESCE(SUM(estimated_minutes), 0) FROM tasks WHERE completed = 1 AND completed_date >= ? AND completed_date <= ?",
+            (week_start, week_end),
+        )
+        row = cursor.fetchone()
+        weekly_minutes = row[0] if row else 0
+
+        cursor.execute(
+            "SELECT completed_date, SUM(estimated_minutes) FROM tasks WHERE completed = 1 AND completed_date IS NOT NULL GROUP BY completed_date"
+        )
+        rows = cursor.fetchall()
+        activity_minutes_by_date = {row[0]: row[1] for row in rows if row[0]}
+
+        return {
+            "tasks_completed": tasks_completed,
+            "total_minutes": total_minutes,
+            "weekly_minutes": weekly_minutes,
+            "activity_minutes_by_date": activity_minutes_by_date,
+        }
 
 DEFAULT_SETTINGS = {
     "tone": "gentle",

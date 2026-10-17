@@ -953,3 +953,194 @@ def test_reshuffle_leaves_freezes_held_in_db_unchanged():
     # Assert directly on the DB that freezes_held was not modified
     db_state = get_streak_state()
     assert db_state["freezes_held"] == 2
+
+
+def test_stats_endpoint_fresh_user(monkeypatch):
+    fixed_date = "2026-10-14"  # Wednesday
+    monkeypatch.setenv("ASTUTO_OVERRIDE_TODAY", fixed_date)
+    client = TestClient(app)
+
+    response = client.get("/api/stats")
+    assert response.status_code == 200
+    data = response.json()
+
+    assert data["learningProgress"]["tasksCompleted"] == 0
+    assert data["weeklyMinutes"] == 0
+    assert data["roadmap"]["hoursLearned"] == 0
+    assert data["streak"]["completedDays"] == 0
+    assert data["streak"]["currentDays"] == 0
+    assert data["streak"]["personalBest"] == 0
+    assert data["streak"]["freezeCount"] == 1
+    assert data["streak"]["topPercent"] == 0
+    assert data["predictedMastery"] == 0
+
+    # Activity: 91 entries, all with 0 minutes
+    activity = data["learningProgress"]["activity"]
+    assert len(activity) == 91
+    assert all(day["minutes"] == 0 for day in activity)
+
+    # Exactly 3 badges, all non-earned with progress 0
+    badges = data["learningProgress"]["badges"]
+    assert len(badges) == 3
+    for badge in badges:
+        assert badge["status"] != "earned"
+        assert badge["progress"] == 0
+
+    # shareQuote has no "Day 14"
+    assert "Day 14" not in data["learningProgress"]["shareQuote"]
+
+    # swot lists empty
+    swot = data["roadmap"]["swot"]
+    assert swot["strengths"] == []
+    assert swot["weaknesses"] == []
+    assert swot["opportunities"] == []
+    assert swot["threats"] == []
+
+
+def test_stats_complete_and_toggle_task(monkeypatch):
+    fixed_date = "2026-10-14"
+    monkeypatch.setenv("ASTUTO_OVERRIDE_TODAY", fixed_date)
+    client = TestClient(app)
+
+    tasks_res = client.get("/api/plan/today/tasks")
+    assert tasks_res.status_code == 200
+    tasks = tasks_res.json()
+    task = tasks[0]
+    task_id = task["id"]
+    task_minutes = task["estimatedMinutes"]
+    expected_hours = round(task_minutes / 60, 1)
+
+    # 1. Complete one task
+    res = client.post(f"/api/tasks/{task_id}/complete")
+    assert res.status_code == 200
+
+    stats_res = client.get("/api/stats")
+    assert stats_res.status_code == 200
+    stats = stats_res.json()
+
+    assert stats["learningProgress"]["tasksCompleted"] == 1
+    assert stats["weeklyMinutes"] == task_minutes
+    assert stats["roadmap"]["hoursLearned"] == expected_hours
+    assert stats["streak"]["completedDays"] == 1
+
+    # Today's heatmap cell equals the task minutes
+    today_cell = next(day for day in stats["learningProgress"]["activity"] if day["date"] == fixed_date)
+    assert today_cell["minutes"] == task_minutes
+    assert today_cell["isToday"] is True
+
+    # first-spark is earned
+    first_spark = next(b for b in stats["learningProgress"]["badges"] if b["id"] == "first-spark")
+    assert first_spark["status"] == "earned"
+    assert first_spark["progress"] == 1
+
+    # 2. Toggle it off
+    toggle_res = client.post(f"/api/tasks/{task_id}/toggle")
+    assert toggle_res.status_code == 200
+
+    stats_res2 = client.get("/api/stats")
+    assert stats_res2.status_code == 200
+    stats2 = stats_res2.json()
+
+    assert stats2["learningProgress"]["tasksCompleted"] == 0
+    assert stats2["weeklyMinutes"] == 0
+    assert stats2["roadmap"]["hoursLearned"] == 0
+    assert stats2["streak"]["completedDays"] == 0
+
+    today_cell2 = next(day for day in stats2["learningProgress"]["activity"] if day["date"] == fixed_date)
+    assert today_cell2["minutes"] == 0
+
+    first_spark2 = next(b for b in stats2["learningProgress"]["badges"] if b["id"] == "first-spark")
+    assert first_spark2["status"] != "earned"
+    assert first_spark2["progress"] == 0
+
+
+def test_stats_two_tasks_on_same_day(monkeypatch):
+    fixed_date = "2026-10-14"
+    monkeypatch.setenv("ASTUTO_OVERRIDE_TODAY", fixed_date)
+    client = TestClient(app)
+
+    tasks_res = client.get("/api/plan/today/tasks")
+    tasks = tasks_res.json()
+    task1, task2 = tasks[0], tasks[1]
+    expected_sum = task1["estimatedMinutes"] + task2["estimatedMinutes"]
+
+    client.post(f"/api/tasks/{task1['id']}/complete")
+    client.post(f"/api/tasks/{task2['id']}/complete")
+
+    stats = client.get("/api/stats").json()
+    assert stats["learningProgress"]["tasksCompleted"] == 2
+    assert stats["streak"]["completedDays"] == 1
+    assert stats["weeklyMinutes"] == expected_sum
+
+    today_cell = next(day for day in stats["learningProgress"]["activity"] if day["date"] == fixed_date)
+    assert today_cell["minutes"] == expected_sum
+
+
+def test_stats_week_boundary(monkeypatch):
+    wednesday_w1 = "2026-10-14"  # Wednesday of Week 1
+    wednesday_w2 = "2026-10-21"  # Wednesday of Next Week
+    monkeypatch.setenv("ASTUTO_OVERRIDE_TODAY", wednesday_w1)
+    client = TestClient(app)
+
+    tasks_res = client.get("/api/plan/today/tasks")
+    task = tasks_res.json()[0]
+    task_minutes = task["estimatedMinutes"]
+    expected_hours = round(task_minutes / 60, 1)
+
+    # Complete task on Wednesday Week 1
+    client.post(f"/api/tasks/{task['id']}/complete")
+
+    stats_w1 = client.get("/api/stats").json()
+    assert stats_w1["weeklyMinutes"] == task_minutes
+    assert stats_w1["streak"]["completedDays"] == 1
+    assert stats_w1["learningProgress"]["tasksCompleted"] == 1
+    assert stats_w1["roadmap"]["hoursLearned"] == expected_hours
+
+    # Move override to Wednesday of next week
+    monkeypatch.setenv("ASTUTO_OVERRIDE_TODAY", wednesday_w2)
+
+    stats_w2 = client.get("/api/stats").json()
+    assert stats_w2["weeklyMinutes"] == 0
+    assert stats_w2["streak"]["completedDays"] == 0
+    assert stats_w2["learningProgress"]["tasksCompleted"] == 1
+    assert stats_w2["roadmap"]["hoursLearned"] == expected_hours
+
+
+def test_stats_badge_progress_from_longest_streak(monkeypatch):
+    fixed_date = "2026-10-14"
+    monkeypatch.setenv("ASTUTO_OVERRIDE_TODAY", fixed_date)
+    client = TestClient(app)
+
+    # Initial: streak is 0
+    stats0 = client.get("/api/stats").json()
+    fw0 = next(b for b in stats0["learningProgress"]["badges"] if b["id"] == "fortnight-warrior")
+    tdr0 = next(b for b in stats0["learningProgress"]["badges"] if b["id"] == "thirty-day-rhythm")
+    assert fw0["status"] == "upcoming"
+    assert fw0["progress"] == 0
+    assert tdr0["status"] == "upcoming"
+    assert tdr0["progress"] == 0
+
+    # Streak longest = 14: fortnight-warrior earned, thirty-day-rhythm in-progress (14/30)
+    state = get_streak_state()
+    state["longest_streak"] = 14
+    save_streak_state(state)
+
+    stats14 = client.get("/api/stats").json()
+    fw14 = next(b for b in stats14["learningProgress"]["badges"] if b["id"] == "fortnight-warrior")
+    tdr14 = next(b for b in stats14["learningProgress"]["badges"] if b["id"] == "thirty-day-rhythm")
+    assert fw14["status"] == "earned"
+    assert fw14["progress"] == 14
+    assert tdr14["status"] == "in-progress"
+    assert tdr14["progress"] == 14
+
+    # Streak longest = 30: both earned
+    state["longest_streak"] = 30
+    save_streak_state(state)
+
+    stats30 = client.get("/api/stats").json()
+    fw30 = next(b for b in stats30["learningProgress"]["badges"] if b["id"] == "fortnight-warrior")
+    tdr30 = next(b for b in stats30["learningProgress"]["badges"] if b["id"] == "thirty-day-rhythm")
+    assert fw30["status"] == "earned"
+    assert fw30["progress"] == 14
+    assert tdr30["status"] == "earned"
+    assert tdr30["progress"] == 30

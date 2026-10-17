@@ -1,28 +1,25 @@
-from datetime import datetime, timezone, timedelta
-from typing import Optional
+from datetime import datetime, timezone, timedelta, date
+from typing import Optional, Dict
 
-def get_progress_activity():
-    activity_pattern = [0, 16, 24, 0, 12, 30, 0, 20, 15, 35, 10, 0, 22, 28]
-    recent_streak = [45, 60, 55, 75, 40, 65, 80, 45, 60, 50, 75, 55, 70, 60]
+def get_progress_activity(effective_today: str, activity_by_date: Optional[dict] = None) -> list:
+    if activity_by_date is None:
+        activity_by_date = {}
 
-    now = datetime.now(timezone.utc)
-    today = datetime(now.year, now.month, now.day, tzinfo=timezone.utc)
+    today = date.fromisoformat(effective_today)
     days_since_monday = today.weekday()
     first_day = today - timedelta(days=84 + days_since_monday)
 
     activity = []
     for i in range(91):
         day_date = first_day + timedelta(days=i)
-        date_str = day_date.strftime("%Y-%m-%d")
+        date_str = day_date.isoformat()
         days_before_today = (today - day_date).days
         is_today = (days_before_today == 0)
 
         if days_before_today < 0:
             minutes = 0
-        elif days_before_today < 14:
-            minutes = recent_streak[13 - days_before_today]
         else:
-            minutes = activity_pattern[i % len(activity_pattern)]
+            minutes = activity_by_date.get(date_str, 0)
 
         activity.append({
             "date": date_str,
@@ -200,12 +197,12 @@ DEFAULT_PLAN = {
 }
 
 STREAK_STATE = {
-    "currentDays": 14,
-    "personalBest": 18,
+    "currentDays": 0,
+    "personalBest": 0,
     "weeklyTargetDays": 7,
-    "completedDays": 5,
-    "freezeCount": 2,
-    "topPercent": 4,
+    "completedDays": 0,
+    "freezeCount": 1,
+    "topPercent": 0,
 }
 
 def reshuffle_plan(mode: str, use_freezes: bool = True, freezes_held: Optional[int] = None):
@@ -225,108 +222,80 @@ def reshuffle_plan(mode: str, use_freezes: bool = True, freezes_held: Optional[i
         "totalDays": DEFAULT_PLAN["totalDays"],
     }
 
-def get_stats_data():
+def get_stats_data(
+    tasks_completed: int,
+    weekly_minutes: int,
+    hours_learned: float,
+    completed_days: int,
+    activity: list,
+    longest_streak: int,
+):
     streak_info = dict(STREAK_STATE)
-    try:
-        from database import get_streak_state
-        db_state = get_streak_state()
-        if db_state:
-            streak_info["currentDays"] = db_state["current_streak"]
-            streak_info["personalBest"] = db_state["longest_streak"]
-            streak_info["freezeCount"] = db_state["freezes_held"]
-            streak_info["lastActiveDate"] = db_state["last_active_date"]
-    except Exception:
-        pass
+    streak_info["completedDays"] = completed_days
+    streak_info["topPercent"] = 0
+
+    fs_progress = min(tasks_completed, 1)
+    fw_progress = min(longest_streak, 14)
+    tdr_progress = min(longest_streak, 30)
+
+    badges = [
+        {
+            "id": "first-spark",
+            "title": "First Spark",
+            "description": "Completed the first focused learning session.",
+            "icon": "sparkles",
+            "status": "earned" if fs_progress >= 1 else ("in-progress" if fs_progress > 0 else "upcoming"),
+            "progress": fs_progress,
+            "target": 1,
+        },
+        {
+            "id": "fortnight-warrior",
+            "title": "Fortnight Warrior",
+            "description": "Keep a 14-day learning streak going.",
+            "icon": "flame",
+            "status": "earned" if fw_progress >= 14 else ("in-progress" if fw_progress > 0 else "upcoming"),
+            "progress": fw_progress,
+            "target": 14,
+        },
+        {
+            "id": "thirty-day-rhythm",
+            "title": "30-Day Rhythm",
+            "description": "Maintain a steady practice habit for 30 days.",
+            "icon": "calendar",
+            "status": "earned" if tdr_progress >= 30 else ("in-progress" if tdr_progress > 0 else "upcoming"),
+            "progress": tdr_progress,
+            "target": 30,
+        },
+    ]
 
     return {
         "streak": streak_info,
-        "predictedMastery": 94,
-        "dailyRetention": [32, 41, 52, 48, 59, 72, 94],
-        "weeklyMinutes": 420,
+        "predictedMastery": 0,
+        "dailyRetention": [],
+        "weeklyMinutes": weekly_minutes,
         "weeklyGoalMinutes": 600,
         "milestoneTitle": "CLIBudget Engine",
-        "milestoneProgress": 65,
+        "milestoneProgress": 0,
         "roadmap": {
-            "hoursLearned": 34,
+            "hoursLearned": hours_learned,
             "swot": {
-                "strengths": ["Consistent 14-day streak", "Strong pattern spotting"],
-                "weaknesses": ["More debugging practice", "Reviewing before rushing"],
-                "opportunities": ["Build small data projects", "Practice with real APIs"],
-                "threats": ["Busy college weeks", "Long sessions crowding evenings"],
+                "strengths": [],
+                "weaknesses": [],
+                "opportunities": [],
+                "threats": [],
             },
-            "motivation": 78,
+            "motivation": 0,
             "skillLevel": {
                 "label": "Curious learner",
-                "progress": 42,
+                "progress": 0,
                 "nextLevel": "Confident builder",
             },
         },
         "learningProgress": {
-            "tasksCompleted": 28,
+            "tasksCompleted": tasks_completed,
             "taskGoal": 180,
-            "activity": get_progress_activity(),
-            "badges": [
-                {
-                    "id": "first-spark",
-                    "title": "First Spark",
-                    "description": "Completed the first focused learning session.",
-                    "icon": "sparkles",
-                    "status": "earned",
-                    "unlockedLabel": "Day 1",
-                },
-                {
-                    "id": "fortnight-warrior",
-                    "title": "Fortnight Warrior",
-                    "description": "Kept a 14-day learning streak going.",
-                    "icon": "flame",
-                    "status": "earned",
-                    "unlockedLabel": "Today",
-                },
-                {
-                    "id": "syntax-sorcerer",
-                    "title": "Syntax Sorcerer",
-                    "description": "Practiced Python syntax across the first week.",
-                    "icon": "code",
-                    "status": "earned",
-                    "unlockedLabel": "Week 1",
-                },
-                {
-                    "id": "cli-master",
-                    "title": "CLI Master",
-                    "description": "Create five useful command-line scripts.",
-                    "icon": "terminal",
-                    "status": "in-progress",
-                    "progress": 3,
-                    "target": 5,
-                },
-                {
-                    "id": "thirty-day-rhythm",
-                    "title": "30-Day Rhythm",
-                    "description": "Maintain a steady practice habit for 30 days.",
-                    "icon": "calendar",
-                    "status": "in-progress",
-                    "progress": 14,
-                    "target": 30,
-                },
-                {
-                    "id": "halfway-mark",
-                    "title": "Halfway Mark",
-                    "description": "Reach the midpoint of the 90-day learning plan.",
-                    "icon": "target",
-                    "status": "upcoming",
-                    "progress": 14,
-                    "target": 45,
-                },
-                {
-                    "id": "ninety-day-finish",
-                    "title": "90-Day Finisher",
-                    "description": "Complete the full learning plan and project work.",
-                    "icon": "trophy",
-                    "status": "upcoming",
-                    "progress": 14,
-                    "target": 90,
-                },
-            ],
-            "shareQuote": "Day 14 in the books. One small practice at a time.",
+            "activity": activity,
+            "badges": badges,
+            "shareQuote": "One small practice at a time.",
         },
     }

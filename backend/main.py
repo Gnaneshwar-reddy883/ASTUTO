@@ -1,5 +1,6 @@
 import os
 import json
+from datetime import date, timedelta
 from typing import Optional
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -17,9 +18,10 @@ from database import (
     save_streak_state,
     get_completed_dates,
     get_effective_today,
+    get_task_stats,
 )
 from streak_rules import evaluate_streak, FREEZE_CONFIG
-from plan_data import DEFAULT_PLAN, get_stats_data, reshuffle_plan
+from plan_data import DEFAULT_PLAN, get_stats_data, reshuffle_plan, get_progress_activity
 
 app = FastAPI()
 
@@ -94,7 +96,28 @@ def get_stats(client_date: Optional[str] = None):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    stats = get_stats_data()
+    effective_today = get_effective_today(client_date)
+    today_date = date.fromisoformat(effective_today)
+    monday = today_date - timedelta(days=today_date.weekday())
+    sunday = monday + timedelta(days=6)
+    week_start = monday.isoformat()
+    week_end = sunday.isoformat()
+
+    completed_dates = get_completed_dates()
+    completed_days_this_week = len([d for d in completed_dates if week_start <= d <= week_end])
+
+    task_stats = get_task_stats(week_start, week_end)
+    hours_learned = round(task_stats["total_minutes"] / 60, 1)
+    activity = get_progress_activity(effective_today, task_stats["activity_minutes_by_date"])
+
+    stats = get_stats_data(
+        tasks_completed=task_stats["tasks_completed"],
+        weekly_minutes=task_stats["weekly_minutes"],
+        hours_learned=hours_learned,
+        completed_days=completed_days_this_week,
+        activity=activity,
+        longest_streak=new_state["longest_streak"],
+    )
     stats["streak"]["currentDays"] = new_state["current_streak"]
     stats["streak"]["personalBest"] = new_state["longest_streak"]
     stats["streak"]["freezeCount"] = new_state["freezes_held"]
