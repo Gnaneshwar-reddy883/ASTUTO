@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { AlertCircle, ArrowRight, CalendarDays, Check, Clock3, Plus, RotateCw, Sparkles, X } from "lucide-react";
-import { completeTask, createTask, getPlan, getStats, getTodayTasks, toggleTaskApi, useBackendOffline } from "../services/api";
+import { completeTask, createTask, getIsBackendOffline, getMissedDays, getPlan, getStats, getTodayTasks, toggleTaskApi, useBackendOffline } from "../services/api";
 import type { Plan, Stats, Task, TimeSlot } from "../types";
 import { MotivationCard } from "../components/MotivationCard";
 import { PhaseNode } from "../components/PhaseNode";
@@ -30,6 +30,7 @@ export function TodayPage() {
   const isOffline = useBackendOffline();
   const [plan, setPlan] = useState<Plan | null>(null);
   const [stats, setStats] = useState<Stats | null>(null);
+  const [statsIsReal, setStatsIsReal] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -69,8 +70,10 @@ export function TodayPage() {
       setPlan(nextPlan);
       setTasks(nextTasks);
       setStats(nextStats);
+      setStatsIsReal(!getIsBackendOffline());
     } catch {
       setError("We couldn’t load your plan right now.");
+      setStatsIsReal(false);
     } finally {
       setLoading(false);
     }
@@ -92,6 +95,16 @@ export function TodayPage() {
   const firstName = plan?.user.name.split(" ")[0] ?? "there";
   const greeting = getTimeGreeting();
 
+  async function refreshStats() {
+    try {
+      const fresh = await getStats();
+      setStats(fresh);
+      setStatsIsReal(!getIsBackendOffline());
+    } catch {
+      setStatsIsReal(false);
+    }
+  }
+
   async function toggleTask(id: string) {
     const task = tasks.find((item) => item.id === id);
     if (!task) return;
@@ -109,6 +122,7 @@ export function TodayPage() {
           current.map((item) => (item.id === id ? { ...item, completed: completedTask.completed } : item)),
         );
       }
+      await refreshStats();
     } catch {
       setActionError("That task could not be updated. Please try again.");
     }
@@ -147,7 +161,23 @@ export function TodayPage() {
     );
   }
 
-  const missed = plan.missedDays;
+  const isRealStatsAvailable =
+    !loading &&
+    !error &&
+    !isOffline &&
+    statsIsReal &&
+    stats !== null &&
+    stats.streak?.freezeCount !== undefined;
+
+  const missed = isRealStatsAvailable ? getMissedDays(stats.streak.lastActiveDate) : 0;
+  const freezeCount = isRealStatsAvailable ? stats.streak.freezeCount : 0;
+
+  const coveredSubtitle =
+    freezeCount === 1 && missed === 1
+      ? "Completing a task today uses your streak freeze to cover the gap."
+      : missed === freezeCount && freezeCount > 1
+        ? `Completing a task today uses all ${freezeCount} of your streak freezes to cover the gap.`
+        : `Completing a task today uses ${missed} of your ${freezeCount} streak freezes to cover the gap.`;
 
   return (
     <div className="mx-auto max-w-[1240px] animate-slide-up">
@@ -176,21 +206,21 @@ export function TodayPage() {
       </div>
 
       {/* Missed days recovery banner */}
-      {missed > 0 && (
-        <div
-          className={`mb-7 flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-peach/70 p-4 shadow-sm sm:px-5 sm:py-3.5 ${
-            isOffline ? "hidden sm:flex" : "flex"
-          }`}
-        >
+      {isRealStatsAvailable && missed >= 1 && (
+        <div className="mb-7 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-peach/70 p-4 shadow-sm sm:px-5 sm:py-3.5">
           <div className="flex items-center gap-3">
             <span className="grid h-9 w-9 place-items-center rounded-xl bg-surface text-muted shadow-xs">
               <Sparkles size={17} />
             </span>
             <div>
               <p className="text-sm font-semibold text-text">
-                You missed {missed} {missed === 1 ? "day" : "days"}. Want to reshuffle?
+                {missed} {missed === 1 ? "day" : "days"} offline. Want to reshuffle your plan?
               </p>
-              <p className="text-xs text-muted">A gentle readjustment to protect your rhythm and streak.</p>
+              <p className="text-xs text-muted">
+                {missed <= freezeCount
+                  ? coveredSubtitle
+                  : "Your streak freezes can't cover this many days, so your next completed task starts a new streak."}
+              </p>
             </div>
           </div>
           <Link
