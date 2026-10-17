@@ -14,36 +14,111 @@ import {
   Sparkles,
 } from "lucide-react";
 import { usePlan, type ReshuffleMode } from "../state/PlanContext";
-import { getPlan, getStats, reshufflePlanApi } from "../services/api";
+import { getMissedDays, getStats, reshufflePlanApi, useBackendOffline } from "../services/api";
 import type { Stats } from "../types";
 
 // Matches the fixed +2 days that PlanContext and plan_data.py add in extend mode. TODO(backend): make this depend on missed days once the reshuffle rules are decided.
 const EXTEND_DAYS = 2;
 
+type PageState = "loading" | "unavailable" | "caughtUp" | "covered" | "reset";
+
+interface HeroContent {
+  badge: string;
+  eyebrow: string;
+  smallLine: string | null;
+  heading: string;
+  body: string;
+}
+
+function getHeroContent(
+  state: PageState,
+  missedDays: number,
+  freezeCount: number,
+  currentStreak: number,
+): HeroContent {
+  const dayPlural = missedDays === 1 ? "1 day" : `${missedDays} days`;
+  const freezePlural = freezeCount === 1 ? "1 streak freeze" : `${freezeCount} streak freezes`;
+
+  switch (state) {
+    case "caughtUp":
+      return {
+        badge: "Up to date",
+        eyebrow: "Pacing check",
+        smallLine: "No missed days",
+        heading: "You're all caught up.",
+        body: "You haven't missed a day. If you'd like a lighter pace anyway, you can reshuffle below.",
+      };
+    case "covered": {
+      const coveredSentence =
+        missedDays === freezeCount && freezeCount === 1
+          ? "If you complete a task today, your streak freeze will be used to keep your streak going."
+          : missedDays === freezeCount && freezeCount > 1
+            ? `If you complete a task today, all ${freezeCount} of your streak freezes will be used to keep your streak going.`
+            : `If you complete a task today, ${missedDays} of your ${freezeCount} streak freezes will be used to keep your streak going.`;
+      return {
+        badge: `Pitstop mode · ${dayPlural} offline`,
+        eyebrow: "Welcome back",
+        smallLine: `${freezePlural} held`,
+        heading: "Life happens. Let's reshuffle.",
+        body: `${coveredSentence} Just opening the app costs nothing.`,
+      };
+    }
+    case "reset": {
+      const smallLine = freezeCount === 0 ? "No streak freezes held" : `${freezePlural} held`;
+      const freezeCountText = freezeCount === 1 ? "1 freeze" : `${freezeCount} freezes`;
+      const streakSentence =
+        currentStreak > 0
+          ? `With ${dayPlural} missed and ${freezeCountText} held, your streak will restart at day 1 when you complete your next task.`
+          : "Your next completed task starts a new streak.";
+      const freezeRetention = freezeCount > 0 ? " Your freezes won't be spent." : "";
+      return {
+        badge: `Pitstop mode · ${dayPlural} offline`,
+        eyebrow: "Fresh start",
+        smallLine,
+        heading: "Life happens. Ready for a fresh start?",
+        body: `Your plan and progress are still here. ${streakSentence}${freezeRetention} Reshuffle below to set a comfortable pace.`,
+      };
+    }
+    case "loading":
+      return {
+        badge: "Pitstop mode",
+        eyebrow: "Pacing check",
+        smallLine: null,
+        heading: "Take your time. Let's reshuffle.",
+        body: "Reshuffle below to adjust your pace, or head back to Today whenever you're ready.",
+      };
+    case "unavailable":
+    default:
+      return {
+        badge: "Pitstop mode",
+        eyebrow: "Pacing check",
+        smallLine: "Streak status unavailable",
+        heading: "Take your time. Let's reshuffle.",
+        body: "We can't check your streak right now. Reshuffle below to adjust your pace, or head back to Today whenever you're ready.",
+      };
+  }
+}
+
 export function MissedDaysPage() {
   const navigate = useNavigate();
+  const isOffline = useBackendOffline();
   const { duration, reshufflePlan } = usePlan();
   const [selectedOption, setSelectedOption] = useState<ReshuffleMode>("spread");
   const [submitting, setSubmitting] = useState(false);
-  const [missedDays, setMissedDays] = useState(2);
   const [stats, setStats] = useState<Stats | null>(null);
+  const [statsFailed, setStatsFailed] = useState(false);
 
   useEffect(() => {
     let active = true;
-    getPlan()
-      .then((plan) => {
-        if (!active) return;
-        if (plan?.missedDays && plan.missedDays > 0) {
-          setMissedDays(plan.missedDays);
-        }
-      })
-      .catch(() => {});
     getStats()
       .then((st) => {
         if (!active) return;
         setStats(st);
       })
-      .catch(() => {});
+      .catch(() => {
+        if (!active) return;
+        setStatsFailed(true);
+      });
     return () => {
       active = false;
     };
@@ -60,6 +135,31 @@ export function MissedDaysPage() {
     navigate("/today");
   };
 
+  let pageState: PageState = "loading";
+  let missedDays = 0;
+  let freezeCount = 0;
+
+  if (statsFailed || isOffline) {
+    pageState = "unavailable";
+  } else if (!stats) {
+    pageState = "loading";
+  } else if (stats.streak?.freezeCount === undefined) {
+    pageState = "unavailable";
+  } else {
+    freezeCount = stats.streak.freezeCount;
+    missedDays = getMissedDays(stats.streak.lastActiveDate);
+    if (missedDays === 0) {
+      pageState = "caughtUp";
+    } else if (missedDays >= 1 && missedDays <= freezeCount) {
+      pageState = "covered";
+    } else {
+      pageState = "reset";
+    }
+  }
+
+  const currentStreak = stats?.streak?.currentDays ?? 0;
+  const heroContent = getHeroContent(pageState, missedDays, freezeCount, currentStreak);
+
   return (
     <div className="mx-auto max-w-4xl animate-slide-up pb-12">
       <div className="mb-6 flex items-center justify-between">
@@ -71,7 +171,7 @@ export function MissedDaysPage() {
         </Link>
         <span className="inline-flex items-center gap-1.5 rounded-pill bg-mint px-3 py-1.5 text-xs font-semibold text-progress-strong">
           <span className="h-2 w-2 rounded-full bg-progress-strong animate-pulse" />
-          Pitstop Mode · {missedDays} {missedDays === 1 ? "day" : "days"} offline
+          {heroContent.badge}
         </span>
       </div>
 
@@ -88,27 +188,27 @@ export function MissedDaysPage() {
               </span>
             </div>
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-progress-strong">
-                Safe Return
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-progress-strong">
+                {heroContent.eyebrow}
               </p>
-              <p className="text-xs text-muted">Zero penalty · Your momentum is safe</p>
+              {heroContent.smallLine && (
+                <p className="text-xs text-muted">{heroContent.smallLine}</p>
+              )}
             </div>
           </div>
 
           <h1 className="font-sans text-3xl font-semibold leading-tight tracking-[-0.055em] text-text sm:text-4xl">
-            Life happens. <br />
-            <span className="text-progress-strong">Let’s reshuffle.</span>
+            {heroContent.heading}
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted sm:text-base">
-            Zero guilt. You didn’t fail — you just took an unscheduled pitstop. Health, family, and
-            rest always come first. Your hard-earned momentum and progress are completely intact.
+            {heroContent.body}
           </p>
         </div>
       </div>
 
       <div className="space-y-6">
         <section
-          aria-labelledby="freeze-protection-heading"
+          aria-labelledby="freeze-card-heading"
           className="relative overflow-hidden rounded-2xl border border-progress-strong/30 bg-mint/35 p-5 shadow-sm sm:p-6"
         >
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -119,12 +219,15 @@ export function MissedDaysPage() {
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <h2
-                    id="freeze-protection-heading"
+                    id="freeze-card-heading"
                     className="font-sans text-base font-semibold text-text"
                   >
-                    Streak Freeze Protection
+                    Streak freezes
                   </h2>
-                  {stats && (
+                  {(pageState === "caughtUp" || pageState === "covered" || pageState === "reset") &&
+                    stats &&
+                    stats.streak?.freezeCount !== undefined &&
+                    stats.streak?.freezeCap !== undefined && (
                     <span className="inline-flex items-center gap-1.5 rounded-pill bg-surface px-2.5 py-0.5 text-xs font-semibold text-progress-strong">
                       <Snowflake className="h-3.5 w-3.5" />
                       {stats.streak.freezeCount} / {stats.streak.freezeCap} streak freezes held
@@ -132,7 +235,7 @@ export function MissedDaysPage() {
                   )}
                 </div>
                 <p className="mt-1 text-xs leading-relaxed text-muted sm:text-sm">
-                  Streak freezes are applied automatically when you complete a task after a missed day. A plain app open spends nothing.
+                  Freezes are used automatically, one per missed day, when you complete a task after a gap.
                 </p>
               </div>
             </div>
@@ -275,7 +378,7 @@ export function MissedDaysPage() {
         </div>
 
         <p className="text-center text-xs text-muted">
-          You can reschedule or pause anytime in Settings with zero streak penalties.
+          You can adjust your plan anytime in Settings.
         </p>
       </div>
     </div>
