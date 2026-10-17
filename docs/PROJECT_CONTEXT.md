@@ -20,19 +20,23 @@
 - **Full PRD:** https://claude.ai/artifact/4Mb6SkF3LYLRFp4MDQev2m (not directly accessible; user will provide if needed).
 
 ### Streak Freeze
-- **Status:** Confirmed feature. Rules are decided and implemented in the backend (single source of truth `FREEZE_CONFIG` in `backend/streak_rules.py`, full rules in `docs/PRD.md` under "Streak freeze"); frontend freeze UI is still pending.
+- **Status:** Confirmed feature. Rules are decided and implemented in the backend (single source of truth `FREEZE_CONFIG` in `backend/streak_rules.py`, full rules in `docs/PRD.md` under "Streak freeze"). The frontend freeze UI is merged (PR #15).
 - **Decided rules:** see docs/PRD.md under "Streak freeze". Do not re-open them.
 - **Design Constraint:** The freeze indicator must NOT use the orange streak-flame color (`#F97316`); use an existing neutral or soft pastel token instead.
 - **Tone Constraint:** A freeze is presented as a kind safety net, never as a penalty or guilt-inducing message.
-- **Current Repository Footprint (Audit):**
-  - `src/types/index.ts` (L146): Data contract (`Streak.freezeCount: number`) — (c) real logic / type contract.
-  - `src/data/mock.ts` (L260): Default mock value (`freezeCount: 2`) — (b) mock data.
-  - `src/state/PlanContext.tsx` (L54-56, 79, 139-141, 218-219, 239): React state `freezeCount` (defaults to 2) and `reshufflePlan` deducting 2 freezes — (c) real logic.
-  - `src/services/api.ts` (L276-277, 284, 292, 306-307): `ReshuffleResponse`, `reshufflePlanApi` parameter, and mock fallback deduction — (c) real logic / API contract.
-  - `src/pages/MissedDaysPage.tsx` (L1-2, 24, 26, 32, 36, 87, 89, 100, 103, 110, 119, 123, 125-126, 130, 135, 138): Headings, description copy, shield labels — (a) text/copy; toggle switch and conditional deduction trigger — (c) real logic.
-  - `src/pages/ProgressPage.tsx` (L3, 101, 129, 130, 136, 137, 141): Labels and token counter — (a) text/copy; token rendering loop — (c) real logic.
-  - `backend/plan_data.py` (L205, 209-213, 221-222): In-memory `STREAK_STATE["freezeCount"]` — (b) mock data; deduction in `reshuffle_plan` — (c) real logic.
-  - `backend/main.py` (L40, 131): `ReshuffleRequest.use_freezes` parameter routing to `reshuffle_plan` — (c) real logic.
+- **Current Repository Footprint (Audit, by file; line numbers omitted because they drift):**
+  - `src/types/index.ts`: Data contract (`Streak.freezeCount`, `freezeCap`, `lastActiveDate`, `frozenDates`) — (c) real logic / type contract.
+  - `src/data/mock.ts`: Offline mock stats (`freezeCount: 2`, `freezeCap: 2`, day-14 streak) — (b) mock data; should eventually mirror a fresh user (1 freeze).
+  - `src/state/PlanContext.tsx`: Holds no freeze state; reshuffle is decoupled from freezes (PR #15).
+  - `src/services/api.ts`: `ReshuffleResponse` includes `freezesUsed`; `reshufflePlanApi` takes no freeze parameter; the offline fallback returns `freezesUsed: 0` and `remainingFreezes` from mock stats — (c) API contract, (b) mock fallback.
+  - `src/pages/MissedDaysPage.tsx`: Hero copy per state (loading, unavailable, caught up, covered, reset) and the "Streak freezes" card (held / cap), driven by real stats; no toggle — (a) text/copy, (c) real logic.
+  - `src/pages/TodayPage.tsx`: Missed-days banner copy based on freezes held (PR #17) — (a) text/copy, (c) real logic.
+  - `src/pages/ProgressPage.tsx`: Freeze token card (held / cap) and token rendering loop — (a) text/copy, (c) real logic.
+  - `backend/streak_rules.py`: `FREEZE_CONFIG` (single source of truth) and the streak engine — (c) real logic.
+  - `backend/database.py`: Persists streak and freeze state in SQLite — (c) real logic.
+  - `backend/plan_data.py`: `STREAK_STATE["freezeCount"]` is placeholder demo data (day 14, 2 freezes) — (b) mock data; `reshuffle_plan` never changes freezes (`freezesUsed: 0`) — (c) real logic.
+  - `backend/main.py`: `ReshuffleRequest.use_freezes` is accepted and passed to `reshuffle_plan` along with the freezes held from the streak state — (c) real logic.
+  - `backend/tests/test_streak_engine.py`: Freeze engine tests — (c) real logic.
   - `docs/UI_SPEC.md` (L16, 18, 42, 55, 72, 74): Route and data specifications — (a) text/copy.
   - `designs/**`: Prototype HTML mockups — (a) text/copy & static prototypes.
 
@@ -88,7 +92,7 @@
 - Review mobile (390px) for /roadmap, /progress, /settings, /onboarding (/today is done).
 - Greeting on /today is hardcoded to "Good morning"; it should depend on the time of day.
 - /missed-days polish: the checkbox uses the browser's default blue (not a design token); the "+12 mins / Morn +5m / Eve +7m" numbers are hardcoded.
-- Streak freeze: backend freeze logic merged (PR #11), seed fix in progress on fix/freeze-seed-followup, frontend freeze UI (Branch C) pending.
+- Streak freeze: backend freeze logic merged (PR #11), seed fix merged, frontend freeze UI merged (PR #15), honest /missed-days copy merged (PR #16), /today missed-days banner merged (PR #17).
 - Ask the collaborator to review the merged backend and integration changes (settings merge, CORS).
 
 ## 8. FUTURE PLANS (Not Current Scope): Exam Mode
