@@ -110,6 +110,30 @@ export function getLocalTodayDate(): string {
   return `${year}-${month}-${day}`;
 }
 
+function parseIsoDateUtc(dateStr: string): number | null {
+  if (!dateStr || typeof dateStr !== "string") return null;
+  const parts = dateStr.trim().split("-");
+  if (parts.length !== 3) return null;
+  const year = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10);
+  const day = parseInt(parts[2], 10);
+  if (Number.isNaN(year) || Number.isNaN(month) || Number.isNaN(day)) return null;
+  if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+  return Date.UTC(year, month - 1, day);
+}
+
+export function getMissedDays(
+  lastActiveDate: string | null | undefined,
+  today: string = getLocalTodayDate(),
+): number {
+  if (!lastActiveDate) return 0;
+  const lastActiveMs = parseIsoDateUtc(lastActiveDate);
+  const todayMs = parseIsoDateUtc(today);
+  if (lastActiveMs === null || todayMs === null) return 0;
+  const diff = Math.round((todayMs - lastActiveMs) / 86400000);
+  return Math.max(0, diff - 1);
+}
+
 // TODO(backend): replace with real API call
 export async function completeTask(id: string): Promise<Task> {
   try {
