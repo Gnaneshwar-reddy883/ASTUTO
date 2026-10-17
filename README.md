@@ -5,8 +5,8 @@ ASTUTO turns any skill, daily routine, and deadline into a single, sequenced roa
 ## Current Status
 
 - **UI:** Built across all routes (`/`, `/onboarding`, `/roadmap-preview`, `/today`, `/roadmap`, `/progress`, `/settings`, `/missed-days`); some screens are still being polished and mobile review is in progress.
-- **Backend:** A FastAPI + SQLite backend stores tasks and settings in SQLite (`backend/astuto.db`).
-- **In-Memory State:** Plan, stats, streak, and reshuffle state are currently in memory.
+- **Backend:** A FastAPI + SQLite backend stores tasks, settings, and streak and streak-freeze state in SQLite (`backend/astuto.db`).
+- **In-Memory and Demo State:** The plan and reshuffle adjustments are held in memory. Streak and streak-freeze state are persisted in SQLite. Other progress figures are placeholder demo data.
 - **AI Assistant:** The assistant is keyword-based, not a real AI.
 - **Authentication:** No auth yet.
 - **Future Pipeline:** The real research and consensus AI pipeline (web search, consensus ordering, and link checking) is planned for a later phase.
@@ -36,6 +36,13 @@ python -m venv venv
 .\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 uvicorn main:app --reload --port 8000
+```
+
+To run the backend tests (from the `backend` folder, with the virtual environment active):
+
+```powershell
+pip install -r requirements-dev.txt
+.\venv\Scripts\python.exe -m pytest tests -q
 ```
 
 > **Note:** After opening a new terminal, the virtual environment must be activated again (`.\venv\Scripts\Activate.ps1`) before running `uvicorn main:app --reload --port 8000`.
@@ -75,11 +82,14 @@ When the backend is offline, the frontend falls back to demo data with a banner 
 
 ## Known Limitations
 
-- **In-memory reshuffle:** Reshuffle state, streak counts, and schedule adjustments reset if the backend server restarts.
+- **In-memory plan and reshuffle:** Plan and reshuffle adjustments reset if the backend server restarts. Streak and streak-freeze state are stored in SQLite and survive restarts.
 - **Keyword-based AI replies:** Assistant responses are matched using keywords rather than an actual LLM service.
+- **Tasks don't reset daily:** Tasks are not yet mapped to calendar dates, so yesterday's completed tasks can still show as done.
+- **Demo data for new users:** `/today` and `/progress` still show placeholder figures (such as the day number, totals, heatmap, and badges) that are not computed from real activity yet.
+- **No real notifications:** Reminder preferences are saved, but notifications are not delivered yet.
 - **npm audit vulnerabilities:** `npm audit` reports vulnerabilities; do not run `npm audit fix --force`.
 
 ## Credits
 
 - Gnaneshwar (Gnaneshwar-reddy883): product, frontend, backend integration and fixes.
-- sriharshanth2-hub: initial FastAPI + SQLite backend (PR #1).
+- sriharshanth2-hub: initial FastAPI + SQLite backend.
