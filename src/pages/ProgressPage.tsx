@@ -111,16 +111,22 @@ export function ProgressPage() {
               </div>
               <div className="mt-2 flex items-baseline gap-2">
                 <span className="font-sans text-6xl font-semibold leading-none tracking-[-0.075em] text-text sm:text-7xl">{streak.currentDays}</span>
-                <span className="text-base font-medium text-muted">days</span>
+                <span className="text-base font-medium text-muted">{streak.currentDays === 1 ? "day" : "days"}</span>
               </div>
               <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
-                You’ve kept showing up. That’s something to feel good about.
+                {streak.currentDays > 0
+                  ? "You’ve kept showing up. That’s something to feel good about."
+                  : "Complete a practice today to start your streak."}
               </p>
             </div>
             <div className="rounded-xl border border-progress-strong/10 bg-surface/55 px-4 py-3 sm:min-w-[150px]">
               <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">Personal best</p>
-              <p className="mt-1 font-sans text-2xl font-semibold tracking-[-0.04em] text-text">{streak.personalBest}<span className="ml-1 text-xs font-medium text-muted">days</span></p>
-              <p className="mt-0.5 text-xs text-muted">A rhythm you’ve already made.</p>
+              <p className="mt-1 font-sans text-2xl font-semibold tracking-[-0.04em] text-text">{streak.personalBest}<span className="ml-1 text-xs font-medium text-muted">{streak.personalBest === 1 ? "day" : "days"}</span></p>
+              <p className="mt-0.5 text-xs text-muted">
+                {streak.personalBest > 0
+                  ? "A rhythm you’ve already made."
+                  : "Your record starts with your first session."}
+              </p>
             </div>
           </div>
         </article>
@@ -156,7 +162,14 @@ export function ProgressPage() {
         </article>
       </section>
 
-      <section aria-label="Progress summary" className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <section
+        aria-label="Progress summary"
+        className={
+          stats.predictedMastery > 0
+            ? "mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
+            : "mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3"
+        }
+      >
         <article className="rounded-card border border-border bg-surface p-4 sm:p-5">
           <div className="flex items-center justify-between gap-2">
             <p className="text-xs font-medium text-muted">This week</p>
@@ -178,11 +191,11 @@ export function ProgressPage() {
 
         <article className="rounded-card border border-border bg-surface p-4 sm:p-5">
           <div className="flex items-center justify-between gap-2">
-            <p className="text-xs font-medium text-muted">Time invested</p>
+            <p className="text-xs font-medium text-muted">Planned time</p>
             <ProgressIcon name="clock" className="h-4 w-4 text-progress-strong" />
           </div>
-          <p className="mt-3 font-sans text-2xl font-semibold tracking-[-0.045em] text-text">{stats.roadmap.hoursLearned}<span className="ml-1.5 text-sm font-medium text-muted">hours</span></p>
-          <p className="mt-2 text-[11px] text-muted">Every hour is a step forward.</p>
+          <p className="mt-3 font-sans text-2xl font-semibold tracking-[-0.045em] text-text">{stats.roadmap.hoursLearned}<span className="ml-1.5 text-sm font-medium text-muted">{stats.roadmap.hoursLearned === 1 ? "hour" : "hours"}</span></p>
+          <p className="mt-2 text-[11px] text-muted">Based on the practice you have scheduled.</p>
         </article>
 
         <article className="rounded-card border border-border bg-surface p-4 sm:p-5">
@@ -204,14 +217,16 @@ export function ProgressPage() {
           <p className="mt-2 text-[11px] text-muted">Learning plan progress</p>
         </article>
 
-        <article className="rounded-card border border-border bg-surface p-4 sm:p-5">
-          <div className="flex items-center justify-between gap-2">
-            <p className="text-xs font-medium text-muted">Predicted mastery</p>
-            <ProgressIcon name="target" className="h-4 w-4 text-progress-strong" />
-          </div>
-          <p className="mt-3 font-sans text-2xl font-semibold tracking-[-0.045em] text-text">{stats.predictedMastery}<span className="ml-0.5 text-sm font-medium text-muted">%</span></p>
-          <p className="mt-2 text-[11px] text-muted">A forecast, not a finish line.</p>
-        </article>
+        {stats.predictedMastery > 0 && (
+          <article className="rounded-card border border-border bg-surface p-4 sm:p-5">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-xs font-medium text-muted">Predicted mastery</p>
+              <ProgressIcon name="target" className="h-4 w-4 text-progress-strong" />
+            </div>
+            <p className="mt-3 font-sans text-2xl font-semibold tracking-[-0.045em] text-text">{stats.predictedMastery}<span className="ml-0.5 text-sm font-medium text-muted">%</span></p>
+            <p className="mt-2 text-[11px] text-muted">A forecast, not a finish line.</p>
+          </article>
+        )}
       </section>
 
       <div className="mt-4">
@@ -222,9 +237,11 @@ export function ProgressPage() {
         <ProgressBadges badges={learningProgress.badges} />
       </div>
 
-      <div className="mt-4">
-        <ProgressShareCard stats={stats} learningProgress={learningProgress} />
-      </div>
+      {learningProgress.tasksCompleted > 0 && (
+        <div className="mt-4">
+          <ProgressShareCard stats={stats} learningProgress={learningProgress} />
+        </div>
+      )}
     </main>
   );
 }

@@ -12,19 +12,27 @@ export function StreakBadge({ streak }: StreakBadgeProps) {
         <h2 id="streak-heading" className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">
           Your streak
         </h2>
-        <span className="inline-flex items-center gap-1 rounded-pill bg-peach px-2.5 py-1 text-xs font-semibold">
-          <Flame size={14} className="text-streak" fill="currentColor" />
-          On a roll
-        </span>
+        {streak.currentDays > 0 && (
+          <span className="inline-flex items-center gap-1 rounded-pill bg-peach px-2.5 py-1 text-xs font-semibold">
+            <Flame size={14} className="text-streak" fill="currentColor" />
+            On a roll
+          </span>
+        )}
       </div>
       <div className="mt-4 flex items-end gap-2">
         <span className="text-[42px] font-semibold leading-none tracking-[-0.07em]">{streak.currentDays}</span>
-        <span className="pb-1 text-sm text-muted">days in a row</span>
+        <span className="pb-1 text-sm text-muted">{streak.currentDays === 1 ? "day in a row" : "days in a row"}</span>
       </div>
       <p className="mt-3 text-sm leading-relaxed text-muted">
-        You’re showing up consistently. {streak.personalBest - streak.currentDays > 0
-          ? `${streak.personalBest - streak.currentDays} more days to your personal best.`
-          : "This is your personal best."}
+        {streak.currentDays === 0
+          ? "Complete a practice today to start your streak."
+          : `You’re showing up consistently. ${
+              streak.personalBest - streak.currentDays > 0
+                ? `${streak.personalBest - streak.currentDays} more ${
+                    streak.personalBest - streak.currentDays === 1 ? "day" : "days"
+                  } to your personal best.`
+                : "This is your personal best."
+            }`}
       </p>
       <div className="mt-4 flex items-center justify-between border-t border-border pt-3 text-xs">
         <span className="text-muted">This week</span>
