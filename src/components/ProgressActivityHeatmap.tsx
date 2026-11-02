@@ -22,7 +22,7 @@ function intensityClass(minutes: number) {
 }
 
 export function ProgressActivityHeatmap({ activity }: ProgressActivityHeatmapProps) {
-  const { weeks, monthLabels, activeDays, totalMinutes, bestDay } = useMemo(() => {
+  const { weeks, monthLabels, activeDays, totalMinutes, bestDay, todayDate } = useMemo(() => {
     const recent = [...activity]
       .sort((a, b) => a.date.localeCompare(b.date))
       .slice(-84);
@@ -51,12 +51,14 @@ export function ProgressActivityHeatmap({ activity }: ProgressActivityHeatmapPro
       (current, day) => (!current || day.minutes > current.minutes ? day : current),
       null,
     );
+    const todayDate = activity.find((d) => d.isToday)?.date;
     return {
       weeks: padded,
       monthLabels: labels,
       activeDays: validDays.filter((day) => day.minutes > 0).length,
       totalMinutes: validDays.reduce((sum, day) => sum + day.minutes, 0),
       bestDay: mostActive,
+      todayDate,
     };
   }, [activity]);
 
@@ -101,14 +103,26 @@ export function ProgressActivityHeatmap({ activity }: ProgressActivityHeatmapPro
             style={{ gridTemplateColumns: `repeat(${weeks.length}, minmax(0, 1fr))` }}
           >
             {weeks.flatMap((week, weekIndex) =>
-              week.map((day, dayIndex) => (
-                <div
-                  aria-hidden="true"
-                  className={`aspect-square w-full max-w-[17px] justify-self-center rounded-sm transition-transform duration-150 hover:scale-110 ${day ? intensityClass(day.minutes) : "bg-bg"}`}
-                  key={`${weekIndex}-${dayIndex}`}
-                  title={day ? `${day.date} · ${day.minutes} min` : "No activity recorded"}
-                />
-              )),
+              week.map((day, dayIndex) => {
+                const isAfterToday = Boolean(todayDate && day && day.date > todayDate);
+                if (isAfterToday) {
+                  return (
+                    <div
+                      aria-hidden="true"
+                      className="aspect-square w-full max-w-[17px] justify-self-center rounded-sm bg-transparent"
+                      key={`${weekIndex}-${dayIndex}`}
+                    />
+                  );
+                }
+                return (
+                  <div
+                    aria-hidden="true"
+                    className={`aspect-square w-full max-w-[17px] justify-self-center rounded-sm transition-transform duration-150 hover:scale-110 ${day ? intensityClass(day.minutes) : "bg-bg"}`}
+                    key={`${weekIndex}-${dayIndex}`}
+                    title={day ? `${day.date} · ${day.minutes} min` : "No activity recorded"}
+                  />
+                );
+              }),
             )}
           </div>
         </div>
@@ -124,7 +138,7 @@ export function ProgressActivityHeatmap({ activity }: ProgressActivityHeatmapPro
           <span className="h-3 w-3 rounded-sm bg-progress-strong" />
           <span>More</span>
         </div>
-        <p className="text-xs text-muted">{activeDays} practice days · {totalMinutes} minutes</p>
+        <p className="text-xs text-muted">{activeDays} {activeDays === 1 ? "practice day" : "practice days"} · {totalMinutes} {totalMinutes === 1 ? "minute" : "minutes"}</p>
       </div>
 
       <div className="mt-5 flex items-center gap-3 rounded-xl bg-bg px-4 py-3">
@@ -133,7 +147,7 @@ export function ProgressActivityHeatmap({ activity }: ProgressActivityHeatmapPro
         </div>
         <p className="min-w-0 text-sm leading-relaxed text-muted">
           {bestDay && bestDay.minutes > 0 ? (
-            <>Your longest session was <span className="font-semibold text-text">{bestDay.minutes} minutes</span> on {parseDate(bestDay.date).toLocaleDateString("en", { month: "short", day: "numeric", timeZone: "UTC" })}.</>
+            <>Your longest session was <span className="font-semibold text-text">{bestDay.minutes} {bestDay.minutes === 1 ? "minute" : "minutes"}</span> on {parseDate(bestDay.date).toLocaleDateString("en", { month: "short", day: "numeric", timeZone: "UTC" })}.</>
           ) : (
             <>Every session counts. Your next practice will add the first mark.</>
           )}

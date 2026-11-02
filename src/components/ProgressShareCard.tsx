@@ -56,11 +56,11 @@ export function ProgressShareCard({ stats, learningProgress }: ProgressShareCard
             </div>
             <div>
               <p className="font-sans text-xl font-semibold tracking-[-0.04em] text-text">{stats.roadmap.hoursLearned}</p>
-              <p className="mt-0.5 text-[10px] leading-tight text-muted">hours learned</p>
+              <p className="mt-0.5 text-[10px] leading-tight text-muted">{stats.roadmap.hoursLearned === 1 ? "hour planned" : "hours planned"}</p>
             </div>
             <div>
               <p className="font-sans text-xl font-semibold tracking-[-0.04em] text-text">{learningProgress.tasksCompleted}</p>
-              <p className="mt-0.5 text-[10px] leading-tight text-muted">tasks done</p>
+              <p className="mt-0.5 text-[10px] leading-tight text-muted">{learningProgress.tasksCompleted === 1 ? "task done" : "tasks done"}</p>
             </div>
           </div>
         </div>
