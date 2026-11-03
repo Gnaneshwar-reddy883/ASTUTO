@@ -19,7 +19,7 @@ import {
 import { defaultOnboardingDraft } from "../types/onboarding";
 
 export function LandingPage() {
-  const [skill, setSkill] = useState("Python for Data Science");
+  const [skill, setSkill] = useState("");
   const navigate = useNavigate();
   const suggestions = ["Python", "UX design", "Spanish", "Data analysis"];
 

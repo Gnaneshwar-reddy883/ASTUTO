@@ -36,6 +36,10 @@ export function useBackendOffline(): boolean {
 let offlineTasks: Task[] = structuredClone(mockTodayTasks);
 
 const defaultMockSettings: UserSettings = {
+  name: "",
+  skill: "",
+  durationDays: 90,
+  startDate: "",
   tone: "gentle",
   reminders: {
     daily: true,
@@ -346,6 +350,10 @@ export async function reshufflePlanApi(
 }
 
 export interface UserSettings {
+  name?: string;
+  skill?: string;
+  durationDays?: number;
+  startDate?: string;
   tone: "gentle" | "funny" | "savage";
   reminders: {
     daily: boolean;

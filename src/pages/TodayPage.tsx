@@ -26,7 +26,7 @@ function getTimeGreeting(date = new Date()): string {
 }
 
 export function TodayPage() {
-  const { currentDay } = usePlan();
+  const { currentDay, name } = usePlan();
   const isOffline = useBackendOffline();
   const [plan, setPlan] = useState<Plan | null>(null);
   const [stats, setStats] = useState<Stats | null>(null);
@@ -92,7 +92,7 @@ export function TodayPage() {
     .filter((task) => !task.completed)
     .reduce((total, task) => total + task.estimatedMinutes, 0);
   const dateLabel = new Intl.DateTimeFormat(undefined, { weekday: "long", month: "long", day: "numeric" }).format(new Date());
-  const firstName = plan?.user.name.split(" ")[0] ?? "there";
+  const firstName = name ? name.trim().split(" ")[0] : "";
   const greeting = getTimeGreeting();
 
   async function refreshStats() {
@@ -187,11 +187,17 @@ export function TodayPage() {
             <CalendarDays size={15} />
             {dateLabel}
             <span aria-hidden="true">·</span>
-            <span>{greeting}, {firstName}</span>
+            {name ? <span>{greeting}, {firstName}</span> : <span>{greeting}</span>}
           </p>
-          <h1 className="text-[clamp(1.8rem,4vw,2.6rem)] font-semibold leading-tight tracking-[-0.055em]">
-            Ready for day {currentDay || plan.currentDay}, {firstName}?
-          </h1>
+          {name ? (
+            <h1 className="text-[clamp(1.8rem,4vw,2.6rem)] font-semibold leading-tight tracking-[-0.055em]">
+              Ready for day {currentDay}, {firstName}?
+            </h1>
+          ) : (
+            <h1 className="text-[clamp(1.8rem,4vw,2.6rem)] font-semibold leading-tight tracking-[-0.055em]">
+              Ready for day {currentDay}?
+            </h1>
+          )}
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted sm:text-base">
             A steady little session adds up. Here’s a plan that fits into your day.
           </p>
@@ -237,7 +243,10 @@ export function TodayPage() {
           <div className="mb-4 flex items-end justify-between gap-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">Small steps, real progress</p>
-              <h2 id="today-plan-heading" className="mt-1 text-xl font-semibold tracking-[-0.035em]">Today’s practice</h2>
+              <div className="mt-1 flex items-center gap-2">
+                <h2 id="today-plan-heading" className="text-xl font-semibold tracking-[-0.035em]">Today’s practice</h2>
+                <span className="rounded-pill border border-border bg-surface px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-muted">SAMPLE TASKS</span>
+              </div>
             </div>
             <div className="flex items-center gap-3">
               <span className="hidden items-center gap-1.5 pb-1 text-xs text-muted sm:inline-flex">
@@ -343,11 +352,13 @@ export function TodayPage() {
         <aside className="space-y-4 lg:sticky lg:top-[88px]">
           <StreakBadge streak={stats.streak} />
           <ResourcesPanel resources={plan.resources} />
+          {false && plan && stats && (
             <PhaseNode
-              phase={plan.currentPhase}
-              milestoneTitle={stats.milestoneTitle}
-              milestoneProgress={stats.milestoneProgress}
+              phase={plan!.currentPhase}
+              milestoneTitle={stats!.milestoneTitle}
+              milestoneProgress={stats!.milestoneProgress}
             />
+          )}
           <MotivationCard completedCount={completedCount} totalCount={tasks.length} />
         </aside>
       </div>

@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { LoaderCircle, Mic, Send, Sparkles, X } from "lucide-react";
 import { sendAiMessage } from "../services/api";
+import { usePlan } from "../state/PlanContext";
 
 interface AiDrawerProps {
   open: boolean;
@@ -16,9 +17,10 @@ interface ConversationMessage {
 const prompts = ["Reschedule my day", "Pause my plan", "Swap this resource"];
 
 export function AiDrawer({ open, onClose }: AiDrawerProps) {
+  const { name } = usePlan();
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState<ConversationMessage[]>([
-    { id: 0, role: "assistant", text: "Hi Alex. What would make today feel a little more manageable?" },
+    { id: 0, role: "assistant", text: name ? "Hi " + name + ". What would make today feel a little more manageable?" : "Hi there. What would make today feel a little more manageable?" },
   ]);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");

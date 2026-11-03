@@ -4,12 +4,12 @@ export const mockPlan: Plan = {
   id: "plan-python-foundations",
   user: {
     id: "user-alex",
-    name: "Alex Kumar",
-    avatarInitials: "AK",
-    skillName: "Python for Data Science",
+    name: "",
+    avatarInitials: "",
+    skillName: "",
   },
-  skillName: "Python for Data Science",
-  currentDay: 14,
+  skillName: "",
+  currentDay: 1,
   totalDays: 90,
   missedDays: 0,
   currentPhase: {

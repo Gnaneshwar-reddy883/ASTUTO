@@ -32,6 +32,10 @@ const defaultSlots: TimeSlotPreference[] = [
 ];
 
 export interface PlanContextValue {
+  name: string;
+  setName: (name: string) => void;
+  startDate: string | null;
+  setStartDate: (date: string | null) => void;
   skill: string;
   setSkill: (skill: string) => void;
   level: LearnerLevel;
@@ -41,6 +45,7 @@ export interface PlanContextValue {
   currentDay: number;
   setCurrentDay: (day: number) => void;
   totalDays: number;
+  setTotalDays: (days: number) => void;
   slots: TimeSlotPreference[];
   minutes: Record<TimeSlot, number>;
   totalMinutes: number;
@@ -61,9 +66,14 @@ export interface PlanContextValue {
 const PlanContext = createContext<PlanContextValue | null>(null);
 
 export function PlanProvider({ children }: { children: ReactNode }) {
+  const [name, setName] = useState<string>("");
+  const [startDate, setStartDate] = useState<string | null>(null);
   const [skill, setSkill] = useState<string>(mockPlan.skillName);
   const [level, setLevel] = useState<LearnerLevel>("Starting fresh");
   const [duration, setDuration] = useState<PlanDuration>(
+    (mockPlan.totalDays as PlanDuration) || 90,
+  );
+  const [totalDays, setTotalDays] = useState<number>(
     (mockPlan.totalDays as PlanDuration) || 90,
   );
   const [currentDay, setCurrentDay] = useState<number>(mockPlan.currentDay);
@@ -80,6 +90,16 @@ export function PlanProvider({ children }: { children: ReactNode }) {
     getSettings()
       .then((saved) => {
         if (!active) return;
+        if (saved.name !== undefined) setName(saved.name);
+        if (saved.skill) setSkill(saved.skill);
+        if (saved.durationDays) setTotalDays(saved.durationDays);
+        if (saved.startDate) {
+          setStartDate(saved.startDate);
+          const start = new Date(saved.startDate).getTime();
+          const now = new Date().getTime();
+          const days = Math.floor((now - start) / 86400000) + 1;
+          setCurrentDay(Math.max(1, Math.min(days, saved.durationDays || 90)));
+        }
         if (saved.tone) setTone(saved.tone);
         if (saved.reminders) setReminders(saved.reminders);
         if (saved.slots && Array.isArray(saved.slots)) {
@@ -143,6 +163,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
       );
     } else if (mode === "extend") {
       setDuration((prev) => (prev + 2) as PlanDuration);
+      setTotalDays((prev) => prev + 2);
     }
   }, []);
 
@@ -165,17 +186,22 @@ export function PlanProvider({ children }: { children: ReactNode }) {
 
   const asDraft = useMemo<OnboardingDraft>(() => {
     return {
+      name,
       skill,
       level,
       duration,
       minutes,
     };
-  }, [skill, level, duration, minutes]);
+  }, [name, skill, level, duration, minutes]);
 
   const applyDraft = useCallback((draft: Partial<OnboardingDraft>) => {
+    if (draft.name !== undefined) setName(draft.name);
     if (draft.skill !== undefined) setSkill(draft.skill);
     if (draft.level !== undefined) setLevel(draft.level);
-    if (draft.duration !== undefined) setDuration(draft.duration);
+    if (draft.duration !== undefined) {
+      setDuration(draft.duration);
+      setTotalDays(draft.duration);
+    }
     if (draft.minutes !== undefined) {
       const draftMinutes = draft.minutes;
       setSlots((current) =>
@@ -189,6 +215,10 @@ export function PlanProvider({ children }: { children: ReactNode }) {
 
   const contextValue = useMemo<PlanContextValue>(
     () => ({
+      name,
+      setName,
+      startDate,
+      setStartDate,
       skill,
       setSkill,
       level,
@@ -197,7 +227,8 @@ export function PlanProvider({ children }: { children: ReactNode }) {
       setDuration,
       currentDay,
       setCurrentDay,
-      totalDays: duration,
+      totalDays,
+      setTotalDays,
       slots,
       minutes,
       totalMinutes,
@@ -213,10 +244,20 @@ export function PlanProvider({ children }: { children: ReactNode }) {
       applyDraft,
     }),
     [
+      name,
+      setName,
+      startDate,
+      setStartDate,
       skill,
+      setSkill,
       level,
+      setLevel,
       duration,
+      setDuration,
       currentDay,
+      setCurrentDay,
+      totalDays,
+      setTotalDays,
       slots,
       minutes,
       totalMinutes,
