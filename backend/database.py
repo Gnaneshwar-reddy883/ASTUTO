@@ -323,6 +323,10 @@ def get_task_stats(week_start: str, week_end: str) -> dict:
         }
 
 DEFAULT_SETTINGS = {
+    "name": "",
+    "skill": "",
+    "durationDays": 90,
+    "startDate": None,
     "tone": "gentle",
     "reminders": {
         "daily": True,
