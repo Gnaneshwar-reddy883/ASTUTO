@@ -14,6 +14,7 @@ import {
   Target,
 } from "lucide-react";
 import { defaultOnboardingDraft, isOnboardingDraft, type OnboardingDraft, type OnboardingRouteState } from "../types/onboarding";
+import { updateSettings } from "../services/api";
 import { usePlan } from "../state/PlanContext";
 
 export function RoadmapPreviewPage() {
@@ -146,7 +147,16 @@ export function RoadmapPreviewPage() {
           <section className="mt-6 flex flex-col gap-4 rounded-[26px] border border-border bg-surface p-5 sm:flex-row sm:items-center sm:justify-between sm:p-7">
             <div><p className="text-lg font-semibold tracking-tight">Ready for your first small step?</p><p className="mt-1 text-sm text-muted">Your preview stays here for this session. Starting takes you to your Today view.</p></div>
             <div className="flex flex-col gap-2 sm:min-w-[240px]">
-              <button type="button" onClick={() => navigate("/today", { state: { draft } })} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-pill bg-primary px-6 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5">Start my plan <ArrowRight size={16} /></button>
+              <button
+                type="button"
+                onClick={async () => {
+                  await updateSettings({ name: draft.name || "", skill: draft.skill, durationDays: draft.duration, startDate: new Date().toISOString().split('T')[0] });
+                  navigate("/today", { state: { draft } });
+                }}
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-pill bg-primary px-6 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5"
+              >
+                Start my plan <ArrowRight size={16} />
+              </button>
               <button type="button" onClick={() => navigate("/onboarding", { state: { draft, step: 4 } })} className="min-h-10 rounded-pill px-4 text-xs font-semibold text-muted transition-colors hover:bg-bg hover:text-text"><ArrowLeft size={13} className="mr-1 inline" />Make a change</button>
             </div>
           </section>

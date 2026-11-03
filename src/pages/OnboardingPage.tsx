@@ -121,6 +121,18 @@ export function OnboardingPage() {
               {step === 1 && (
                 <div className="space-y-6">
                   <div>
+                    <label htmlFor="onboarding-name" className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-muted">Your name (optional)</label>
+                    <div className="flex items-center gap-3 rounded-2xl border border-border bg-bg px-4 py-3.5 transition-colors focus-within:border-progress-strong">
+                      <input
+                        id="onboarding-name"
+                        value={draft.name || ""}
+                        onChange={(event) => updateDraft({ name: event.target.value })}
+                        placeholder="e.g. Alex"
+                        className="min-w-0 flex-1 bg-transparent text-base font-semibold outline-none placeholder:font-normal placeholder:text-muted/60"
+                      />
+                    </div>
+                  </div>
+                  <div>
                     <label htmlFor="onboarding-skill" className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-muted">I want to learn</label>
                     <div className="flex items-center gap-3 rounded-2xl border border-border bg-bg px-4 py-3.5 transition-colors focus-within:border-progress-strong">
                       <CompassIcon />

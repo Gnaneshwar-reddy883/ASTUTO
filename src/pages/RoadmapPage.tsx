@@ -94,26 +94,35 @@ export function RoadmapPage() {
           </div>
         </header>
 
-        <section aria-labelledby="roadmap-heading" className="mt-8 animate-slide-up sm:mt-10">
-          <div className="mb-4 flex items-end justify-between gap-4">
-            <div>
-              <h2 id="roadmap-heading" className="text-lg font-semibold tracking-tight">Your roadmap</h2>
-              <p className="mt-1 text-sm text-muted">Tap a phase to see what’s inside.</p>
-            </div>
-            <span className="hidden rounded-pill bg-lavender px-3 py-1.5 text-xs font-medium text-muted sm:inline-flex">
-              One step at a time
-            </span>
-          </div>
-          <RoadmapFlow phases={plan.roadmap} />
-        </section>
+        {false && plan && stats ? (
+          <>
+            <section aria-labelledby="roadmap-heading" className="mt-8 animate-slide-up sm:mt-10">
+              <div className="mb-4 flex items-end justify-between gap-4">
+                <div>
+                  <h2 id="roadmap-heading" className="text-lg font-semibold tracking-tight">Your roadmap</h2>
+                  <p className="mt-1 text-sm text-muted">Tap a phase to see what’s inside.</p>
+                </div>
+                <span className="hidden rounded-pill bg-lavender px-3 py-1.5 text-xs font-medium text-muted sm:inline-flex">
+                  One step at a time
+                </span>
+              </div>
+              <RoadmapFlow phases={plan!.roadmap} />
+            </section>
 
-        <section aria-labelledby="progress-heading" className="mt-8 animate-slide-up sm:mt-10">
-          <div className="mb-4">
-            <h2 id="progress-heading" className="text-lg font-semibold tracking-tight">Your learning, so far</h2>
-            <p className="mt-1 text-sm text-muted">A little perspective on how far you’ve come.</p>
+            <section aria-labelledby="progress-heading" className="mt-8 animate-slide-up sm:mt-10">
+              <div className="mb-4">
+                <h2 id="progress-heading" className="text-lg font-semibold tracking-tight">Your learning, so far</h2>
+                <p className="mt-1 text-sm text-muted">A little perspective on how far you’ve come.</p>
+              </div>
+              <RoadmapStatsCard stats={stats!.roadmap} />
+            </section>
+          </>
+        ) : (
+          <div className="mt-8 rounded-card border border-border bg-surface p-8 text-center animate-slide-up sm:mt-10">
+            <h2 className="text-lg font-semibold">Your roadmap is taking shape</h2>
+            <p className="mt-2 text-sm text-muted">A personalized sequence will appear here once generated.</p>
           </div>
-          <RoadmapStatsCard stats={stats.roadmap} />
-        </section>
+        )}
       </div>
     </main>
   );

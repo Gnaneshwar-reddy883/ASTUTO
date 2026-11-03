@@ -4,6 +4,7 @@ export type LearnerLevel = "Starting fresh" | "Know a little" | "Comfortable";
 export type PlanDuration = 30 | 60 | 90 | 180;
 
 export interface OnboardingDraft {
+  name?: string;
   skill: string;
   level: LearnerLevel;
   duration: PlanDuration;
