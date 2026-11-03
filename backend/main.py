@@ -110,14 +110,17 @@ def get_stats(client_date: Optional[str] = None):
     hours_learned = round(task_stats["total_minutes"] / 60, 1)
     activity = get_progress_activity(effective_today, task_stats["activity_minutes_by_date"])
 
-    stats = get_stats_data(
+    settings = get_settings_from_db()
+    stats_data = get_stats_data(
         tasks_completed=task_stats["tasks_completed"],
         weekly_minutes=task_stats["weekly_minutes"],
         hours_learned=hours_learned,
         completed_days=completed_days_this_week,
         activity=activity,
         longest_streak=new_state["longest_streak"],
+        settings=settings,
     )
+    stats = stats_data
     stats["streak"]["currentDays"] = new_state["current_streak"]
     stats["streak"]["personalBest"] = new_state["longest_streak"]
     stats["streak"]["freezeCount"] = new_state["freezes_held"]

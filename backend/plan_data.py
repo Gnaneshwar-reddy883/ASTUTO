@@ -223,13 +223,28 @@ def reshuffle_plan(mode: str, use_freezes: bool = True, freezes_held: Optional[i
     }
 
 def get_stats_data(
-    tasks_completed: int,
-    weekly_minutes: int,
-    hours_learned: float,
-    completed_days: int,
-    activity: list,
-    longest_streak: int,
-):
+    tasks_completed: int = 0,
+    weekly_minutes: int = 0,
+    hours_learned: float = 0.0,
+    completed_days: int = 0,
+    activity: list = None,
+    longest_streak: int = 0,
+    settings: dict = None,
+) -> dict:
+    if isinstance(tasks_completed, dict) and settings is None:
+        settings = tasks_completed
+        tasks_completed = 0
+    if settings is None:
+        settings = {}
+    if activity is None:
+        activity = []
+
+    dailyMinutes = sum(slot.get("minutes", 0) for slot in settings.get("slots", []))
+    durationDays = settings.get("durationDays", 90)
+    weeklyGoalMinutes = dailyMinutes * 7
+    active_slots = sum(1 for slot in settings.get("slots", []) if slot.get("minutes", 0) > 0)
+    taskGoal = durationDays * max(1, active_slots)
+
     streak_info = dict(STREAK_STATE)
     streak_info["completedDays"] = completed_days
     streak_info["topPercent"] = 0
@@ -273,7 +288,7 @@ def get_stats_data(
         "predictedMastery": 0,
         "dailyRetention": [],
         "weeklyMinutes": weekly_minutes,
-        "weeklyGoalMinutes": 600,
+        "weeklyGoalMinutes": weeklyGoalMinutes,
         "milestoneTitle": "CLIBudget Engine",
         "milestoneProgress": 0,
         "roadmap": {
@@ -293,7 +308,7 @@ def get_stats_data(
         },
         "learningProgress": {
             "tasksCompleted": tasks_completed,
-            "taskGoal": 180,
+            "taskGoal": taskGoal,
             "activity": activity,
             "badges": badges,
             "shareQuote": "One small practice at a time.",
