@@ -8,11 +8,12 @@ import {
   Flame,
   Map,
   Settings2,
+  Snowflake,
   Sparkles,
   UserRound,
   X,
 } from "lucide-react";
-import { getPlan, getStats, useBackendOffline } from "../services/api";
+import { getPlan, getStats, getLocalTodayDate, useBackendOffline } from "../services/api";
 import type { Plan, Stats } from "../types";
 import { usePlan } from "../state/PlanContext";
 import { AiDrawer } from "./AiDrawer";
@@ -195,11 +196,22 @@ export function AppShell() {
             </div>
 
             <div className="flex shrink-0 items-center gap-1 sm:gap-2">
-              <span className="inline-flex items-center gap-1 rounded-pill bg-peach px-2 py-1.5 text-xs font-semibold sm:gap-1.5 sm:px-2.5">
-                <Flame size={15} className="text-streak" fill="currentColor" />
-                <span className="sm:hidden">{stats?.streak.currentDays ?? "—"}</span>
-                <span className="hidden sm:inline">{stats?.streak.currentDays ?? "—"} day streak</span>
-              </span>
+              <div className="flex items-center gap-2">
+                <span className={`inline-flex items-center gap-1 rounded-pill px-2 py-1.5 text-xs font-semibold sm:gap-1.5 sm:px-2.5 ${stats?.streak.frozenDates?.includes(getLocalTodayDate()) ? "bg-blue-100 text-blue-700" : "bg-peach"}`}>
+                  {stats?.streak.frozenDates?.includes(getLocalTodayDate()) ? (
+                    <Snowflake className="text-blue-500" fill="currentColor" size={15} />
+                  ) : (
+                    <Flame className="text-streak" fill="currentColor" size={15} />
+                  )}
+                  <span className="sm:hidden">{stats?.streak.currentDays ?? "—"}</span>
+                  <span className="hidden sm:inline">{stats?.streak.currentDays ?? "—"} {stats?.streak.frozenDates?.includes(getLocalTodayDate()) ? "streak frozen" : "day streak"}</span>
+                </span>
+                {stats?.streak.freezeCount !== undefined && stats.streak.freezeCount > 0 && (
+                  <span className="hidden items-center gap-1 rounded-pill bg-blue-50 px-2 py-1.5 text-xs font-semibold text-blue-600 sm:inline-flex">
+                    <Snowflake size={13} /> {stats.streak.freezeCount} available
+                  </span>
+                )}
+              </div>
               <button
                 type="button"
                 aria-label="Notifications"
