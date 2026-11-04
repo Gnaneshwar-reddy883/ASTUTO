@@ -19,7 +19,9 @@ from database import (
     get_completed_dates,
     get_effective_today,
     get_task_stats,
+    clear_all_tasks_in_db,
 )
+from ai_provider import generate_plan
 from streak_rules import evaluate_streak, FREEZE_CONFIG
 from plan_data import DEFAULT_PLAN, get_stats_data, reshuffle_plan, get_progress_activity
 
@@ -48,6 +50,11 @@ class AiMessageRequest(BaseModel):
 class ReshuffleRequest(BaseModel):
     mode: str = "spread"  # "spread" or "extend"
     use_freezes: bool = True
+
+class GeneratePlanRequest(BaseModel):
+    skill: str
+    durationDays: int
+    slots: list[str]
 
 class CreateTaskRequest(BaseModel):
     title: str
@@ -241,3 +248,14 @@ def post_plan_reshuffle(body: ReshuffleRequest):
     streak_state = get_streak_state()
     freezes_held = streak_state["freezes_held"] if streak_state else 0
     return reshuffle_plan(mode=body.mode, use_freezes=body.use_freezes, freezes_held=freezes_held)
+
+@app.post("/api/plans/generate")
+def api_generate_plan(request: GeneratePlanRequest):
+    try:
+        generated_tasks = generate_plan(request.skill, request.durationDays, request.slots)
+        clear_all_tasks_in_db()
+        for task_data in generated_tasks:
+            create_task_in_db(task_data)
+        return {"status": "success", "message": "Plan generated successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
