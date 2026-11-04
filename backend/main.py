@@ -20,6 +20,7 @@ from database import (
     get_effective_today,
     get_task_stats,
     clear_all_tasks_in_db,
+    rollover_tasks_if_new_day,
 )
 from ai_provider import generate_plan
 from streak_rules import evaluate_streak, FREEZE_CONFIG
@@ -156,7 +157,9 @@ def put_settings(body: dict):
     return save_settings_to_db(body)
 
 @app.get("/api/plan/today/tasks")
-def get_today_tasks():
+def get_today_tasks(client_date: str = None):
+    effective_today = get_effective_today(client_date)
+    rollover_tasks_if_new_day(effective_today)
     return fetch_all_tasks()
 
 @app.post("/api/tasks", status_code=201)
