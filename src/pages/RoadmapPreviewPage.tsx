@@ -1,6 +1,6 @@
 // Purpose: show a front-end-only roadmap summary and first-week plan before entering the learner app.
 // Components used: lucide-react icons. API functions called: none. Real data needed: none.
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
@@ -18,6 +18,7 @@ import { updateSettings } from "../services/api";
 import { usePlan } from "../state/PlanContext";
 
 export function RoadmapPreviewPage() {
+  const [isGenerating, setIsGenerating] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { asDraft } = usePlan();
@@ -149,13 +150,45 @@ export function RoadmapPreviewPage() {
             <div className="flex flex-col gap-2 sm:min-w-[240px]">
               <button
                 type="button"
+                disabled={isGenerating}
                 onClick={async () => {
-                  await updateSettings({ name: draft.name || "", skill: draft.skill, durationDays: draft.duration, startDate: new Date().toISOString().split('T')[0] });
-                  navigate("/today", { state: { draft } });
+                  setIsGenerating(true);
+                  try {
+                    await updateSettings({
+                      name: draft.name || "",
+                      skill: draft.skill,
+                      durationDays: draft.duration,
+                      startDate: new Date().toISOString().split('T')[0]
+                    });
+
+                    const activeSlotKeys = Object.entries(draft.minutes)
+                      .filter(([, mins]) => mins > 0)
+                      .map(([key]) => key);
+
+                    const res = await fetch("/api/plans/generate", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        skill: draft.skill,
+                        durationDays: draft.duration,
+                        slots: activeSlotKeys
+                      })
+                    });
+
+                    if (!res.ok) {
+                      throw new Error("Failed to generate AI plan");
+                    }
+                    navigate("/today", { state: { draft } });
+                  } catch (err) {
+                    console.error(err);
+                    alert("There was an error generating your plan. Please try again.");
+                  } finally {
+                    setIsGenerating(false);
+                  }
                 }}
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-pill bg-primary px-6 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-pill bg-primary px-6 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5 disabled:opacity-70 disabled:pointer-events-none"
               >
-                Start my plan <ArrowRight size={16} />
+                {isGenerating ? "Generating Plan..." : "Start my plan"} {!isGenerating && <ArrowRight size={16} />}
               </button>
               <button type="button" onClick={() => navigate("/onboarding", { state: { draft, step: 4 } })} className="min-h-10 rounded-pill px-4 text-xs font-semibold text-muted transition-colors hover:bg-bg hover:text-text"><ArrowLeft size={13} className="mr-1 inline" />Make a change</button>
             </div>
