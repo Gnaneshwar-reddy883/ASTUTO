@@ -1,4 +1,4 @@
-import { Flame } from "lucide-react";
+import { Flame, Snowflake } from "lucide-react";
 import type { Streak } from "../types";
 
 interface StreakBadgeProps {
@@ -34,6 +34,23 @@ export function StreakBadge({ streak }: StreakBadgeProps) {
                 : "This is your personal best."
             }`}
       </p>
+
+      {streak.freezeCap > 0 && (
+        <div className="mt-4 flex items-center justify-between rounded-xl bg-blue-50/50 p-3 text-sm">
+          <div className="flex items-center gap-2 font-medium text-blue-700">
+            <Snowflake className="text-blue-500" fill="currentColor" size={16} />
+            Streak Freezes
+          </div>
+          <div className="flex gap-1">
+            {Array.from({ length: streak.freezeCap }).map((_, i) => (
+              <div
+                key={i}
+                className={`h-2 w-8 rounded-full ${i < streak.freezeCount ? "bg-blue-500" : "bg-blue-200"}`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
       <div className="mt-4 flex items-center justify-between border-t border-border pt-3 text-xs">
         <span className="text-muted">This week</span>
         <span className="font-semibold">{streak.completedDays} of {streak.weeklyTargetDays} days</span>
