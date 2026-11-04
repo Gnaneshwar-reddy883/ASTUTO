@@ -92,7 +92,7 @@ export async function getPlan(): Promise<Plan> {
 // TODO(backend): replace with real API call
 export async function getTodayTasks(): Promise<Task[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/plan/today/tasks`);
+    const response = await fetch(`${API_BASE_URL}/api/plan/today/tasks?client_date=${getLocalTodayDate()}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch tasks: ${response.status}`);
     }
