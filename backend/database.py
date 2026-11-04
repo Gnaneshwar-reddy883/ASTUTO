@@ -513,3 +513,14 @@ def clear_all_tasks_in_db(db_path=DB_PATH):
         cursor = conn.cursor()
         cursor.execute("DELETE FROM tasks")
         conn.commit()
+
+
+def rollover_tasks_if_new_day(current_date: str, db_path=DB_PATH):
+    """Resets completion status for tasks completed before the current date."""
+    with sqlite3.connect(db_path) as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            "UPDATE tasks SET completed = 0, completed_date = NULL WHERE completed = 1 AND completed_date < ?",
+            (current_date,)
+        )
+        conn.commit()
