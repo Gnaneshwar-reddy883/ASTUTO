@@ -506,3 +506,10 @@ def delete_task_in_db(task_id: str) -> bool:
         cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
         conn.commit()
         return cursor.rowcount > 0
+
+def clear_all_tasks_in_db(db_path=DB_PATH):
+    """Deletes all tasks from the database."""
+    with sqlite3.connect(db_path) as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM tasks")
+        conn.commit()
