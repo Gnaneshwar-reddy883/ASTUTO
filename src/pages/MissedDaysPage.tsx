@@ -14,7 +14,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { usePlan, type ReshuffleMode } from "../state/PlanContext";
-import { getMissedDays, getStats, reshufflePlanApi, useBackendOffline } from "../services/api";
+import { getLocalTodayDate, getMissedDays, getStats, reshufflePlanApi, useBackendOffline } from "../services/api";
 import type { Stats } from "../types";
 
 // Matches the fixed +2 days that PlanContext and plan_data.py add in extend mode. TODO(backend): make this depend on missed days once the reshuffle rules are decided.
@@ -128,6 +128,7 @@ export function MissedDaysPage() {
     setSubmitting(true);
     try {
       await reshufflePlanApi(selectedOption);
+      localStorage.setItem("astuto_last_reshuffle", getLocalTodayDate());
     } catch (err) {
       console.error("Backend reshuffle failed:", err);
     }
