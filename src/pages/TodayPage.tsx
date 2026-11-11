@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { AlertCircle, ArrowRight, CalendarDays, Check, Clock3, Plus, RotateCw, Sparkles, X } from "lucide-react";
-import { completeTask, createTask, getIsBackendOffline, getMissedDays, getPlan, getStats, getTodayTasks, toggleTaskApi, useBackendOffline } from "../services/api";
+import { completeTask, createTask, getIsBackendOffline, getLocalTodayDate, getMissedDays, getPlan, getStats, getTodayTasks, toggleTaskApi, useBackendOffline } from "../services/api";
 import type { Plan, Stats, Task, TimeSlot } from "../types";
 import { MotivationCard } from "../components/MotivationCard";
 import { PhaseNode } from "../components/PhaseNode";
@@ -169,7 +169,8 @@ export function TodayPage() {
     stats !== null &&
     stats.streak?.freezeCount !== undefined;
 
-  const missed = isRealStatsAvailable ? getMissedDays(stats.streak.lastActiveDate) : 0;
+  const lastReshuffleDate = localStorage.getItem("astuto_last_reshuffle");
+  const missed = isRealStatsAvailable && lastReshuffleDate !== getLocalTodayDate() ? getMissedDays(stats.streak.lastActiveDate) : 0;
   const freezeCount = isRealStatsAvailable ? stats.streak.freezeCount : 0;
 
   const coveredSubtitle =
