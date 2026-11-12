@@ -1,16 +1,15 @@
 import os
+import concurrent.futures
+import requests
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-from tavily import TavilyClient
 from pydantic import BaseModel
 
 load_dotenv()
 
 class TaskSchema(BaseModel):
     title: str
-    source: str
-    source_url: str
     estimated_minutes: int
     slot: str
     time_label: str
@@ -23,37 +22,18 @@ class PlanResponse(BaseModel):
 def generate_plan(skill: str, duration_days: int, slots: list[str]) -> list[dict]:
     client = genai.Client()
 
-    search_context = ""
-    tavily_key = os.getenv("TAVILY_API_KEY")
-    if tavily_key:
-        try:
-            tavily = TavilyClient(api_key=tavily_key)
-            search_response = tavily.search(
-                query=f"Best free tutorials, crash courses, and documentation to learn {skill}",
-                search_depth="basic",
-                max_results=5
-            )
-            search_context = "REAL WEB RESOURCES TO USE:\n" + "\n".join(
-                [f"- {r['title']} ({r['url']})" for r in search_response.get('results', [])]
-            )
-        except Exception as e:
-            print(f"Tavily search failed: {e}")
-    
     prompt = f"""
     Create a Phase 1, Week 1 daily task schedule for learning: {skill}.
     The user wants to learn this over {duration_days} days.
     The user has time available in these slots: {slots}.
 
-    {search_context}
-    
     Generate small, actionable tasks mapped strictly to the provided slots.
     Keep estimated_minutes realistic (15-45 mins per task).
-    IMPORTANT: For `source` and `source_url`, you MUST strictly use the URLs provided in the "REAL WEB RESOURCES TO USE" section above. Do not hallucinate links.
     Return the tasks array.
     """
-    
+
     response = client.models.generate_content(
-        model='gemini-2.5-flash',
+        model='gemini-3.8-flash',
         contents=prompt,
         config=types.GenerateContentConfig(
             response_mime_type="application/json",
@@ -61,6 +41,30 @@ def generate_plan(skill: str, duration_days: int, slots: list[str]) -> list[dict
             temperature=0.7,
         ),
     )
-    
-    return [task.model_dump() for task in response.parsed.tasks]
 
+    tavily_key = os.getenv("TAVILY_API_KEY")
+
+    def enrich_task(task):
+        task_dict = task.model_dump()
+        task_dict["source"] = "General Search"
+        task_dict["source_url"] = "https://google.com/search?q=" + skill
+
+        if tavily_key:
+            try:
+                res = requests.post(
+                    "https://api.tavily.com/search",
+                    json={"api_key": tavily_key, "query": f"best tutorial for {skill} {task.title}", "max_results": 1},
+                    timeout=2.0,
+                )
+                if res.status_code == 200:
+                    results = res.json().get("results", [])
+                    if results:
+                        task_dict["source"] = results[0].get("title", task_dict.get("source", "General Search"))
+                        task_dict["source_url"] = results[0].get("url", task_dict.get("source_url", "https://google.com"))
+            except Exception as e:
+                print(f"Tavily search failed for '{task.title}': {e}")
+
+        return task_dict
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        return list(executor.map(enrich_task, response.parsed.tasks))
